@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset='UTF-8' />
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0'>
@@ -7,71 +8,85 @@
 	<title>Cetak Nota Penjualan</title>
 	<link rel="stylesheet" href="">
 	<style>
-		@page{
+		@page {
 			margin: 0px 20px 0px 0px;
 			width: 94%;
 		}
-		@media print{
-			@page{
+
+		@media print {
+			@page {
 				margin: 0px 20px 0px 0px;
 				width: 94%;
 			}
-			body{
+
+			body {
 				margin: 0px 20px 0px 0px;
 				width: 94%;
 			}
 		}
+
 		@font-face {
-		    font-family: Merchant Copy;
-		    src: url('<?php echo base_url() ?>assets/fonts/Merchant_Copy.ttf');
+			font-family: Merchant Copy;
+			src: url('<?php echo base_url() ?>assets/fonts/Merchant_Copy.ttf');
 		}
-		body.ppt{
-			font-family:Tahoma!important;
+
+		body.ppt {
+			font-family: Tahoma !important;
 			/* font-family:Arial!important; */
-			font-size:12px!important;
+			font-size: 12px !important;
 			margin: 0px 20px 0px 0px;
 			width: 94%;
 			background-color: #fff;
 		}
-		h2{
-			margin:0px!important;
+
+		h2 {
+			margin: 0px !important;
 		}
-		#divider{
-			border:1px solid black!important;
+
+		#divider {
+			border: 1px solid black !important;
 		}
-		#divider-dotted{
-			border:1px dotted black!important;
+
+		#divider-dotted {
+			border: 1px dotted black !important;
 		}
-		#space{
-			margin: 10px!important;
+
+		#space {
+			margin: 10px !important;
 		}
-		#panelBarang{
-			border-collapse: collapse!important;
-			width:100%!important;
+
+		#panelBarang {
+			border-collapse: collapse !important;
+			width: 100% !important;
 			text-align: left;
 		}
-		#panelBarang tr th{
-			border:0px dotted black!important;
-			padding:3px!important;
+
+		#panelBarang tr th {
+			border: 0px dotted black !important;
+			padding: 3px !important;
 			text-align: left;
 		}
-		#panelBarang tr td{
-			border: 0px dotted black!important;
-			padding: 3px!important;
+
+		#panelBarang tr td {
+			border: 0px dotted black !important;
+			padding: 3px !important;
 			text-align: left;
 		}
-		.ppt > * {
-			font-family:Tahoma!important;
+
+		.ppt>* {
+			font-family: Tahoma !important;
 		}
 	</style>
 	<script>
-	setTimeout(function(){ window.close(); }, 1000);
+		setTimeout(function() {
+			window.close();
+		}, 1000);
 	</script>
 </head>
 <?php
-if ($piutang) {
-}
+if ($piutang) { }
 ?>
+
 <body style="padding:10px;" onload="print()" class="ppt">
 	<br><br>
 	<table>
@@ -103,7 +118,9 @@ if ($piutang) {
 	</table>
 	<table style='margin-top:5px; float:right; margin-top: -120px; margin-right: 30px;'>
 		<tr>
-			<th colspan="3" align="left"><h3 style="margin-top:0px;margin-bottom:7px;">FAKTUR PENJUALAN</h3></th>
+			<th colspan="3" align="left">
+				<h3 style="margin-top:0px;margin-bottom:7px;">FAKTUR PENJUALAN</h3>
+			</th>
 		</tr>
 		<tr>
 			<td>No Faktur</td>
@@ -142,43 +159,43 @@ if ($piutang) {
 		</thead>
 		<tbody>
 			<?php
-			$no=1;
+			$no = 1;
 			$total_harga = 0;
 			$diskon = 0;
-			foreach ($orders_detail as $key):
-	            $diskon_produk = $key->harga_jual*($key->diskon_produk/100);
-	            $diskon1 = $key->harga_jual*($key->diskon/100);
-	            $diskon2 = $key->harga_jual*($key->diskon2/100);
-	            $diskon3 = $key->harga_jual*($key->diskon3/100);
-	            $diskon = ($diskon1*$key->jumlah) + ($diskon2*$key->jumlah) + ($diskon3*$key->jumlah) + ($diskon_produk*$key->jumlah);
+			foreach ($orders_detail as $key) :
+				$diskon_produk = $key->harga_jual * ($key->diskon_produk / 100);
+				$diskon1 = $key->harga_jual * ($key->diskon / 100);
+				$diskon2 = $key->harga_jual * ($key->diskon2 / 100);
+				$diskon3 = $key->harga_jual * ($key->diskon3 / 100);
+				$diskon = ($diskon1 * $key->jumlah) + ($diskon2 * $key->jumlah) + ($diskon3 * $key->jumlah) + ($diskon_produk * $key->jumlah);
 				$total_harga += $key->subtotal;
-			?>
-			<tr style="border-bottom:solid 1px black">
-				<td><?php echo $no ?></td>
-				<td><?php echo $key->barcode ?></td>
-				<td><?php echo $key->nama_produk ?></td>
-				<td align="center"><?php echo $key->jumlah ?></td>
-				<td align="center"><?php echo $key->jumlah_bonus ?></td>
-				<td align="center"><?php echo $key->satuan ?></td>
-				<td align="right"><?php echo number_format($key->harga_jual,0,',','.') ?></td>
-				<td align="right">
-					<?php echo $key->diskon*1 > 0 ? number_format($key->diskon,2,',','.').'%' : 0 ?>
-				</td>
-				<td align="right">
-					<?php echo $key->diskon2*1 > 0 ? number_format($key->diskon2,2,',','.').'%' : 0 ?>
-				</td>
-				<td align="right">
-					<?php echo $key->diskon3*1 > 0 ? number_format($key->diskon3,2,',','.').'%' : 0 ?>
-				</td>
-				<td align="right"><?php echo number_format($key->subtotal,0,',','.') ?></td>
-			</tr>
-			<?php 
-			$no++;
-			$diskon += $key->diskon + $key->diskon2 + $key->diskon3;
+				?>
+				<tr style="border-bottom:solid 1px black">
+					<td><?php echo $no ?></td>
+					<td><?php echo $key->barcode ?></td>
+					<td><?php echo $key->nama_produk ?></td>
+					<td align="center"><?php echo $key->jumlah ?></td>
+					<td align="center"><?php echo $key->jumlah_bonus ?></td>
+					<td align="center"><?php echo $key->satuan ?></td>
+					<td align="right"><?php echo number_format($key->harga_jual, 0, ',', '.') ?></td>
+					<td align="right">
+						<?php echo $key->diskon * 1 > 0 ? number_format($key->diskon, 2, ',', '.') . '%' : 0 ?>
+					</td>
+					<td align="right">
+						<?php echo $key->diskon2 * 1 > 0 ? number_format($key->diskon2, 2, ',', '.') . '%' : 0 ?>
+					</td>
+					<td align="right">
+						<?php echo $key->diskon3 * 1 > 0 ? number_format($key->diskon3, 2, ',', '.') . '%' : 0 ?>
+					</td>
+					<td align="right"><?php echo number_format($key->subtotal, 0, ',', '.') ?></td>
+				</tr>
+			<?php
+				$no++;
+				$diskon += $key->diskon + $key->diskon2 + $key->diskon3;
 			endforeach;
 			$ppn_nominal = $total_harga * (10 / 100);
 			$total_ppn = $total_harga + $ppn_nominal;
-			$diskon_member = ($orders->diskon_member*1/100) * $total_ppn;
+			$diskon_member = ($orders->diskon_member * 1 / 100) * $total_ppn;
 			$total_netto = $total_ppn - $diskon_member;
 			?>
 			<tr>
@@ -214,50 +231,53 @@ if ($piutang) {
 						<tr>
 							<td>Grand Total</td>
 							<td>:</td>
-							<td align="right"><?php echo number_format($total_harga,0,',','.') ?></td>
+							<td align="right"><?php echo number_format($total_harga, 0, ',', '.') ?></td>
 						</tr>
 						<?php if ($piutang) { ?>
-						<tr>
-							<td>Bayar</td>
-							<td>:</td>
-							<td align="right"><?php echo number_format($piutang->jumlah_bayar,0,',','.') ?></td>
-						</tr>
-						<tr>
-							<td>Kurang</td>
-							<td>:</td>
-							<td align="right"><?php echo number_format($piutang->sisa,0,',','.') ?></td>
-						</tr>
+							<tr>
+								<td>Bayar</td>
+								<td>:</td>
+								<td align="right"><?php echo number_format($piutang->jumlah_bayar, 0, ',', '.') ?></td>
+							</tr>
+							<tr>
+								<td>Kurang</td>
+								<td>:</td>
+								<td align="right"><?php echo number_format($piutang->sisa, 0, ',', '.') ?></td>
+							</tr>
 						<?php } ?>
 						<tr>
 							<td>Discount</td>
 							<td>:</td>
-							<td align="right"><?php echo $orders->diskon_member*1 ?>%</td>
+							<td align="right"><?php echo $orders->diskon_member * 1 ?>%</td>
 						</tr>
 						<!-- <tr>
 							<td>PPN</td>
 							<td>:</td>
-							<td align="right"><?php //echo $ppn->opsi ?>%</td>
+							<td align="right"><?php //echo $ppn->opsi 
+												?>%</td>
 						</tr> -->
 						<!-- <tr>
 							<td>Total Netto</td>
 							<td>:</td>
-							<td align="right"><?php //echo number_format($total_netto,0,',','.') ?></td>
+							<td align="right"><?php //echo number_format($total_netto,0,',','.') 
+												?></td>
 						</tr> -->
 						<tr>
 							<td>Total</td>
 							<td>:</td>
-							<td align="right"><?php echo number_format($total_harga,0,',','.') ?></td>
+							<td align="right"><?php echo number_format($total_harga, 0, ',', '.') ?></td>
 						</tr>
 					</table>
 				</td>
 			</tr>
-		</tbody>		
+		</tbody>
 	</table>
 	<table style="width:60%;text-align:center;">
-	  <tr>
-	  	<td style="vertical-align: top;">Diterima<br><br><br></td>
-	  	<td style="vertical-align: top;">Hormat Kami<br><br><br></td>
-	  </tr>
+		<tr>
+			<td style="vertical-align: top;">Diterima<br><br><br></td>
+			<td style="vertical-align: top;">Hormat Kami<br><br><br></td>
+		</tr>
 	</table>
 </body>
+
 </html>

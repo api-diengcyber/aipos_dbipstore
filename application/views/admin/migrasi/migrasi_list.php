@@ -6,8 +6,8 @@
           <i class="ace-icon fa fa-home home-icon"></i>
           <a href="#">Home</a>
         </li>
-        <li class="">Manajemen Produk</li>
-        <li class="active">Produk</li>
+        <li class="">Pengaturan</li>
+        <li class="active">Migrasi</li>
       </ul><!-- /.breadcrumb -->
 
 
@@ -83,84 +83,34 @@
 
       <div class="page-header">
         <h1>
-          Produk Retail
+          Migrasi
         </h1>
       </div><!-- /.page-header -->
 
       <div class="row">
-        <div class="col-xs-12" style="margin-bottom:10px">
-          <?php
-          if (!empty($tampil_gambar)) {
-            if (file_exists($tampil_gambar)) {
-              ?>
-              <img src="<?php echo base_url() . $tampil_gambar ?>" width="300px" style="border:3px solid grey;">
-          <?php };
-          }; ?>
-        </div>
         <div class="col-xs-12">
           <!-- PAGE CONTENT BEGINS -->
-          <table class="table">
-            <tr>
-              <td width="150">Barcode</td>
-              <td><?php echo $barcode; ?></td>
-            </tr>
-            <tr>
-              <td>Kategori</td>
-              <td><?php echo $id_kategori; ?></td>
-            </tr>
-            <tr>
-              <td>Nama Produk</td>
-              <td><?php echo $nama_produk; ?></td>
-            </tr>
-            <tr>
-              <td>Stok</td>
-              <td><?php echo $stok ?></td>
-            </tr>
-            <tr>
-              <td>Deskripsi</td>
-              <td><?php echo $deskripsi; ?></td>
-            </tr>
-            <tr>
-              <td>Harga Umum</td>
-              <td><?php echo number_format($harga_1, 0, ',', '.'); ?></td>
-            </tr>
-            <tr>
-              <td>Harga Grosir</td>
-              <td><?php echo number_format($harga_2, 0, ',', '.'); ?></td>
-            </tr>
-            <tr>
-              <td>Harga Member</td>
-              <td><?php echo number_format($harga_3, 0, ',', '.'); ?></td>
-            </tr>
-            <tr>
-              <td>Satuan</td>
-              <td><?php echo $satuan; ?></td>
-            </tr>
-            <tr>
-              <td>Berat</td>
-              <td><?php echo $berat; ?></td>
-            </tr>
-            <tr>
-              <td>Minimal Grosir</td>
-              <td><?php echo $mingros; ?></td>
-            </tr>
-            <tr>
-              <td>Diskon</td>
-              <td><?php echo $diskon; ?></td>
-            </tr>
-            <tr>
-              <td>Rak</td>
-              <td><?php echo $rak; ?></td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-            </tr>
-          </table>
 
-          <a href="<?php echo site_url('admin/produk_retail') ?>" class="btn btn-default">Cancel</a>
+          <div class="row" style="margin-bottom:10px">
+            <div class="col-md-12 text-center">
+              <div style="margin-top:4px" id="message">
+                <?php echo $this->session->userdata('message') <> '' ? $this->session->userdata('message') : ''; ?>
+              </div>
+            </div>
+          </div>
 
-          <div class="hr hr32 hr-dotted"></div>
+          <a href="<?php echo base_url() ?>admin/migrasi/excel" class="btn btn-success"><i class="ace-icon fa fa-download"></i> Unduh Excel</a>
+          <a href="<?php echo base_url() ?>admin/migrasi/preview" class="btn btn-inverse"><i class="ace-icon fa fa-list"></i> Lihat data impor</a>
+
+          <br><br>
+
+          <form action="<?php echo $action ?>" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+              <label for="varchar">File Excel (.xls, .xlsx)</label>
+              <input type="file" class="form-control" name="file" id="id-input-file3" />
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="ace-icon fa fa-upload"></i> Impor</button>
+          </form>
 
           <!-- PAGE CONTENT ENDS -->
         </div><!-- /.col -->
