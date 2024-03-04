@@ -87,90 +87,34 @@
                 </h1>
             </div><!-- /.page-header -->
 
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="varchar">Tanggal Transaksi <?php echo form_error('tgl_order') ?></label>
-                        <input type="text" name="tgl" class="form-control input-2" id="tgl" placeholder="Tanggal Transaksi" value="" />
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="varchar">Sales <?php echo form_error('id_sales') ?></label>
-                        <select name="id_sales" class="form-control" id="tgl">
-                            <option value=""></option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row m-switch">
-                <div class="col-xs-2">
-                    <div class="form-group">
-                        <select class="form-control status_member input-2" style="width:100%;">
-                            <option value="1">BUKAN MEMBER</option>
-                            <option value="2">MEMBER</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-xs-3" style="padding-left:0px;">
-                    <div class="form-group">
-                        <input type="text" class="form-control nama_pembeli input-2" autocomplete="off" value="" placeholder="Nama Pembeli" />
-                    </div>
-                </div>
-                <div class="col-xs-3" style="padding-left:0px;">
-                    <div class="form-group">
-                        <input type="text" class="form-control alamat_pembeli input-2" autocomplete="off" value="" placeholder="Alamat Pembeli" />
-                    </div>
-                </div>
-                <div class="col-xs-3" style="padding-left:0px;">
-                    <div class="form-group">
-                        <input type="text" class="form-control no_hp input-2" autocomplete="off" value="" placeholder="No HP" />
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h4 style="margin-bottom:0px;"><i class="fa fa-arrow-down"></i> Beli</h4>
-                    <div class="hr hr10 hr-dotted"></div>
-                    <div class="row">
-                        <div class="col-md-9">
-                            <div class="form-group">
-                                <input type="text" class="form-control alamat_pembeli input-2" autocomplete="off" value="" placeholder="IMEI" />
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control alamat_pembeli input-2" autocomplete="off" value="" placeholder="Nama Produk" />
-                            </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control alamat_pembeli input-2" autocomplete="off" value="" placeholder="Kategori Produk" />
-                            </div>
+            <form action="<?php echo $action ?>" method="post">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="int">Nama Penukar <?php echo form_error('nama_penukar') ?></label>
+                            <input type="text" class="form-control" name="nama_penukar" id="nama_penukar" placeholder="Nama Penukar" />
+                        </div>
+                        <div class="form-group">
+                            <label for="int">Alamat Penukar <?php echo form_error('alamat_penukar') ?></label>
+                            <input type="text" class="form-control" name="alamat_penukar" id="alamat_penukar" placeholder="Alamat Penukar" />
+                        </div>
+                        <div class="form-group">
+                            <label for="int">No HP Penukar <?php echo form_error('no_hp_penukar') ?></label>
+                            <input type="text" class="form-control" name="no_hp_penukar" id="no_hp_penukar" placeholder="No HP Penukar" />
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <h4 style="margin-bottom:0px;"><i class="fa fa-arrow-up"></i> Jual</h4>
-                    <div class="hr hr10 hr-dotted"></div>
-                    <input type="text" class="form-control alamat_pembeli input-2" autocomplete="off" value="" placeholder="Cari Produk" />
-                </div>
-            </div><!-- /.row -->
-            <div class="hr hr10 hr-dotted"></div>
-            <div class="row">
+                <button type="submit" class="btn btn-primary">Simpan</button>
+            </form>
+
+            <!-- <div class="row" style="margin-top:20px;">
                 <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="varchar">Pembayaran <?php echo form_error('pembayaran') ?></label>
-                        <select class="form-control input-2" style="width:100%;">
-                            <option value="1">TUNAI</option>
-                            <option value="2">TRANSFER</option>
-                        </select>
-                    </div>
+                    <a href="<?php echo base_url() ?>admin/tukarphone/aksi/pembelian" class="btn btn-primary btn-block">Pembelian</a>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="varchar">Nominal Bayar <?php echo form_error('bayar_jual') ?></label>
-                        <input type="text" name="bayar_jual" class="form-control input-2" id="tgl" placeholder="Nominal Bayar" value="" />
-                    </div>
+                <div class="col-md-4">
+                    <a href="<?php echo base_url() ?>admin/tukarphone/aksi/penjualan" class="btn btn-primary btn-block">Penjualan</a>
                 </div>
-            </div>
+            </div> -->
             <div class="hr hr32 hr-dotted"></div>
         </div><!-- /.page-content -->
     </div>

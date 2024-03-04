@@ -141,7 +141,7 @@ class Penjualan_retail extends AI_Admin
     }
 
     public function create($id_order = '')
-    {;
+    {
 
         //
         $no_faktur = $this->Transaksi_penjualan_model->get_faktur($this->userdata->id_toko, date('d-m-Y'), 1);
