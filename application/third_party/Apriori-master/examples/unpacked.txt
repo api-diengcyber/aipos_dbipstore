@@ -1,0 +1,183 @@
+Array
+(
+    [0] => 0.75
+    [1] => 1
+    [2] => Array
+        (
+            [1] => Array
+                (
+                    [ABC ALKALINE AAA LR 03 2B] => 1
+                    [100 PLUS ORIGINAL 330/KLG] => 2
+                    [ABC ALKALINE LR6/1.5V] => 1
+                    [KIT MOTOR SHAMPO 30ML] => 1
+                    [DAHLIA GRAPE K24/SG] => 3
+                    [DAHLIA SERAB BAU KULKAS] => 3
+                    [CUTTER TACO/MICROTOP 150] => 5
+                    [DAHLIA AIR FRESH BLUE 75GR] => 2
+                    [CUTTER GUNINDO A-18] => 1
+                    [DAHLIA REFFIL ORANGE K-241] => 1
+                    [ALE-ALE ORANGE 200ML] => 1
+                )
+
+        )
+
+    [3] => Array
+        (
+            [1] => Array
+                (
+                    [100 PLUS ORIGINAL 330/KLG] => 2
+                    [ABC ALKALINE AAA LR 03 2B] => 1
+                    [ABC ALKALINE LR6/1.5V] => 1
+                    [ALE-ALE ORANGE 200ML] => 1
+                    [CUTTER GUNINDO A-18] => 1
+                    [CUTTER TACO/MICROTOP 150] => 5
+                    [DAHLIA AIR FRESH BLUE 75GR] => 2
+                    [DAHLIA GRAPE K24/SG] => 3
+                    [DAHLIA REFFIL ORANGE K-241] => 1
+                    [DAHLIA SERAB BAU KULKAS] => 3
+                    [KIT MOTOR SHAMPO 30ML] => 1
+                )
+
+            [2] => Array
+                (
+                    [100 PLUS ORIGINAL 330/KLG,ABC ALKALINE AAA LR 03 2B] => 1
+                    [CUTTER GUNINDO A-18,CUTTER TACO/MICROTOP 150] => 1
+                    [CUTTER TACO/MICROTOP 150,DAHLIA AIR FRESH BLUE 75GR] => 1
+                )
+
+        )
+
+    [4] => Array
+        (
+            [ABC ALKALINE AAA LR 03 2B] => Array
+                (
+                    [0] => Array
+                        (
+                            [supp] => 5
+                            [conf] => 100
+                            [Y] => 100 PLUS ORIGINAL 330/KLG
+                        )
+
+                )
+
+            [CUTTER GUNINDO A-18] => Array
+                (
+                    [0] => Array
+                        (
+                            [supp] => 5
+                            [conf] => 100
+                            [Y] => CUTTER TACO/MICROTOP 150
+                        )
+
+                )
+
+        )
+
+    [5] => Array
+        (
+            [0] => Array
+                (
+                    [0] => ABC ALKALINE AAA LR 03 2B
+                    [1] => 100 PLUS ORIGINAL 330/KLG
+                )
+
+            [1] => Array
+                (
+                    [0] => ABC ALKALINE LR6/1.5V
+                )
+
+            [2] => Array
+                (
+                    [0] => KIT MOTOR SHAMPO 30ML
+                )
+
+            [3] => Array
+                (
+                    [0] => DAHLIA GRAPE K24/SG
+                )
+
+            [4] => Array
+                (
+                    [0] => DAHLIA SERAB BAU KULKAS
+                )
+
+            [5] => Array
+                (
+                    [0] => CUTTER TACO/MICROTOP 150
+                )
+
+            [6] => Array
+                (
+                    [0] => 100 PLUS ORIGINAL 330/KLG
+                )
+
+            [7] => Array
+                (
+                    [0] => CUTTER TACO/MICROTOP 150
+                )
+
+            [8] => Array
+                (
+                )
+
+            [9] => Array
+                (
+                    [0] => CUTTER TACO/MICROTOP 150
+                    [1] => DAHLIA AIR FRESH BLUE 75GR
+                )
+
+            [10] => Array
+                (
+                    [0] => DAHLIA SERAB BAU KULKAS
+                )
+
+            [11] => Array
+                (
+                    [0] => CUTTER TACO/MICROTOP 150
+                    [1] => CUTTER GUNINDO A-18
+                )
+
+            [12] => Array
+                (
+                    [0] => DAHLIA GRAPE K24/SG
+                )
+
+            [13] => Array
+                (
+                    [0] => DAHLIA GRAPE K24/SG
+                )
+
+            [14] => Array
+                (
+                    [0] => CUTTER TACO/MICROTOP 150
+                )
+
+            [15] => Array
+                (
+                )
+
+            [16] => Array
+                (
+                    [0] => DAHLIA SERAB BAU KULKAS
+                )
+
+            [17] => Array
+                (
+                    [0] => DAHLIA AIR FRESH BLUE 75GR
+                )
+
+            [18] => Array
+                (
+                    [0] => DAHLIA REFFIL ORANGE K-241
+                )
+
+            [19] => Array
+                (
+                    [0] => ALE-ALE ORANGE 200ML
+                )
+
+        )
+
+    [6] => 20
+    [7] => 2
+)

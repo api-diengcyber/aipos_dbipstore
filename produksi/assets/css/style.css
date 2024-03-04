@@ -1,0 +1,42 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+#main{
+  min-height:100%;
+  min-width:100%;
+  background-color: rgba(0, 0, 0, 0.50 );
+  width: 100%;
+}
+.login-layout .widget-box .widget-main {
+	background-color: none;
+}
+.bd {
+	background-image:url('../images/bg.jpg');height:100%;
+  background-size: cover;
+}
+.blue {
+	color:#00bcd4;
+}
+.btn-primary {
+	background-color: #00bcd4!important;
+    border-color: #00bcd4;
+}
+.login-box .toolbar{
+    background: #00bcd4;
+    border: none;
+	padding: 5px;
+	color:white;
+}
+.btn-success {
+    background-color: #4CAF50!important;
+    border-color: #4CAF50;
+}
+.signup-box .toolbar {
+    background: #4CAF50;
+    border-top: 2px solid #4CAF50;
+    padding: 9px 18px;
+}
+.signup-box .toolbar>a {
+  color:white!important;
+}
