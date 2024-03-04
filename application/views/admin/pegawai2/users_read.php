@@ -125,18 +125,25 @@
 
                       <?php
                     }else{?>
-                    <tr><td>First Name</td><td><?php echo $first_name; ?></td></tr>
-        				    <tr><td>Last Name</td><td><?php echo $last_name; ?></td></tr>
+                    <tr><td>Nama Depan</td><td><?php echo $first_name; ?></td></tr>
+        				    <tr><td>Nama Belakang</td><td><?php echo $last_name; ?></td></tr>
         				    <tr><td>Phone</td><td><?php echo $phone; ?></td></tr>
                     <tr><td>Level</td><td><?php echo $level; ?></td></tr>
+                  
+                    
                     <?php
                     
                     }?>
 
 
         				    
-        				    <tr><td>Beban Per</td><td><?php echo $beban_per; ?></td></tr>
+        				    <tr><td>Hari Aktif</td><td><?php echo $hari_aktif; ?></td></tr>
         				    <tr><td>Nominal</td><td><?php echo number_format( $nominal); ?></td></tr>
+                    <tr><td>Lembur</td><td><?php echo $lembur; ?></td></tr>
+                    <tr><td>Nominal Lembur</td><td><?php echo number_format($nominal_lembur); ?></td></tr>
+                    <tr><td>Target</td><td><?php echo $target; ?></td></tr>
+                    <tr><td>Nominal Target</td><td><?php echo number_format($nominal_target); ?></td></tr>
+                    <tr><th>Total Nominal</th><th><?php echo number_format($nominal+$nominal_lembur+$nominal_target); ?></th></tr>
         				    <tr><td></td><td><a href="<?php echo site_url('admin/pegawai_beban/'.$type) ?>" class="btn btn-default">Cancel</a></td></tr>
         				</table>
 

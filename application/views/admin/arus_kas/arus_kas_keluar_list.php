@@ -80,6 +80,9 @@
                 
                 <div class="row" style="margin-bottom: 10px">
                     <div class="col-md-4">
+                    <div class="col-md-4">
+                      <a href="<?=$action?>" class="btn btn-primary">Tambah Data</a>
+                    </div>
                     </div>
                     <div class="col-md-4 text-center">
                         <div style="margin-top: 4px"  id="message">
@@ -139,7 +142,7 @@
                             },
                             processing: true,
                             serverSide: true,
-                            ajax: {"url": "<?php echo base_url() ?>arus_kas/json_keluar", "type": "POST"},
+                            ajax: {"url": "<?php echo base_url() ?>admin/arus_kas/json_keluar", "type": "POST"},
                             columns: [
                                 {
                                     "data": "id_arus_kas",

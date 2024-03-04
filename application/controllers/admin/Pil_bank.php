@@ -32,6 +32,7 @@ class Pil_bank extends AI_Admin
                 'active_bank' => 'active',
                 'id' => $row->id,
                 'bank' => $row->bank,
+                'no_rek' => $row->no_rek,
                 'kode_akun' => $row->kode_akun,
                 'kode_akun_2' => $row->kode_akun_2,
             );
@@ -58,6 +59,7 @@ class Pil_bank extends AI_Admin
             'action' => site_url('admin/pil_bank/create_action'),
             'id' => set_value('id'),
             'bank' => set_value('bank'),
+            'no_rek' => set_value('no_rek'),
             'akun_1' => set_value('akun_1'),
             'akun_2' => set_value('akun_2'),
             'data_akun_1' => $res_akun_1,
@@ -81,6 +83,7 @@ class Pil_bank extends AI_Admin
             
             $data = array(
                 'bank' => $this->input->post('bank',TRUE),
+                'no_rek' => $this->input->post('no_rek',TRUE),
             );
             $this->Pil_bank_model->insert($data);
             $id = $this->db->insert_id();
@@ -135,6 +138,7 @@ class Pil_bank extends AI_Admin
                 'action' => site_url('admin/pil_bank/update_action'),
                 'id' => set_value('id', $row->id),
                 'bank' => set_value('bank', $row->bank),
+                'no_rek' => set_value('no_rek', $row->no_rek),
                 'akun_1' => set_value('akun_1', $akun_1),
                 'akun_2' => set_value('akun_2', $akun_2),
                 'data_akun_1' => $res_akun_1,
@@ -160,6 +164,7 @@ class Pil_bank extends AI_Admin
             
             $data = array(
                 'bank' => $this->input->post('bank',TRUE),
+                'no_rek' => $this->input->post('no_rek',TRUE),
             );
             
             $data_update = array(
@@ -210,6 +215,7 @@ class Pil_bank extends AI_Admin
     public function _rules() 
     {
         $this->form_validation->set_rules('bank', 'bank', 'trim|required');
+        $this->form_validation->set_rules('no_rek', 'nomor rekening', 'trim|required');
         $this->form_validation->set_rules('id', 'id', 'trim');
         $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }

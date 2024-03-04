@@ -730,6 +730,8 @@
                         <option value="2">KREDIT</option>
                         <option value="3">TRANSFER</option>
                         <option value="4">SPLIT PEMBAYARAN</option>
+                        <option value="5">QRIS</option>
+                        <option value="6">DEBIT</option>
                       </select>
                     </div>
                   </div>
@@ -744,6 +746,7 @@
                       <input type="text" name="" id="nominal_split" class="form-control nominalSplit input-2" placeholder="Nominal">
                     </div>
                   </div> -->
+              
                   <div class="col-md-2 panelDeadline hide" style="padding-left:0px;">
                     <div class="form-group">
                       <input type="text" class="form-control deadline input-2" placeholder="Hari" maxlength="11" />
@@ -812,6 +815,8 @@
                         <option value="1">TUNAI</option>
                         <option value="2">KREDIT</option>
                         <option value="3">TRANSFER</option>
+                        <option value="5">QRIS</option>
+                        <option value="6">DEBIT</option>
                       </select>
                     </div>  
                     <div class="form-group d-none">
@@ -905,13 +910,11 @@
                       <th class="center" width="2">No</th>
                       <th>Nama Barang</th>
                       <th width="40">Stok</th>
-                      <th width="100">Pilihan Harga</th>
                       <th class="text-center" width="90">Qty</th>
                       <th class="text-center" width="90">Qty Bonus</th>
                       <th class="text-center" width="100">H. Sat</th>
                       <th class="text-center" width="80">Disk 1 (%)</th>
-                      <th class="text-center" width="80">Disk 2 (%)</th>
-                      <th class="text-center" width="80">Disk 3 (%)</th>
+                    
                       <th class="text-center" width="100">Sub Total</th>
                       <th class="text-center" width="100">Aksi</th>
                     </tr>
@@ -2595,14 +2598,10 @@ $('input[name="wa_kirim"]').on('click', function() {
                       <th class="center">'+temp[item].no+'</th>\
                       <th><p>'+temp[item].nama_produk+'</p><p>Deskripsi :</p> <p>'+temp[item].deskripsi+'</p></th>\
                       <th>'+temp[item].stok+'</th>\
-                      <th style="padding:0px;background-color:#fff;">'+html_pil_harga+'</th>\
                       <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:90px;" class="text-center jumlah" value="'+temp[item].jumlah+'" data-id="'+temp[item].id_orders_temp+'" data-stok="'+temp[item].stok+'"></th>\
                       <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:90px;" class="text-center jumlah_bonus" value="'+temp[item].jumlah_bonus+'" data-id="'+temp[item].id_orders_temp+'" data-stok="'+temp[item].stok+'"></th>\
                       <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:90px;" class="text-center harga_jual_sat" value="'+numberWithCommas(temp[item].harga_jual)+'" data-id="'+temp[item].id_orders_temp+'" data-stok="'+temp[item].stok+'"></th>\
-                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon" value="'+temp[item].diskon+'" data-id="'+temp[item].id_orders_temp+'" data-stok="'+temp[item].stok+'"></th>\
-                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon2" value="'+temp[item].diskon2+'" data-id="'+temp[item].id_orders_temp+'" data-stok="'+temp[item].stok+'"></th>\
-                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon3" value="'+temp[item].diskon3+'" data-id="'+temp[item].id_orders_temp+'" data-stok="'+temp[item].stok+'"></th>\
-                      <th class="text-right">'+numberWithCommas(Math.round(temp[item].sub_total*1))+'</th>\
+                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon" value="'+temp[item].diskon+'" data-id="'+temp[item].id_orders_temp+'" data-stok="'+temp[item].stok+'"></th>\ <th class="text-right">'+numberWithCommas(Math.round(temp[item].sub_total*1))+'</th>\
                       <th class="text-center"><button type="button" class="btn btn-xs btn-danger no-border btn-delete" data-id="'+temp[item].id_orders_temp+'" data-stok="'+temp[item].stok+'" style="padding-top:0px;padding-bottom:0px;"><i class="fa fa-remove"></i></button></th>\
                     </tr>';
           html_mobile += `

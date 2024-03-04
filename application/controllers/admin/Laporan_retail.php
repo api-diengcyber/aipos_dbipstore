@@ -183,7 +183,6 @@ class Laporan_retail extends AI_Admin {
 			}
 			
 			$data['data_bank'] = $this->db->get('pil_bank')->result();
-			// var_dump($data['contents']);
 	        $this->view('laporan/penjualan_admin', $data);
 		// } else{
 		// 	$data['contents'] = $this->Penjualan_retail_model->get_by_between_date_and_user($this->userdata->id_toko, $this->userdata->id_users, $s_awal_periode, $s_akhir_periode);

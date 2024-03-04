@@ -230,7 +230,7 @@ class Penjualan_retail_model extends CI_Model
         // }
         
         if (!empty($pembayaran)) {
-            if($pembayaran==1||$pembayaran==2||$pembayaran==4){
+            if($pembayaran==1||$pembayaran==2||$pembayaran==4||$pembayaran==5||$pembayaran==6){
                 $this->db->where('o.pembayaran', $pembayaran);
             }else{
                 $this->db->where('o.bank', $bank);
@@ -246,7 +246,7 @@ class Penjualan_retail_model extends CI_Model
         }
 
 
-        $this->db->where_in('o.pembayaran', array('1','2','3','4'));
+        $this->db->where_in('o.pembayaran', array('1','2','3','4','5','6'));
         $this->db->group_by('o.no_faktur');
         return $this->db->get()->result();
     }
@@ -266,7 +266,7 @@ class Penjualan_retail_model extends CI_Model
         $this->db->where('o.id_toko', $this->userdata->id_toko);
         // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
         $this->db->where('o.id_users', $id_users);
-        $this->db->where_in('o.pembayaran', array('1','2','3','4'));
+        $this->db->where_in('o.pembayaran', array('1','2','3','4','5','6'));
         $this->db->group_by('o.no_faktur');
         return $this->db->get()->result();
     }

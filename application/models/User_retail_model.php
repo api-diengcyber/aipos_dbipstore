@@ -53,7 +53,7 @@ class User_retail_model extends CI_Model
     }
    
     function json_beban_id_toko($id_toko,$dir='outlet') {
-        $this->datatables->select('u.*,IF(u.active=1, "Aktif", "Tidak Aktif") AS t_active, ( CASE WHEN u.level = 1 THEN "ADMIN" WHEN u.level = 2 THEN "KASIR" WHEN u.level = 3 THEN "GUDANG" WHEN u.level = 4 THEN "SALES" WHEN u.level = 5 THEN "MARKETING" ELSE "PRINCIPAL" END ) AS t_level,b.id_beban as id_beban, b.hari_aktif,b.nominal,b.lembur,b.target,b.nominal_lembur,b.nominal_target, ');
+        $this->datatables->select('u.*,IF(u.active=1, "Aktif", "Tidak Aktif") AS t_active, ( CASE WHEN u.level = 1 THEN "ADMIN" WHEN u.level = 2 THEN "KASIR" WHEN u.level = 3 THEN "GUDANG" WHEN u.level = 4 THEN "SALES" WHEN u.level = 5 THEN "MARKETING" ELSE "PRINCIPAL" END ) AS t_level,b.id_beban as id_beban, b.hari_aktif,b.nominal,b.lembur,b.target,b.nominal_lembur,b.nominal_target, (b.nominal + b.nominal_target + b.nominal_lembur) AS total_nominal,CONCAT(u.first_name, " ", u.last_name) AS full_name');
 
         $this->datatables->from('users u');
         $this->datatables->join('beban b','b.id_users=u.id_users');
@@ -70,12 +70,12 @@ class User_retail_model extends CI_Model
     }
     function json_beban_non_id_toko( $dir = 'admin') {
 
-        $this->datatables->select('*,id_beban as id_beban');
+        $this->datatables->select('b.*,b.id_beban as id_beban,b.id_beban as id_beban, b.hari_aktif,b.nominal,b.lembur,b.target,b.nominal_lembur,b.nominal_target, (b.nominal + b.nominal_target + b.nominal_lembur) AS total_nominal');
 
-        $this->datatables->from('beban');
+        $this->datatables->from('beban b');
         // $this->datatables->join('beban b','b.id_users=u.id_users');
-        $this->datatables->where('id_toko', $this->userdata->id_toko);
-        $this->datatables->where('nama!=', null);
+        $this->datatables->where('b.id_toko', $this->userdata->id_toko);
+        $this->datatables->where('b.nama!=', null);
         // $this->datatables->where('id_users', $this->userdata->id_users);
         // $this->datatables->where('id_cabang', $this->userdata->id_cabang);
       

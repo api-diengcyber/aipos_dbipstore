@@ -87,8 +87,8 @@
             <div class="row">
               <div class="col-xs-12">
                 <!-- PAGE CONTENT BEGINS -->
-
                 <form action="<?php echo $action; ?>" method="post">
+                <input type="hidden" name="id_arus_kas" id="" value="<?=$id_arus_kas?>">
                     <div class="form-group">
                         <label for="varchar">Tgl <?php echo form_error('tgl') ?></label>
                         <input type="text" class="form-control" name="tgl" id="datepicker1" placeholder="dd-mm-yyyy" readonly value="<?php echo $tgl; ?>" />

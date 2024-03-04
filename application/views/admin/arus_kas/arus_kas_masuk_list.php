@@ -91,6 +91,7 @@
                 
                 <div class="row" style="margin-bottom: 10px">
                     <div class="col-md-4">
+                      <a href="<?=$action?>" class="btn btn-primary">Tambah Data</a>
                     </div>
                     <div class="col-md-4 text-center">
                         <div style="margin-top: 4px"  id="message">

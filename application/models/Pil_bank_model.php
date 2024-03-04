@@ -17,7 +17,7 @@ class Pil_bank_model extends CI_Model
 
     // datatables
     function json() {
-        $this->datatables->select('pb.id, pb.bank, CONCAT(a.kode," ",a.akun) AS kode_akun, CONCAT(a2.kode," ",a2.akun) AS kode_akun_2');
+        $this->datatables->select('pb.id, pb.bank,pb.no_rek, CONCAT(a.kode," ",a.akun) AS kode_akun, CONCAT(a2.kode," ",a2.akun) AS kode_akun_2');
         $this->datatables->from('pil_bank pb');
         //add this line for join
         $this->datatables->join('(SELECT * FROM akun WHERE parent="bank") AS a', 'a.uid=pb.id', 'left');
