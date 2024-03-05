@@ -1053,13 +1053,13 @@
                         <th class="center" width="2">No</th>
                         <th>Nama Barang</th>
                         <th width="40">Stok</th>
-                        <th width="100">Pilihan Harga</th>
+                        <!-- <th width="100">Pilihan Harga</th> -->
                         <th class="text-center" width="90">Qty</th>
                         <th class="text-center" width="90">Qty Bonus</th>
                         <th class="text-center" width="100">H. Sat</th>
-                        <th class="text-center" width="80">Disk 1 (%)</th>
+                        <!-- <th class="text-center" width="80">Disk 1 (%)</th>
                         <th class="text-center" width="80">Disk 2 (%)</th>
-                        <th class="text-center" width="80">Disk 3 (%)</th>
+                        <th class="text-center" width="80">Disk 3 (%)</th> -->
                         <th class="text-center" width="100">Sub Total</th>
                         <th class="text-center" width="100">Aksi</th>
                       </tr>
@@ -2868,20 +2868,25 @@
                   // html_pil_harga += '<option value="'+item_p+'" '+selected+'>'+pil_harga[item_p]+'</option>';
                 }
                 html_pil_harga += '</select>';
-                html += ' <tr>\
-                      <th class="center">' + temp[item].no + '</th>\
-                      <th><p>' + temp[item].nama_produk + '</p><p>Deskripsi :</p> <p>' + temp[item].deskripsi + '</p></th>\
-                      <th>' + temp[item].stok + '</th>\
-                      <th style="padding:0px;background-color:#fff;">' + html_pil_harga + '</th>\
-                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:90px;" class="text-center jumlah" value="' + temp[item].jumlah + '" data-id="' + temp[item].id_orders_temp + '" data-stok="' + temp[item].stok + '"></th>\
-                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:90px;" class="text-center jumlah_bonus" value="' + temp[item].jumlah_bonus + '" data-id="' + temp[item].id_orders_temp + '" data-stok="' + temp[item].stok + '"></th>\
-                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:90px;" class="text-center harga_jual_sat" value="' + numberWithCommas(temp[item].harga_jual) + '" data-id="' + temp[item].id_orders_temp + '" data-stok="' + temp[item].stok + '"></th>\
-                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon" value="' + temp[item].diskon + '" data-id="' + temp[item].id_orders_temp + '" data-stok="' + temp[item].stok + '"></th>\
-                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon2" value="' + temp[item].diskon2 + '" data-id="' + temp[item].id_orders_temp + '" data-stok="' + temp[item].stok + '"></th>\
-                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon3" value="' + temp[item].diskon3 + '" data-id="' + temp[item].id_orders_temp + '" data-stok="' + temp[item].stok + '"></th>\
-                      <th class="text-right">' + numberWithCommas(Math.round(temp[item].sub_total * 1)) + '</th>\
-                      <th class="text-center"><button type="button" class="btn btn-xs btn-danger no-border btn-delete" data-id="' + temp[item].id_orders_temp + '" data-stok="' + temp[item].stok + '" style="padding-top:0px;padding-bottom:0px;"><i class="fa fa-remove"></i></button></th>\
-                    </tr>';
+                html += `<tr>
+                      <th class="center">${temp[item].no}</th>
+                      <th><p>${temp[item].nama_produk}</p><p>Deskripsi :</p> <p>${temp[item].deskripsi}</p></th>
+                      <th>${temp[item].stok}</th>`;
+                // html += `<th style="padding:0px;background-color:#fff;">${html_pil_harga}</th>`;
+                html += `
+                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:90px;" class="text-center jumlah" value="${temp[item].jumlah}" data-id="${temp[item].id_orders_temp}" data-stok="${temp[item].stok}"></th>
+                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:90px;" class="text-center jumlah_bonus" value="${temp[item].jumlah_bonus}" data-id="${temp[item].id_orders_temp}" data-stok="${temp[item].stok}"></th>
+                      <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:90px;" class="text-center harga_jual_sat" value="${numberWithCommas(temp[item].harga_jual)}" data-id="${temp[item].id_orders_temp}" data-stok="${temp[item].stok}"></th>
+                      `;
+                // html += `
+                //       <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon" value="${temp[item].diskon}" data-id="${temp[item].id_orders_temp}" data-stok="${temp[item].stok}"></th>
+                //       <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon2" value="${temp[item].diskon2}" data-id="${temp[item].id_orders_temp}" data-stok="${temp[item].stok}"></th>
+                //       <th class="text-center" style="padding:0px;background-color:#fff;"><input style="padding:6px;border-width:0px;outline:none;width:80px;" class="text-center diskon3" value="${temp[item].diskon3}" data-id="${temp[item].id_orders_temp}" data-stok="${temp[item].stok}"></th>
+                //       `;
+                html += `
+                      <th class="text-right">${numberWithCommas(Math.round(temp[item].sub_total * 1))}</th>
+                      <th class="text-center"><button type="button" class="btn btn-xs btn-danger no-border btn-delete" data-id="${temp[item].id_orders_temp}" data-stok="${temp[item].stok}" style="padding-top:0px;padding-bottom:0px;"><i class="fa fa-remove"></i></button></th>
+                    </tr>`;
                 html_mobile += `
           <tr class="tr-touch-barang" data-item="` + item + `" data-id="` + temp[item].id_orders_temp + `" id="rowBarangT_` + temp[item].id_orders_temp + `">
             <td>` + temp[item].nama_produk + `</td>
