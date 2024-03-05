@@ -30,27 +30,32 @@
 						</div>
 
 						<div class="ace-settings-item">
-							<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+							<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar"
+								autocomplete="off" />
 							<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
 						</div>
 
 						<div class="ace-settings-item">
-							<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+							<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar"
+								autocomplete="off" />
 							<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
 						</div>
 
 						<div class="ace-settings-item">
-							<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+							<input type="checkbox" class="ace ace-checkbox-2 ace-save-state"
+								id="ace-settings-breadcrumbs" autocomplete="off" />
 							<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
 						</div>
 
 						<div class="ace-settings-item">
-							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" autocomplete="off" />
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl"
+								autocomplete="off" />
 							<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
 						</div>
 
 						<div class="ace-settings-item">
-							<input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+							<input type="checkbox" class="ace ace-checkbox-2 ace-save-state"
+								id="ace-settings-add-container" autocomplete="off" />
 							<label class="lbl" for="ace-settings-add-container">
 								Inside
 								<b>.container</b>
@@ -60,17 +65,20 @@
 
 					<div class="pull-left width-50">
 						<div class="ace-settings-item">
-							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover" autocomplete="off" />
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-hover"
+								autocomplete="off" />
 							<label class="lbl" for="ace-settings-hover"> Submenu on Hover</label>
 						</div>
 
 						<div class="ace-settings-item">
-							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact" autocomplete="off" />
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-compact"
+								autocomplete="off" />
 							<label class="lbl" for="ace-settings-compact"> Compact Sidebar</label>
 						</div>
 
 						<div class="ace-settings-item">
-							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight" autocomplete="off" />
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-highlight"
+								autocomplete="off" />
 							<label class="lbl" for="ace-settings-highlight"> Alt. Active Item</label>
 						</div>
 					</div><!-- /.pull-left -->
@@ -120,11 +128,15 @@
 									<label class="control-label no-padding-right col-md-3">Periode : </label>
 									<div class="col-md-9">
 										<div class="input-daterange input-group">
-											<input type="text" class="input-lg form-control" id="datepicker1" name="awal_periode" value="<?php echo $tgl_awal ?>" onchange="this.form.submit()" />
+											<input type="text" class="input-lg form-control" id="datepicker1"
+												name="awal_periode" value="<?php echo $tgl_awal ?>"
+												onchange="this.form.submit()" />
 											<span class="input-group-addon">
 												<i class="fa fa-exchange"></i>
 											</span>
-											<input type="text" class="input-lg form-control" id="datepicker2" name="akhir_periode" value="<?php echo $tgl_akhir ?>" onchange="this.form.submit()" />
+											<input type="text" class="input-lg form-control" id="datepicker2"
+												name="akhir_periode" value="<?php echo $tgl_akhir ?>"
+												onchange="this.form.submit()" />
 										</div>
 									</div>
 								</div>
@@ -176,7 +188,7 @@
 											-
 										</td>
 									</tr>
-								<?php $jml_laba_masuk = $p->total;
+									<?php $jml_laba_masuk = $p->total;
 								} ?>
 
 
@@ -187,7 +199,7 @@
 										<?= $no++ ?>
 									</td>
 									<td>
-									<?=$pb->tgl_masuk?>
+										<?= $pb->tgl_masuk ?>
 									</td>
 									<td>
 										-
@@ -203,7 +215,7 @@
 									</td>
 									</tr>
 
-								<?php
+									<?php
 									$jml_beban_keluar += $pb->total;
 								}
 
@@ -213,7 +225,7 @@
 											<?= $no++ ?>
 										</td>
 										<td>
-											(bulan-tahun <?=$b->bulan?>)
+											(bulan-tahun <?= $b->bulan ?>)
 										</td>
 										<td>
 											-
@@ -221,19 +233,19 @@
 										<td>
 											Beban Karyawan
 											<?php
-												$nama_karyawan = $this->db->select('u.*')
-													->from('users u')
-													->where('u.id_users', $b->id_users)
-													->where('u.id_toko', $this->userdata->id_toko)
-													->get()
-													->row();
-												if ($nama_karyawan != null) {
-													echo $nama_karyawan->first_name;
-												} else {
-													echo $b->nama;
-												}
+											$nama_karyawan = $this->db->select('u.*')
+												->from('users u')
+												->where('u.id_users', $b->id_users)
+												->where('u.id_toko', $this->userdata->id_toko)
+												->get()
+												->row();
+											if ($nama_karyawan != null) {
+												echo $nama_karyawan->first_name;
+											} else {
+												echo $b->nama;
+											}
 
-												?>
+											?>
 										</td>
 										<td>
 											-
@@ -243,7 +255,7 @@
 										</td>
 									</tr>
 
-								<?php
+									<?php
 									$jml_beban_keluar += ($b->nominal / $b->hari_aktif);
 								}
 
@@ -270,8 +282,8 @@
 											<?= $k->ket ?>
 										</td>
 										<?php if ($k->id_kas == 1) {
-												$jml_masuk = $jml_masuk += $k->nominal;
-												?>
+											$jml_masuk = $jml_masuk += $k->nominal;
+											?>
 											<td>
 												<?= number_format($k->nominal) ?>
 											</td>
@@ -279,13 +291,13 @@
 											<td>
 												-
 											</td>
-										<?php
+											<?php
 
-											} ?>
+										} ?>
 
 										<?php if ($k->id_kas == 2) {
-												$jml_keluar = $jml_keluar += $k->nominal;
-												?>
+											$jml_keluar = $jml_keluar += $k->nominal;
+											?>
 											<td>
 												<?= number_format($k->nominal) ?>
 											</td>
@@ -293,11 +305,11 @@
 											<td>
 												-
 											</td>
-										<?php
+											<?php
 
-											} ?>
+										} ?>
 									</tr>
-								<?php
+									<?php
 
 
 
@@ -308,12 +320,18 @@
 							<tfoot>
 								<tr>
 									<th class="text-right" colspan="4">JUMLAH</th>
-									<th class="text-right"><span id="jumlah_pemasukkan"></span> <?= number_format($jml_masuk + $jml_laba_masuk) ?></th>
-									<th class="text-right"><span id="jumlah_pengeluaran"></span> <?= number_format($jml_keluar + $jml_beban_keluar) ?></th>
+									<th class="text-right"><span id="jumlah_pemasukkan"></span>
+										<?= number_format($jml_masuk + $jml_laba_masuk) ?>
+									</th>
+									<th class="text-right"><span id="jumlah_pengeluaran"></span>
+										<?= number_format($jml_keluar + $jml_beban_keluar) ?>
+									</th>
 								</tr>
 								<tr>
 									<th class="text-right" colspan="4">TOTAL</th>
-									<th class="text-right" colspan="2"><span id="total"><?= number_format(($jml_masuk + $jml_laba_masuk) - ($jml_keluar + $jml_beban_keluar)) ?></span></th>
+									<th class="text-right" colspan="2"><span id="total">
+											<?= number_format(($jml_masuk + $jml_laba_masuk) - ($jml_keluar + $jml_beban_keluar)) ?>
+										</span></th>
 								</tr>
 							</tfoot>
 						</table>

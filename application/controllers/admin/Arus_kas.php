@@ -46,10 +46,10 @@ class Arus_kas extends AI_Admin
 	public function create_masuk()
 	{
 		$data_akun = $this->db->select('*')
-				->from('akun_sederhana')
-				->where('id_toko', $this->userdata->id_toko)
-				->where('jenis', '1')
-				->get()->result();
+			->from('akun_sederhana')
+			->where('id_toko', $this->userdata->id_toko)
+			->where('jenis', '1')
+			->get()->result();
 		$id_kas = '1';
 		$j_kas = 'Tambah Kas Masuk';
 		$nama_kas = 'Nama Pendapatan';
@@ -73,10 +73,10 @@ class Arus_kas extends AI_Admin
 	public function create_keluar()
 	{
 		$data_akun = $this->db->select('*')
-				->from('akun_sederhana')
-				->where('id_toko', $this->userdata->id_toko)
-				->where('jenis', '2')
-				->get()->result();
+			->from('akun_sederhana')
+			->where('id_toko', $this->userdata->id_toko)
+			->where('jenis', '2')
+			->get()->result();
 		$id_kas = '2';
 		$j_kas = 'Tambah Kas Keluar';
 		$nama_kas = 'Nama Pengeluaran';
@@ -244,11 +244,11 @@ class Arus_kas extends AI_Admin
 			->where("STR_TO_DATE(p.tgl_masuk, '%d-%m-%Y') BETWEEN '" . $xawal_periode . "' AND '" . $xakhir_periode . "'")
 			->get()
 			->result();
-		$beban =  $this->db->select('b.*')
+		$beban = $this->db->select('b.*')
 			->from('beban b')
 			//  ->join('user',$this->userdata->id_toko)
 			->where('b.id_toko', $this->userdata->id_toko)
-			->where("b.bulan BETWEEN '" . substr($awal_periode,3) . "' AND '" . substr($akhir_periode,3) . "'")
+			->where("b.bulan BETWEEN '" . substr($awal_periode, 3) . "' AND '" . substr($akhir_periode, 3) . "'")
 			//  ->group_by('o.tgl_order')
 			->get()
 			->result();
@@ -258,7 +258,7 @@ class Arus_kas extends AI_Admin
 			'penjualan' => $penjualan,
 			'pembelian' => $pembelian,
 			'beban' => $beban,
-			'tgl_awal' => 	$awal_periode,
+			'tgl_awal' => $awal_periode,
 			'tgl_akhir' => $akhir_periode,
 			'active_arus_kas' => 'active',
 		];
@@ -276,117 +276,117 @@ class Arus_kas extends AI_Admin
 	public function read_masuk($id)
 	{
 		$kas = $this->db->select('a.*,ak.nama_akun')
-					->from('arus_kas a')
-					->from('akun_sederhana ak','ak.id_akun=a.id_akun')
-					->where('a.id_toko',$this->userdata->id_toko)
-					->where('a.id_arus_kas',$id)
-					->get()
-					->row();
-					$data = [
-						'id_kas'=>$kas->id_kas,
-						'tgl'=>$kas->tgl,
-						'nm_akun'=>$kas->nama_akun,
-						'nominal'=>$kas->nominal,
-						'ket'=>$kas->ket,
-					];
-		$this->rview('arus_kas/arus_kas_read',$data);
+			->from('arus_kas a')
+			->from('akun_sederhana ak', 'ak.id_akun=a.id_akun')
+			->where('a.id_toko', $this->userdata->id_toko)
+			->where('a.id_arus_kas', $id)
+			->get()
+			->row();
+		$data = [
+			'id_kas' => $kas->id_kas,
+			'tgl' => $kas->tgl,
+			'nm_akun' => $kas->nama_akun,
+			'nominal' => $kas->nominal,
+			'ket' => $kas->ket,
+		];
+		$this->rview('arus_kas/arus_kas_read', $data);
 		// $this->rview('arus_kas/arus_kas_form', $data);
 	}
 	public function read_keluar($id)
 	{
 		$kas = $this->db->select('a.*,ak.nama_akun')
-					->from('arus_kas a')
-					->from('akun_sederhana ak','ak.id_akun=a.id_akun')
-					->where('a.id_toko',$this->userdata->id_toko)
-					->where('a.id_arus_kas',$id)
-					->get()
-					->row();
-					$data = [
-						'id_kas'=>$kas->id_kas,
-						'tgl'=>$kas->tgl,
-						'nm_akun'=>$kas->nama_akun,
-						'nominal'=>$kas->nominal,
-						'ket'=>$kas->ket,
-					];
-		$this->rview('arus_kas/arus_kas_read',$data);
+			->from('arus_kas a')
+			->from('akun_sederhana ak', 'ak.id_akun=a.id_akun')
+			->where('a.id_toko', $this->userdata->id_toko)
+			->where('a.id_arus_kas', $id)
+			->get()
+			->row();
+		$data = [
+			'id_kas' => $kas->id_kas,
+			'tgl' => $kas->tgl,
+			'nm_akun' => $kas->nama_akun,
+			'nominal' => $kas->nominal,
+			'ket' => $kas->ket,
+		];
+		$this->rview('arus_kas/arus_kas_read', $data);
 		// $this->rview('arus_kas/arus_kas_form', $data);
 	}
 	public function update_masuk($id)
 	{
 
 		$id_kas = '1';
-			$j_kas = 'Edit Kas Masuk';
-			$nama_kas = 'Nama Pendapatan';
-			$data_akun = $this->db->select('*')
-				->from('akun_sederhana')
-				->where('id_toko', $this->userdata->id_toko)
-				->where('jenis', '1')
-				->get()->result();
+		$j_kas = 'Edit Kas Masuk';
+		$nama_kas = 'Nama Pendapatan';
+		$data_akun = $this->db->select('*')
+			->from('akun_sederhana')
+			->where('id_toko', $this->userdata->id_toko)
+			->where('jenis', '1')
+			->get()->result();
 		$kas = $this->db->select('a.*,ak.nama_akun')
-					->from('arus_kas a')
-					->from('akun_sederhana ak','ak.id_akun=a.id_akun')
-					->where('a.id_toko',$this->userdata->id_toko)
-					->where('a.id_arus_kas',$id)
-					->get()
-					->row();
-					$data = [
-						'nm_akun'=>$kas->nama_akun,					
-						'active_arus_kas_masuk' => 'active',
-						'j' => $j_kas,
-						'nama_kas' => $nama_kas,
-						'action' => site_url('admin/arus_kas/update_action_masuk'),
-						'id' => set_value('id',$id),
-						'tgl' => set_value('tgl', $kas->tgl),
-						'id_kas' => set_value('id_kas', $id_kas),
-						'id_arus_kas' => set_value('id_arus_kas', $id),
-						'id_akun' => set_value('id_akun',$kas->id_akun),
-						'nominal' => set_value('nominal',$kas->nominal),
-						'ket' => set_value('ket',$kas->ket),
-						'data_akun' => $data_akun,
+			->from('arus_kas a')
+			->from('akun_sederhana ak', 'ak.id_akun=a.id_akun')
+			->where('a.id_toko', $this->userdata->id_toko)
+			->where('a.id_arus_kas', $id)
+			->get()
+			->row();
+		$data = [
+			'nm_akun' => $kas->nama_akun,
+			'active_arus_kas_masuk' => 'active',
+			'j' => $j_kas,
+			'nama_kas' => $nama_kas,
+			'action' => site_url('admin/arus_kas/update_action_masuk'),
+			'id' => set_value('id', $id),
+			'tgl' => set_value('tgl', $kas->tgl),
+			'id_kas' => set_value('id_kas', $id_kas),
+			'id_arus_kas' => set_value('id_arus_kas', $id),
+			'id_akun' => set_value('id_akun', $kas->id_akun),
+			'nominal' => set_value('nominal', $kas->nominal),
+			'ket' => set_value('ket', $kas->ket),
+			'data_akun' => $data_akun,
 
-					];
-					
+		];
 
-		$this->rview('arus_kas/arus_kas_form',$data);
+
+		$this->rview('arus_kas/arus_kas_form', $data);
 		// $this->rview('arus_kas/arus_kas_form', $data);
 	}
 	public function update_keluar($id)
 	{
 
 		$id_kas = '2';
-			$j_kas = 'Edit Kas Keluar';
-			$nama_kas = 'Nama Pengeluaran';
-			$data_akun = $this->db->select('*')
-				->from('akun_sederhana')
-				->where('id_toko', $this->userdata->id_toko)
-				->where('jenis', '2')
-				->get()->result();
+		$j_kas = 'Edit Kas Keluar';
+		$nama_kas = 'Nama Pengeluaran';
+		$data_akun = $this->db->select('*')
+			->from('akun_sederhana')
+			->where('id_toko', $this->userdata->id_toko)
+			->where('jenis', '2')
+			->get()->result();
 		$kas = $this->db->select('a.*,ak.nama_akun')
-					->from('arus_kas a')
-					->from('akun_sederhana ak','ak.id_akun=a.id_akun')
-					->where('a.id_toko',$this->userdata->id_toko)
-					->where('a.id_arus_kas',$id)
-					->get()
-					->row();
-					$data = [
-						'nm_akun'=>$kas->nama_akun,					
-						'active_arus_kas_masuk' => 'active',
-						'j' => $j_kas,
-						'nama_kas' => $nama_kas,
-						'action' => site_url('admin/arus_kas/update_action_keluar'),
-						'id' => set_value('id',$id),
-						'tgl' => set_value('tgl', $kas->tgl),
-						'id_kas' => set_value('id_kas', $id_kas),
-						'id_arus_kas' => set_value('id_arus_kas', $id),
-						'id_akun' => set_value('id_akun',$kas->id_akun),
-						'nominal' => set_value('nominal',$kas->nominal),
-						'ket' => set_value('ket',$kas->ket),
-						'data_akun' => $data_akun,
+			->from('arus_kas a')
+			->from('akun_sederhana ak', 'ak.id_akun=a.id_akun')
+			->where('a.id_toko', $this->userdata->id_toko)
+			->where('a.id_arus_kas', $id)
+			->get()
+			->row();
+		$data = [
+			'nm_akun' => $kas->nama_akun,
+			'active_arus_kas_masuk' => 'active',
+			'j' => $j_kas,
+			'nama_kas' => $nama_kas,
+			'action' => site_url('admin/arus_kas/update_action_keluar'),
+			'id' => set_value('id', $id),
+			'tgl' => set_value('tgl', $kas->tgl),
+			'id_kas' => set_value('id_kas', $id_kas),
+			'id_arus_kas' => set_value('id_arus_kas', $id),
+			'id_akun' => set_value('id_akun', $kas->id_akun),
+			'nominal' => set_value('nominal', $kas->nominal),
+			'ket' => set_value('ket', $kas->ket),
+			'data_akun' => $data_akun,
 
-					];
-					
+		];
 
-		$this->rview('arus_kas/arus_kas_form',$data);
+
+		$this->rview('arus_kas/arus_kas_form', $data);
 		// $this->rview('arus_kas/arus_kas_form', $data);
 	}
 
@@ -405,10 +405,10 @@ class Arus_kas extends AI_Admin
 				'nominal' => str_replace('.', '', $this->input->post('nominal', true)),
 				'ket' => $this->input->post('ket', true),
 			);
-			
+
 			$this->db->where('id_arus_kas', $id);
 			$r = $this->db->update('arus_kas', $data);
-			
+
 			if ($r) {
 				$this->session->set_flashdata('message', 'Update Record Success');
 				redirect(site_url('admin/arus_kas/masuk'));
@@ -420,13 +420,13 @@ class Arus_kas extends AI_Admin
 				} else {
 					echo "Unknown Database Error.";
 				}
-			
+
 				// Set flashdata based on update result
 				$this->session->set_flashdata('message', 'Update Record Failed');
 				redirect(site_url('admin/arus_kas/masuk'));
 			}
-			
-			
+
+
 		}
 	}
 	public function update_action_keluar()
@@ -444,10 +444,10 @@ class Arus_kas extends AI_Admin
 				'nominal' => str_replace('.', '', $this->input->post('nominal', true)),
 				'ket' => $this->input->post('ket', true),
 			);
-			
+
 			$this->db->where('id_arus_kas', $id);
 			$r = $this->db->update('arus_kas', $data);
-			
+
 			if ($r) {
 				$this->session->set_flashdata('message', 'Update Record Success');
 				redirect(site_url('admin/arus_kas/keluar'));
@@ -459,38 +459,40 @@ class Arus_kas extends AI_Admin
 				} else {
 					echo "Unknown Database Error.";
 				}
-			
+
 				// Set flashdata based on update result
 				$this->session->set_flashdata('message', 'Update Record Failed');
 				redirect(site_url('admin/arus_kas/keluar'));
 			}
-			
-			
+
+
 		}
 	}
 
-	public function delete_masuk($id){
+	public function delete_masuk($id)
+	{
 		$this->db->where('id_arus_kas', $id);
 		$this->db->delete('arus_kas');
-		
+
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('message', 'Delete Record Success');
 		} else {
 			$this->session->set_flashdata('message', 'Delete Record Failed');
 		}
-		
+
 		redirect(site_url('admin/arus_kas/masuk'));
 	}
-	public function delete_keluar($id){
+	public function delete_keluar($id)
+	{
 		$this->db->where('id_arus_kas', $id);
 		$this->db->delete('arus_kas');
-		
+
 		if ($this->db->affected_rows() > 0) {
 			$this->session->set_flashdata('message', 'Delete Record Success');
 		} else {
 			$this->session->set_flashdata('message', 'Delete Record Failed');
 		}
-		
+
 		redirect(site_url('admin/arus_kas/keluar'));
 	}
 
