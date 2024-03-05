@@ -146,6 +146,8 @@
                                 <option value="2" <?php echo $pembayaran == 2 ? 'selected' : ''; ?>>KREDIT</option>
                                 <option value="3" <?php echo $pembayaran == 3 ? 'selected' : ''; ?>>TRANSFER</option>
                                 <option value="4" <?php echo $pembayaran == 4 ? 'selected' : ''; ?>>SPLIT</option>
+                                <option value="5" <?php echo $pembayaran == 5 ? 'selected' : ''; ?>>QRIS</option>
+                                <option value="6" <?php echo $pembayaran == 6 ? 'selected' : ''; ?>>DEBIT</option>
                                 <!-- <?php 
                                 foreach ($data_kasir as $key_kasir):
                                   if($kasir == $key_kasir->id_users) {
@@ -278,8 +280,12 @@
                               $pembayaran = "KREDIT";
                             } else if($key->pembayaran=="3"){
                               $pembayaran = "TRANSFER";
-                            } else{
+                            } else if($key->pembayaran=="4"){
                               $pembayaran = "SPLIT";
+                            } else if($key->pembayaran=="5"){
+                              $pembayaran = "QRIS";
+                            } else{
+                              $pembayaran = "DEBIT";
                               
                                   
 

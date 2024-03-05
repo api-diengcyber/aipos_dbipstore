@@ -98,6 +98,10 @@
                             <input type="text" class="form-control" name="bank" id="bank" placeholder="Bank" value="<?php echo $bank; ?>" />
                         </div>
                         <div class="form-group">
+                            <label for="varchar">Nomor Rekening <?php echo form_error('no_rek') ?></label>
+                            <input type="text" class="form-control" name="no_rek" id="no_rek" placeholder="Nomor Rekening" value="<?php echo $no_rek; ?>" />
+                        </div>
+                        <!-- <div class="form-group">
                             <label for="varchar">Akun 1 <?php echo form_error('akun_1') ?></label>
                             <select class="form-control" name="akun_1" id="akun_1">
                                 <option value="">-- Pilih Akun --</option>
@@ -114,7 +118,7 @@
                                 <option value="<?php echo $key->id ?>" <?php echo $key->id==$akun_2?"selected":"" ?>><?php echo $key->kode.' '.$key->akun ?></option>
                             <?php endforeach ?>
                             </select>
-                        </div>
+                        </div> -->
                         <input type="hidden" name="id" value="<?php echo $id; ?>" /> 
                         <button type="submit" class="btn btn-primary"><?php echo $button ?></button> 
                         <a href="<?php echo site_url('admin/pil_bank') ?>" class="btn btn-default">Cancel</a>

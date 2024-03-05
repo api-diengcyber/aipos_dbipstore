@@ -38,19 +38,19 @@ class Arus_kas_model extends CI_Model {
         $this->datatables->join('akun_sederhana a', 'ak.id_akun=a.id_akun AND a.id_toko="'.$id_toko.'"');
         $this->datatables->where('ak.id_toko', $id_toko);
         $this->datatables->where('ak.id_kas', '1');
-        $this->datatables->add_column('action', anchor(site_url('arus_kas/read/$1'),'<button type="button" class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('arus_kas/update/$1'),'<button type="button" class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('arus_kas/delete/$1'),'<button type="button" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash bigger-120"></i></button>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_arus_kas');
+        $this->datatables->add_column('action', anchor(site_url('admin/arus_kas/read_masuk/$1'),'<button type="button" class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('admin/arus_kas/update_masuk/$1'),'<button type="button" class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('admin/arus_kas/delete_masuk/$1'),'<button type="button" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash bigger-120"></i></button>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_arus_kas');
         $this->db->order_by('ak.id_arus_kas', 'desc');
         return $this->datatables->generate();
     }
 
     function json_keluar($id_toko) {
-        $data_login = $this->Tampilan_retail_model->cek_login();
+        // $data_login = $this->Tampilan_retail_model->cek_login();
         $this->datatables->select('ak.id, ak.id_arus_kas, ak.id_toko, ak.tgl, ak.id_kas, ak.id_akun, ak.nominal, ak.ket, a.nama_akun as nm_akun');
         $this->datatables->from('arus_kas ak');
-        $this->datatables->join('akun_sederhana a', 'ak.id_akun=a.id_akun AND a.id_toko="'.$data_login['id_toko'].'"');
-        $this->datatables->where('ak.id_toko', $data_login['id_toko']);
+        $this->datatables->join('akun_sederhana a', 'ak.id_akun=a.id_akun AND a.id_toko="'.$this->userdata->id_toko.'"');
+        $this->datatables->where('ak.id_toko', $this->userdata->id_toko);
         $this->datatables->where('ak.id_kas', '2');
-        $this->datatables->add_column('action', anchor(site_url('arus_kas/read/$1'),'<button type="button" class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('arus_kas/update/$1'),'<button type="button" class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('arus_kas/delete/$1'),'<button type="button" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash bigger-120"></i></button>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_arus_kas');
+        $this->datatables->add_column('action', anchor(site_url('admin/arus_kas/read_keluar/$1'),'<button type="button" class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('admin/arus_kas/update_keluar/$1'),'<button type="button" class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('admin/arus_kas/delete_keluar/$1'),'<button type="button" class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash bigger-120"></i></button>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_arus_kas');
         $this->db->order_by('ak.id_arus_kas', 'desc');
         return $this->datatables->generate();
     }

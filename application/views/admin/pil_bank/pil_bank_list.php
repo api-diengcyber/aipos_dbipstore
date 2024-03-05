@@ -109,8 +109,8 @@
                             <tr>
                                 <th width="80px">No</th>
                                 <th>Bank</th>
-                                <th>Akun 1</th>
-                                <th>Akun 2</th>
+                                <th>No Rek</th>
+                                <!-- <th>Akun 2</th> -->
                                 <th width="200px">Action</th>
                             </tr>
                         </thead>
@@ -154,7 +154,9 @@
                                     {
                                         "data": "id",
                                         "orderable": false
-                                    },{"data": "bank"},{"data": "kode_akun"},{"data": "kode_akun_2"},
+                                    },{"data": "bank"},{"data": "no_rek"}
+                                    ,
+                                    // {"data": "kode_akun_2"},
                                     {
                                         "data" : "action",
                                         "orderable": false,

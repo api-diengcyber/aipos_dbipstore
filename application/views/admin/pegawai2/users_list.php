@@ -158,9 +158,8 @@
                               <th>Nama</th>
                               <?php                  
                             }else{?>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Alamat</th>
+                            <th>Nama Lengkap</th>
+                            <!-- <th>Alamat</th> -->
                             <th>Phone</th>
                             <th>Level</th>
            
@@ -175,6 +174,7 @@
                             <th>Nominal Lembur</th>
                             <th>Target</th>
                             <th>Nominal Target</th>
+                            <th>Total Nominal</th>
                             <th width="200px">Action</th>
                         </tr>
                     </thead>
@@ -223,11 +223,17 @@
                                           },
                                           // {"data": "email"},
                                           {"data": "nama"},
+                                          
                                           // {"data": "last_name"},
                                           // {"data": "alamat"},
                                           // {"data": "phone"},{"data": "t_level", "searchable": false },{"data": "t_active", "searchable": false },
-                                          {"data": "beban_per"},
+                                          {"data": "hari_aktif"},
                                           {"data": "nominal"},
+                                          {"data": "lembur"},
+                                          {"data": "nominal_lembur"},
+                                          {"data": "target"},
+                                          {"data": "nominal_target"},
+                                          {"data": "total_nominal"},
                                           {
                                               "data" : "action",
                                               "orderable": false,
@@ -246,6 +252,9 @@
                                             $('td:eq(5)', row).css({'background-color':'yellow'});
                                           }
                                           $('td:eq(3)', row).html(tandaPemisahTitik(data.nominal*1));
+                                          $('td:eq(5)', row).html(tandaPemisahTitik(data.nominal_lembur*1));
+                                          $('td:eq(7)', row).html(tandaPemisahTitik(data.nominal_target*1));
+                                          $('td:eq(8)', row).html(tandaPemisahTitik(data.total_nominal*1));
                                           var info = this.fnPagingInfo();
                                           var page = info.iPage;
                                           var length = info.iLength;
@@ -295,9 +304,8 @@
                                               "orderable": false
                                           },
                                           {"data": "email"},
-                                          {"data": "first_name"},
-                                          {"data": "last_name"},
-                                          {"data": "alamat"},
+                                          {"data": "full_name"},
+                                          // {"data": "alamat"},
                                           {"data": "phone"},{"data": "t_level", "searchable": false },{"data": "t_active", "searchable": false },
                                           {"data": "hari_aktif"},
                                           {"data": "nominal"},
@@ -305,6 +313,7 @@
                                           {"data": "nominal_lembur"},
                                           {"data": "target"},
                                           {"data": "nominal_target"},
+                                          {"data": "total_nominal"},
                                           {
                                               "data" : "action",
                                               "orderable": false,
@@ -326,7 +335,10 @@
                                             $('#btnActive', row).attr("class","btn btn-primary btn-xs");
                                             $('#iconActive', row).attr("class","ace-icon glyphicon glyphicon-check bigger-120");
                                           }
-                                          $('td:eq(9)', row).html(tandaPemisahTitik(data.nominal*1));
+                                          $('td:eq(7)', row).html(tandaPemisahTitik(data.nominal*1));
+                                          $('td:eq(9)', row).html(tandaPemisahTitik(data.nominal_lembur*1));
+                                          $('td:eq(11)', row).html(tandaPemisahTitik(data.nominal_target*1));
+                                          $('td:eq(12)', row).html(tandaPemisahTitik(data.total_nominal*1));
                                           var info = this.fnPagingInfo();
                                           var page = info.iPage;
                                           var length = info.iLength;

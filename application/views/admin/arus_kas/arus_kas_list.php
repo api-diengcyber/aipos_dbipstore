@@ -213,7 +213,7 @@
 											<?= $no++ ?>
 										</td>
 										<td>
-											-
+											(bulan-tahun <?=$b->bulan?>)
 										</td>
 										<td>
 											-
@@ -239,12 +239,12 @@
 											-
 										</td>
 										<td>
-											<?= number_format($b->nominal / $b->beban_per) ?>
+											<?= number_format($b->nominal / $b->hari_aktif) ?>
 										</td>
 									</tr>
 
 								<?php
-									$jml_beban_keluar += ($b->nominal / $b->beban_per);
+									$jml_beban_keluar += ($b->nominal / $b->hari_aktif);
 								}
 
 
