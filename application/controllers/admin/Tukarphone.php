@@ -37,6 +37,8 @@ class Tukarphone extends AI_Admin
     public function create_action()
     {
         $this->db->insert('tukarphone', [
+            'id_toko' => $this->userdata->id_toko,
+            'id_users' => $this->userdata->id_users,
             'tgl' => date('d-m-Y H:i:s'),
             'nama_penukar' => $this->input->post('nama_penukar'),
             'alamat_penukar' => $this->input->post('alamat_penukar'),
@@ -45,16 +47,22 @@ class Tukarphone extends AI_Admin
         redirect(site_url('admin/tukarphone'));
     }
 
-    public function aksi($aksi = '')
+    public function aksi($aksi = '', $id = '')
     {
         $array = array(
-            'tukartambah' => 1,
+            'tukarphone_id' => $id,
+            'tukarphone_kode' => md5($id),
         );
         $this->session->set_userdata($array);
+
+        $this->db->where('id_toko', $this->userdata->id_toko);
+        $this->db->where('id_users', $this->userdata->id_users);
+        $this->db->delete('orders_temp');
+
         if ($aksi == 'penjualan') {
-            redirect(site_url('admin/penjualan_retail/create/?tp=' . md5($this->userdata->id_users)));
+            redirect(site_url('admin/penjualan_retail/create/?tp=' . $array['tukarphone_kode']));
         } else {
-            redirect(site_url('admin/pembelian/create/?tp=' . md5($this->userdata->id_users)));
+            redirect(site_url('admin/pembelian/create/?tp=' . $array['tukarphone_kode']));
         }
     }
 }

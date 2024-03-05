@@ -9,7 +9,7 @@ class Penjualan_retail extends AI_Admin
     {
         parent::__construct();
         $this->libraries('escpos');
-        $this->models('Produk_retail_model, Penjualan_retail_model, Transaksi_penjualan_model, Member_retail_model, Orders_temp_retail_model, Orders_detail_retail_model, Piutang_retail_model, Pengaturan_akuntansi_model, Toko_retail_model, User_retail_model, Stok_produk_model, Pembelian_retail_model, Printer_model, Recta_print_model, Pengaturan_opsi_model:M_opsi');
+        $this->models('Produk_retail_model, Penjualan_retail_model, Transaksi_penjualan_model, Member_retail_model, Orders_temp_retail_model, Orders_detail_retail_model, Piutang_retail_model, Pengaturan_akuntansi_model, Toko_retail_model, User_retail_model, Stok_produk_model, Pembelian_retail_model, Printer_model, Recta_print_model, Pengaturan_opsi_model:M_opsi, Tukarphone_model');
         $data = $this->M_opsi->get_opsi_stok($this->userdata->id_toko);
         $this->status =  $data->opsi;
     }
@@ -142,6 +142,11 @@ class Penjualan_retail extends AI_Admin
 
     public function create($id_order = '')
     {
+        $tp = $this->input->get('tp');
+        if (empty($tp)) {
+            $this->session->unset_userdata('tukartambah_id');
+            $this->session->unset_userdata('tukartambah_kode');
+        }
 
         //
         $no_faktur = $this->Transaksi_penjualan_model->get_faktur($this->userdata->id_toko, date('d-m-Y'), 1);
@@ -364,12 +369,20 @@ class Penjualan_retail extends AI_Admin
         ];
         $r = $this->Transaksi_penjualan_model->action($this->userdata->id_toko, $data_i);
 
+        $last_id = $this->db->select_max('id_orders_2', 'id_orders')
+            ->from('orders')
+            ->where('id_toko', $this->userdata->id_toko)
+            ->get()
+            ->row();
+
+        $session_tukarphone_id = $this->session->userdata('tukarphone_id');
+        if (!empty($session_tukarphone_id)) {
+            $this->Tukarphone_model->update($session_tukarphone_id, [
+                'id_orders' => $last_id->id_orders,
+            ]);
+        }
+
         if ($data_i['pembayaran'] == 4) {
-            $last_id = $this->db->select_max('id_orders_2', 'id_orders')
-                ->from('orders')
-                ->where('id_toko', $this->userdata->id_toko)
-                ->get()
-                ->row();
             $data_split = [
                 'id_orders' => $last_id->id_orders,
                 'id_toko'   => $this->userdata->id_toko,
@@ -378,8 +391,6 @@ class Penjualan_retail extends AI_Admin
                 'deadline' => $this->input->post('deadline_split_2'),
                 'nominal'   =>  $this->input->post('nominal_split_2')
             ];
-
-
             $this->db->insert('split_bayar', $data_split);
         }
         echo json_encode($r);

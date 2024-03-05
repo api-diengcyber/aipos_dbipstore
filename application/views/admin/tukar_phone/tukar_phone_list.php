@@ -116,7 +116,8 @@
                                 <th>Nama Penukar</th>
                                 <th>Alamat Penukar</th>
                                 <th>No HP Penukar</th>
-                                <th>Aksi</th>
+                                <th>Penjualan</th>
+                                <th>Pembelian</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -158,7 +159,7 @@
             oLanguage: {
                 sProcessing: "loading..."
             },
-            pageLength: <?php echo $this->session->userdata("page") * 1 ?>,
+            pageLength: 10,
             paging: true,
             processing: true,
             serverSide: true,
@@ -179,12 +180,25 @@
                     "data": "no_hp_penukar"
                 },
                 {
-                    "data": "action",
+                    "data": "id_orders",
                     "orderable": false,
                     "className": "text-center",
-                    render: function(data) {
-                        if (data) return data;
-                        return '';
+                    render: function(data, z, row) {
+                        if (data * 1 > 0) {
+                            return row['action_3'];
+                        }
+                        return row['action_1'];
+                    }
+                },
+                {
+                    "data": "id_faktur",
+                    "orderable": false,
+                    "className": "text-center",
+                    render: function(data, z, row) {
+                        if (data * 1 > 0) {
+                            return row['action_4'];
+                        }
+                        return row['action_2'];
                     }
                 }
             ],

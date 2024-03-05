@@ -783,6 +783,17 @@
                         </select>
                       </div>
                     </div>
+                    <?php
+                    $no_hp4 = '';
+                    if (!empty($this->session->userdata('tukarphone_id'))) {
+                      $row_tp = $this->db->where('id', $this->session->userdata('tukarphone_id'))->get('tukarphone')->row();
+                      if ($row_tp) {
+                        $nama_pembeli = $row_tp->nama_penukar;
+                        $alamat_pembeli = $row_tp->alamat_penukar;
+                        $no_hp4 = $row_tp->no_hp_penukar;
+                      }
+                    }
+                    ?>
                     <div class="col-xs-3" style="padding-left:0px;">
                       <div class="form-group">
                         <input type="text" class="form-control nama_pembeli input-2" autocomplete="off" value="<?php echo $nama_pembeli ?>" placeholder="Nama Pembeli" />
@@ -795,7 +806,7 @@
                     </div>
                     <div class="col-xs-3" style="padding-left:0px;">
                       <div class="form-group">
-                        <input type="text" class="form-control no_hp input-2" autocomplete="off" value="" placeholder="No HP" />
+                        <input type="text" class="form-control no_hp input-2" autocomplete="off" value="<?php echo $no_hp4 ?>" placeholder="No HP" />
                       </div>
                     </div>
                     <!-- <div class="col-xs-2" style="padding-left:0px;padding-top:8px">
@@ -1908,7 +1919,7 @@
                           <?php foreach ($data_expedisi as $key_e) : ?>
                             <option value="<?php //echo $key_e->id 
                                               ?>"><?php //echo $key_e->nama_expedisi 
-                                                                          ?></option>
+                                                    ?></option>
                           <?php endforeach ?>
                         </select>
                       </div>
@@ -2265,7 +2276,7 @@
           $(".nama_pembeli2").val("<?php echo $nama_pembeli ?>");
           $(".nama_pembeli2").removeAttr("readonly");
           $(".alamat_pembeli").val("<?php echo $alamat_pembeli ?>");
-          $(".no_hp").val("");
+          $(".no_hp").val("<?php echo $no_hp4 ?>");
           $(".panelPembayaran").addClass("hide");
           $(".panelSales").addClass("hide");
           $(".panelSales select").html('<option value="">-- Pilih Sales --</option>');
