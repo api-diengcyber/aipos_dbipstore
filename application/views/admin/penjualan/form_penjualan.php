@@ -2005,8 +2005,8 @@
                     <select name="id_expedisi" class="input-2 id_expedisi" style="width:100%;">
                       <option value="">-- Pilih Ekspedisi --</option>
                       <?php foreach ($data_expedisi as $key_e): ?>
-                        <option value="<?php //echo $key_e->id    ?>">
-                          <?php //echo $key_e->nama_expedisi    ?>
+                        <option value="<?php //echo $key_e->id     ?>">
+                          <?php //echo $key_e->nama_expedisi     ?>
                         </option>
                       <?php endforeach ?>
                     </select>
@@ -2448,7 +2448,7 @@
     // 
 
     <?php if (!empty($id_member)) { ?>
-      // var get_id = <?php // echo $id_member    ?>;
+      // var get_id = <?php // echo $id_member     ?>;
       // for (var ip in data_pembeli) {
       //   if (data_pembeli[ip].value==get_id) {
       //     $(".status_member").attr("disabled", "disabled");
@@ -3368,7 +3368,7 @@
     //     if ($(this).val() != '') {
     //       addOptionPembayaran();
     //       $.ajax({
-    //         url: '<?php // echo base_url("admin/penjualan_retail/getMemberById");   ?>',
+    //         url: '<?php // echo base_url("admin/penjualan_retail/getMemberById");    ?>',
     //         type: 'post',
     //         data: 'id='+$(this).val(),
     //         success:function(response){
