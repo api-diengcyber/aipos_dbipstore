@@ -11,7 +11,7 @@ class Tukarphone extends AI_Admin
         $this->load->model('Tukarphone_model');
     }
 
-    public function json($kode = '')
+    public function json()
     {
         header('Content-Type: application/json');
         echo $this->Tukarphone_model->json($this->userdata->id_toko);
@@ -27,10 +27,10 @@ class Tukarphone extends AI_Admin
 
     public function create()
     {
-        $data = array(
+        $data = [
             'active_tukar_phone' => 'active',
             'action' => site_url('admin/tukarphone/create_action'),
-        );
+        ];
         $this->view('tukar_phone/tukar_phone_form', $data);
     }
 

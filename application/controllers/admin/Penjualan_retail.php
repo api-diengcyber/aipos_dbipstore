@@ -533,8 +533,6 @@ class Penjualan_retail extends AI_Admin
     }
     public function wa_nota_penjualan($faktur = "", $bayar = 0, $print = 1)
     {
-
-
         error_reporting(0);
         $row_orders = $this->Penjualan_retail_model->get_by_no_faktur($faktur);
         $bayar = $row_orders->bayar;
