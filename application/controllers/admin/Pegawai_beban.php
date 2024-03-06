@@ -7,7 +7,7 @@ class Pegawai_beban extends AI_Admin
 {
     function __construct()
     {
-        parent::__construct();   
+        parent::__construct();
         $this->models('Pegawai_retail_model, Member_retail_model');
         $this->models('User_retail_model');
     }
@@ -15,47 +15,49 @@ class Pegawai_beban extends AI_Admin
     public function karyawan()
     {
         $data_member = $this->db->select('id_member, id_sales, nama, alamat, telp')
-                    ->from('member')
-                    ->where('id_toko', $this->userdata->id_toko)
-                    ->where('id_sales > 0')
-                    ->get()->result();
-                    $karyawan = $this->db->select('u.*') 
-                               ->from('users u') 
-                               ->join('beban b','b.id_users=u.id_users')
-                               ->where('u.id_users!=',$this->userdata->id_users)
-                               ->where('u.id_toko',$this->userdata->id_toko) 
-                               ->get()
-                               ->result();
-                             //  var_dump($karyawan);
-                    
-                               
-            $data = array(
+            ->from('member')
+            ->where('id_toko', $this->userdata->id_toko)
+            ->where('id_sales > 0')
+            ->get()->result();
+        $karyawan = $this->db->select('u.*')
+            ->from('users u')
+            ->join('beban b', 'b.id_users=u.id_users')
+            ->where('u.id_users!=', $this->userdata->id_users)
+            ->where('u.id_toko', $this->userdata->id_toko)
+            ->get()
+            ->result();
+        //  var_dump($karyawan);
+
+
+        $data = array(
             'beban_karyawan_active' => 'active',
             'data_member' => $data_member,
             'type' => 'karyawan',
-            );
-            $this->view('pegawai2/users_list', $data);
+        );
+        $this->view('pegawai2/users_list', $data);
     }
     public function non_karyawan()
     {
         $data_member = $this->db->select('id_member, id_sales, nama, alamat, telp')
-                    ->from('member')
-                    ->where('id_toko', $this->userdata->id_toko)
-                    ->where('id_sales > 0')
-                    ->get()->result();
-            $data = array(
+            ->from('member')
+            ->where('id_toko', $this->userdata->id_toko)
+            ->where('id_sales > 0')
+            ->get()->result();
+        $data = array(
             'beban_non_karyawan_active' => 'active',
             'data_member' => $data_member,
             'type' => 'non_karyawan',
-            );
-            $this->view('pegawai2/users_list', $data);
+        );
+        $this->view('pegawai2/users_list', $data);
     }
 
-    public function json($level = NULL) {
+    public function json($level = NULL)
+    {
         header('Content-Type: application/json');
         echo $this->User_retail_model->json_beban_id_toko($this->userdata->id_toko, 'admin');
     }
-    public function json_non() {
+    public function json_non()
+    {
         header('Content-Type: application/json');
         echo $this->User_retail_model->json_beban_non_id_toko();
     }
@@ -65,35 +67,35 @@ class Pegawai_beban extends AI_Admin
     public function index()
     {
 
-        if($this->input->get('karyawan')){
+        if ($this->input->get('karyawan')) {
             $this->karyawan();
         }
 
         $data_member = $this->db->select('id_member, id_sales, nama, alamat, telp')
-                                ->from('member')
-                                ->where('id_toko', $this->userdata->id_toko)
-                                ->where('id_sales > 0')
-                                ->get()->result();
+            ->from('member')
+            ->where('id_toko', $this->userdata->id_toko)
+            ->where('id_sales > 0')
+            ->get()->result();
         $data = array(
             'beban_karyawan_active' => 'active',
-            'data_member' => $data_member, 
-            'type'=> 'karyawan'
+            'data_member' => $data_member,
+            'type' => 'karyawan'
         );
         $this->view('pegawai2/users_list', $data);
-    } 
-    
+    }
+
     // public function json() {
     //     header('Content-Type: application/json');
     //     echo $this->Pegawai_retail_model->json_sales($this->userdata->id_toko);
     // }
 
-    public function read($id) 
+    public function read($id)
     {
         $row = $this->db->select('b.*,u.*')
             ->from('beban b')
-            ->join('users u','u.id_users=b.id_users')
-            ->where('b.id_beban',$id)
-            ->where('b.id_toko',$this->userdata->id_toko)
+            ->join('users u', 'u.id_users=b.id_users')
+            ->where('b.id_beban', $id)
+            ->where('b.id_toko', $this->userdata->id_toko)
             ->get()
             ->row();
         if ($row) {
@@ -136,13 +138,13 @@ class Pegawai_beban extends AI_Admin
             redirect(site_url('admin/pegawai_beban'));
         }
     }
-    public function read_non($id) 
+    public function read_non($id)
     {
         $row = $this->db->select('b.*')
             ->from('beban b')
             // ->join('users u','u.id_users=b.id_users')
-            ->where('b.id_beban',$id)
-            ->where('b.id_toko',$this->userdata->id_toko)
+            ->where('b.id_beban', $id)
+            ->where('b.id_toko', $this->userdata->id_toko)
             ->get()
             ->row();
         if ($row) {
@@ -156,7 +158,7 @@ class Pegawai_beban extends AI_Admin
                 'id_modul' => $this->userdata->id_modul,
                 'nama_modul' => $this->userdata->nama_modul,
                 'id' => $row->id_beban,
-               
+
                 'hari_aktif' => $row->hari_aktif,
                 'nominal' => $row->nominal,
                 'lembur' => $row->lembur,
@@ -171,14 +173,14 @@ class Pegawai_beban extends AI_Admin
         }
     }
 
-    public function create() 
+    public function create()
     {
         $karyawan = $this->db->select("*")
-                    ->from('users')
-                    ->where('id_toko',$this->userdata->id_toko)
-                    ->where('id_users!=',$this->userdata->id_users)
-                    ->get()
-                    ->result();
+            ->from('users')
+            ->where('id_toko', $this->userdata->id_toko)
+            ->where('id_users!=', $this->userdata->id_users)
+            ->get()
+            ->result();
         // $bulan = $this->db->select("*")
         //             ->from('bulan')
         //             ->get()
@@ -204,27 +206,27 @@ class Pegawai_beban extends AI_Admin
             'password' => set_value('password'),
             'confirm_password' => set_value('confirm_password'),
             'hari_aktif' => set_value('hari_aktif'),
-            'id_user'=> set_value('id_user'),
-            'bulan'=> set_value('bulan'),
-           
-            'lembur'=> set_value('lembur'),
-            'target'=> set_value('target'),
-            'nominal' => set_value('nominal'), 
-            'nominal_lembur'=> set_value('nominal_lembur'),
-            'nominal_target'=> set_value('nominal_target'),
+            'id_user' => set_value('id_user'),
+            'bulan' => set_value('bulan'),
+
+            'lembur' => set_value('lembur'),
+            'target' => set_value('target'),
+            'nominal' => set_value('nominal'),
+            'nominal_lembur' => set_value('nominal_lembur'),
+            'nominal_target' => set_value('nominal_target'),
         );
         // $data['data_toko'] = $this->Member_retail_model->get_by_id_sales_and_not();
         // var_dump($data['bulan']);
         $this->view('pegawai2/users_form', $data);
     }
-    public function create_non() 
+    public function create_non()
     {
         $karyawan = $this->db->select("*")
-                    ->from('users')
-                    ->where('id_toko',$this->userdata->id_toko)
-                    ->where('id_users!=',$this->userdata->id_users)
-                    ->get()
-                    ->result();
+            ->from('users')
+            ->where('id_toko', $this->userdata->id_toko)
+            ->where('id_users!=', $this->userdata->id_users)
+            ->get()
+            ->result();
         $data = array(
             'type' => 'non_karyawan',
             'karyawan' => $karyawan,
@@ -246,21 +248,21 @@ class Pegawai_beban extends AI_Admin
             'confirm_password' => set_value('confirm_password'),
             'hari_aktif' => set_value('hari_aktif'),
             'nama' => set_value('nama'),
-            'id_user'=> set_value('id_user'),
-            'bulan'=> set_value('bulan'),
-           
-            'lembur'=> set_value('lembur'),
-            'target'=> set_value('target'),
-            'nominal' => set_value('nominal'), 
-            'nominal_lembur'=> set_value('nominal_lembur'),
-            'nominal_target'=> set_value('nominal_target'),
+            'id_user' => set_value('id_user'),
+            'bulan' => set_value('bulan'),
+
+            'lembur' => set_value('lembur'),
+            'target' => set_value('target'),
+            'nominal' => set_value('nominal'),
+            'nominal_lembur' => set_value('nominal_lembur'),
+            'nominal_target' => set_value('nominal_target'),
         );
         // $data['data_toko'] = $this->Member_retail_model->get_by_id_sales_and_not();
         // var_dump($data['data_toko']);
         $this->view('pegawai2/users_form', $data);
     }
-    
-    public function create_action() 
+
+    public function create_action()
     {
         // $this->_rules();
         // if ($this->form_validation->run() == FALSE) {
@@ -268,38 +270,39 @@ class Pegawai_beban extends AI_Admin
         //     echo "val";
         // } else {
         //     echo "aa";
-		    // $identity = $this->input->post('email');
-		    // $email = $this->input->post('email');
-            // $password = $this->input->post('password');
-		    $id_users = $this->input->post('id_users');
-		    $bulan = $this->input->post('bulan');
-		    $hari_aktif = $this->input->post('hari_aktif');
-		    $lembur = $this->input->post('lembur');
-		    $nominal_lembur = $this->input->post('nominal_lembur');
-		    $target = $this->input->post('target');
-		    $nominal_target = $this->input->post('nominal_target');
-		    $nominal = $this->input->post('nominal');
-		    
-            $data =  [
-                    'id_toko' => $this->userdata->id_toko,
-                    'id_users' => $id_users,
-                    'hari_aktif' => $hari_aktif,
-                    'bulan' => $bulan,
-                    'lembur' => $lembur,
-                    'nominal_lembur' => $nominal_lembur,
-                    'target' => $target,
-                    'nominal_target' => $nominal_target,
-                    'nominal' => $nominal,
-            ];
-            // var_dump($data);
-            $this->db->insert('beban', $data);
+        // $identity = $this->input->post('email');
+        // $email = $this->input->post('email');
+        // $password = $this->input->post('password');
+        $id_users = $this->input->post('id_users');
+        $bulan = $this->input->post('bulan');
+        $hari_aktif = $this->input->post('hari_aktif');
+        $lembur = $this->input->post('lembur');
+        $nominal_lembur = str_replace('.', '', $this->input->post('nominal_lembur', true));
+        $target = $this->input->post('target');
+        $nominal_target = str_replace('.', '', $this->input->post('nominal_target', true));
+        $nominal =
+            str_replace('.', '', $this->input->post('nominal', true));
 
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('admin/pegawai_beban'));
+        $data = [
+            'id_toko' => $this->userdata->id_toko,
+            'id_users' => $id_users,
+            'hari_aktif' => $hari_aktif,
+            'bulan' => $bulan,
+            'lembur' => $lembur,
+            'nominal_lembur' => $nominal_lembur,
+            'target' => $target,
+            'nominal_target' => $nominal_target,
+            'nominal' => $nominal,
+        ];
+        // var_dump($data);
+        $this->db->insert('beban', $data);
+
+        $this->session->set_flashdata('message', 'Create Record Success');
+        redirect(site_url('admin/pegawai_beban'));
         // }
 
     }
-    public function create_action_none() 
+    public function create_action_none()
     {
         // $this->_rules();
         // if ($this->form_validation->run() == FALSE) {
@@ -307,56 +310,57 @@ class Pegawai_beban extends AI_Admin
         //     echo "val";
         // } else {
         //     echo "aa";
-		    // $identity = $this->input->post('email');
-		    // $email = $this->input->post('email');
-            // $password = $this->input->post('password');
-		    $nama = $this->input->post('nama');
-            
-		    $bulan = $this->input->post('bulan');
-            $hari_aktif = $this->input->post('hari_aktif');
-		    $lembur = $this->input->post('lembur');
-		    $nominal_lembur = $this->input->post('nominal_lembur');
-		    $target = $this->input->post('target');
-		    $nominal_target = $this->input->post('nominal_target');
-		    $nominal = $this->input->post('nominal');
-		    
-            $data =  [
-                    'id_toko' => $this->userdata->id_toko,
-                    'nama' => $nama,
-                    'hari_aktif' => $hari_aktif,
-                    'bulan' => $bulan,
-                    'lembur' => $lembur,
-                    'nominal_lembur' => $nominal_lembur,
-                    'target' => $target,
-                    'nominal_target' => $nominal_target,
-                    'nominal' => $nominal,
-            ];
-            // var_dump($data);
-            $this->db->insert('beban', $data);
+        // $identity = $this->input->post('email');
+        // $email = $this->input->post('email');
+        // $password = $this->input->post('password');
+        $nama = $this->input->post('nama');
 
-            $this->session->set_flashdata('message', 'Create Record Success');
-            redirect(site_url('admin/pegawai_beban/non_karyawan'));
+        $bulan = $this->input->post('bulan');
+        $hari_aktif = $this->input->post('hari_aktif');
+        $lembur = $this->input->post('lembur');
+        $nominal_lembur = str_replace('.', '', $this->input->post('nominal_lembur', true));
+        $target = $this->input->post('target');
+        $nominal_target = str_replace('.', '', $this->input->post('nominal_target', true));
+        $nominal =
+            str_replace('.', '', $this->input->post('nominal', true));
+
+        $data = [
+            'id_toko' => $this->userdata->id_toko,
+            'nama' => $nama,
+            'hari_aktif' => $hari_aktif,
+            'bulan' => $bulan,
+            'lembur' => $lembur,
+            'nominal_lembur' => $nominal_lembur,
+            'target' => $target,
+            'nominal_target' => $nominal_target,
+            'nominal' => $nominal,
+        ];
+        // var_dump($data);
+        $this->db->insert('beban', $data);
+
+        $this->session->set_flashdata('message', 'Create Record Success');
+        redirect(site_url('admin/pegawai_beban/non_karyawan'));
         // }
 
     }
-    
-    public function update($id) 
+
+    public function update($id)
     {
         $row = $this->db->select('b.*')
-                ->from('beban b')
-                ->join('users u','u.id_users=b.id_users')
-                ->where('b.id_beban',$id)
-                ->where('b.id_toko',$this->userdata->id_toko)
-                ->get()
-                ->row();
+            ->from('beban b')
+            ->join('users u', 'u.id_users=b.id_users')
+            ->where('b.id_beban', $id)
+            ->where('b.id_toko', $this->userdata->id_toko)
+            ->get()
+            ->row();
         $karyawan = $this->db->select("*")
-                ->from('users')
-                ->where('id_toko',$this->userdata->id_toko)
-                ->where('id_users!=',$this->userdata->id_users)
-                ->get()
-                ->result();
+            ->from('users')
+            ->where('id_toko', $this->userdata->id_toko)
+            ->where('id_users!=', $this->userdata->id_users)
+            ->get()
+            ->result();
         if ($row) {
-            
+
             $data = array(
                 'type' => 'karyawan',
                 'id_beban' => $id,
@@ -379,13 +383,13 @@ class Pegawai_beban extends AI_Admin
                 // 'email' => set_value('email', $row->email),
                 // 'level' => set_value('level', $row->level),
                 'password' => set_value('password', ''),
-                'hari_aktif' => set_value('hari_aktif',$row->hari_aktif),
-                'nominal' => set_value('nominal',$row->nominal),
-                
-            'lembur'=> set_value('lembur',$row->lembur),
-            'target'=> set_value('target',$row->target), 
-            'nominal_lembur'=> set_value('nominal_lembur',$row->nominal_lembur),
-            'nominal_target'=> set_value('nominal_target',$row->nominal_target),
+                'hari_aktif' => set_value('hari_aktif', $row->hari_aktif),
+                'nominal' => set_value('nominal', $row->nominal),
+
+                'lembur' => set_value('lembur', $row->lembur),
+                'target' => set_value('target', $row->target),
+                'nominal_lembur' => set_value('nominal_lembur', $row->nominal_lembur),
+                'nominal_target' => set_value('nominal_target', $row->nominal_target),
             );
             // var_dump($data);
             // if ($row->level=="4") {
@@ -398,23 +402,23 @@ class Pegawai_beban extends AI_Admin
             redirect(site_url('admin/pegawai_beban'));
         }
     }
-    public function update_non($id) 
+    public function update_non($id)
     {
         $row = $this->db->select('b.*')
-                ->from('beban b')
-                // ->join('users u','u.id_users=b.id_users')
-                ->where('b.id_beban',$id)
-                ->where('b.id_toko',$this->userdata->id_toko)
-                ->get()
-                ->row();
+            ->from('beban b')
+            // ->join('users u','u.id_users=b.id_users')
+            ->where('b.id_beban', $id)
+            ->where('b.id_toko', $this->userdata->id_toko)
+            ->get()
+            ->row();
         $karyawan = $this->db->select("*")
-                ->from('users')
-                ->where('id_toko',$this->userdata->id_toko)
-                ->where('id_users!=',$this->userdata->id_users)
-                ->get()
-                ->result();
+            ->from('users')
+            ->where('id_toko', $this->userdata->id_toko)
+            ->where('id_users!=', $this->userdata->id_users)
+            ->get()
+            ->result();
         if ($row) {
-            
+
             $data = array(
                 'type' => 'non_karyawan',
                 'id_beban' => $id,
@@ -430,23 +434,23 @@ class Pegawai_beban extends AI_Admin
                 'action' => site_url('admin/pegawai_beban/update_action_non'),
                 'id' => set_value('id', $row->id_beban),
                 'id_users' => set_value('id_users', $row->id_users),
-                
+
                 // 'first_name' => set_value('first_name', $row->first_name),
                 // 'phone' => set_value('phone', $row->phone),
                 // 'email' => set_value('email', $row->email),
                 // 'level' => set_value('level', $row->level),
                 'password' => set_value('password', ''),
-                
-                'nama' => set_value('nama',$row->nama),
-                'bulan' => set_value('nama',$row->bulan),
 
-                'hari_aktif' => set_value('hari_aktif',$row->hari_aktif),
-                'nominal' => set_value('nominal',$row->nominal),
-                
-                'lembur'=> set_value('lembur',$row->lembur),
-                'target'=> set_value('target',$row->target), 
-                'nominal_lembur'=> set_value('nominal_lembur',$row->nominal_lembur),
-                'nominal_target'=> set_value('nominal_target',$row->nominal_target),
+                'nama' => set_value('nama', $row->nama),
+                'bulan' => set_value('nama', $row->bulan),
+
+                'hari_aktif' => set_value('hari_aktif', $row->hari_aktif),
+                'nominal' => set_value('nominal', $row->nominal),
+
+                'lembur' => set_value('lembur', $row->lembur),
+                'target' => set_value('target', $row->target),
+                'nominal_lembur' => set_value('nominal_lembur', $row->nominal_lembur),
+                'nominal_target' => set_value('nominal_target', $row->nominal_target),
             );
             // var_dump($data);
             // if ($row->level=="4") {
@@ -459,20 +463,21 @@ class Pegawai_beban extends AI_Admin
             redirect(site_url('admin/pegawai_beban'));
         }
     }
-    
-    public function update_action() 
+
+    public function update_action()
     {
         $id_beban = $this->input->post('id_beban');
         $id_users = $this->input->post('id_users');
         $bulan = $this->input->post('bulan');
         $hari_aktif = $this->input->post('hari_aktif');
         $lembur = $this->input->post('lembur');
-        $nominal_lembur = $this->input->post('nominal_lembur');
+        $nominal_lembur = str_replace('.', '', $this->input->post('nominal_lembur', true));
         $target = $this->input->post('target');
-        $nominal_target = $this->input->post('nominal_target');
-        $nominal = $this->input->post('nominal');
-        
-        $data =  [
+        $nominal_target = str_replace('.', '', $this->input->post('nominal_target', true));
+        $nominal =
+            str_replace('.', '', $this->input->post('nominal', true));
+
+        $data = [
             'id_toko' => $this->userdata->id_toko,
             'id_users' => $id_users,
             'hari_aktif' => $hari_aktif,
@@ -482,12 +487,13 @@ class Pegawai_beban extends AI_Admin
             'target' => $target,
             'nominal_target' => $nominal_target,
             'nominal' => $nominal,
-            ];
-            $this->db->where('id_beban', $id_beban);
-            $this->db->update('beban', $data);;
+        ];
+        $this->db->where('id_beban', $id_beban);
+        $this->db->update('beban', $data);
+        ;
 
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('admin/pegawai_beban/karyawan'));
+        $this->session->set_flashdata('message', 'Update Record Success');
+        redirect(site_url('admin/pegawai_beban/karyawan'));
         // $this->_rules_update();
         // if ($this->form_validation->run() == FALSE) {
         //     $this->update($this->input->post('id_users', TRUE));
@@ -522,7 +528,7 @@ class Pegawai_beban extends AI_Admin
         //     redirect(site_url('admin/pegawai_retail'));
         // }
     }
-    public function update_action_non() 
+    public function update_action_non()
     {
         $id_beban = $this->input->post('id_beban');
         $nama = $this->input->post('nama');
@@ -534,7 +540,7 @@ class Pegawai_beban extends AI_Admin
         $nominal_target = $this->input->post('nominal_target');
         $nominal = $this->input->post('nominal');
 
-        $data =  [
+        $data = [
             'id_toko' => $this->userdata->id_toko,
             'nama' => $nama,
             'hari_aktif' => $hari_aktif,
@@ -544,12 +550,13 @@ class Pegawai_beban extends AI_Admin
             'target' => $target,
             'nominal_target' => $nominal_target,
             'nominal' => $nominal,
-            ];
-            $this->db->where('id_beban', $id_beban);
-            $this->db->update('beban', $data);;
+        ];
+        $this->db->where('id_beban', $id_beban);
+        $this->db->update('beban', $data);
+        ;
 
-            $this->session->set_flashdata('message', 'Update Record Success');
-            redirect(site_url('admin/pegawai_beban/non_karyawan'));
+        $this->session->set_flashdata('message', 'Update Record Success');
+        redirect(site_url('admin/pegawai_beban/non_karyawan'));
         // $this->_rules_update();
         // if ($this->form_validation->run() == FALSE) {
         //     $this->update($this->input->post('id_users', TRUE));
@@ -584,29 +591,29 @@ class Pegawai_beban extends AI_Admin
         //     redirect(site_url('admin/pegawai_retail'));
         // }
     }
-    
-    public function delete_karyawan($id) 
+
+    public function delete_karyawan($id)
     {
 
         $this->db->where('id_beban', $id);
         $this->db->delete('beban');
 
-            $this->session->set_flashdata('message', 'Success Delete Record');
-            redirect(site_url('admin/pegawai_beban/karyawan'));
-        
+        $this->session->set_flashdata('message', 'Success Delete Record');
+        redirect(site_url('admin/pegawai_beban/karyawan'));
+
     }
-    public function delete_karyawan_non($id) 
+    public function delete_karyawan_non($id)
     {
 
         $this->db->where('id_beban', $id);
         $this->db->delete('beban');
 
-            $this->session->set_flashdata('message', 'Success Delete Record');
-            redirect(site_url('admin/pegawai_beban/non_karyawan'));
-        
+        $this->session->set_flashdata('message', 'Success Delete Record');
+        redirect(site_url('admin/pegawai_beban/non_karyawan'));
+
     }
 
-    public function _rules() 
+    public function _rules()
     {
         $this->form_validation->set_rules('id_user', 'user', 'trim|required');
         $this->form_validation->set_rules('hari_aktif', 'hari aktif', 'trim|required');
@@ -626,7 +633,7 @@ class Pegawai_beban extends AI_Admin
         $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');
     }
 
-    public function _rules_update() 
+    public function _rules_update()
     {
         $this->form_validation->set_rules('id_toko', 'id toko', 'trim|required');
         $this->form_validation->set_rules('first_name', 'first name', 'trim|required');
@@ -658,50 +665,50 @@ class Pegawai_beban extends AI_Admin
 
         $kolomhead = 0;
         xlsWriteLabel($tablehead, $kolomhead++, "No");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Id Toko");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Ip Address");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Username");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Password");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Salt");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Email");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Activation Code");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Forgotten Password Code");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Forgotten Password Time");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Remember Code");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Created On");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Last Login");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Active");
-    	xlsWriteLabel($tablehead, $kolomhead++, "First Name");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Last Name");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Company");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Phone");
-    	xlsWriteLabel($tablehead, $kolomhead++, "Level");
+        xlsWriteLabel($tablehead, $kolomhead++, "Id Toko");
+        xlsWriteLabel($tablehead, $kolomhead++, "Ip Address");
+        xlsWriteLabel($tablehead, $kolomhead++, "Username");
+        xlsWriteLabel($tablehead, $kolomhead++, "Password");
+        xlsWriteLabel($tablehead, $kolomhead++, "Salt");
+        xlsWriteLabel($tablehead, $kolomhead++, "Email");
+        xlsWriteLabel($tablehead, $kolomhead++, "Activation Code");
+        xlsWriteLabel($tablehead, $kolomhead++, "Forgotten Password Code");
+        xlsWriteLabel($tablehead, $kolomhead++, "Forgotten Password Time");
+        xlsWriteLabel($tablehead, $kolomhead++, "Remember Code");
+        xlsWriteLabel($tablehead, $kolomhead++, "Created On");
+        xlsWriteLabel($tablehead, $kolomhead++, "Last Login");
+        xlsWriteLabel($tablehead, $kolomhead++, "Active");
+        xlsWriteLabel($tablehead, $kolomhead++, "First Name");
+        xlsWriteLabel($tablehead, $kolomhead++, "Last Name");
+        xlsWriteLabel($tablehead, $kolomhead++, "Company");
+        xlsWriteLabel($tablehead, $kolomhead++, "Phone");
+        xlsWriteLabel($tablehead, $kolomhead++, "Level");
 
-	foreach ($this->Pegawai_retail_model->get_by_id_toko($this->userdata->id_toko) as $data) {
+        foreach ($this->Pegawai_retail_model->get_by_id_toko($this->userdata->id_toko) as $data) {
             $kolombody = 0;
 
             //ubah xlsWriteLabel menjadi xlsWriteNumber untuk kolom numeric
             xlsWriteNumber($tablebody, $kolombody++, $nourut);
-    	    xlsWriteNumber($tablebody, $kolombody++, $data->id_toko);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->ip_address);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->username);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->password);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->salt);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->email);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->activation_code);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->forgotten_password_code);
-    	    xlsWriteNumber($tablebody, $kolombody++, $data->forgotten_password_time);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->remember_code);
-    	    xlsWriteNumber($tablebody, $kolombody++, $data->created_on);
-    	    xlsWriteNumber($tablebody, $kolombody++, $data->last_login);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->active);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->first_name);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->last_name);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->company);
-    	    xlsWriteLabel($tablebody, $kolombody++, $data->phone);
-    	    xlsWriteNumber($tablebody, $kolombody++, $data->level);
+            xlsWriteNumber($tablebody, $kolombody++, $data->id_toko);
+            xlsWriteLabel($tablebody, $kolombody++, $data->ip_address);
+            xlsWriteLabel($tablebody, $kolombody++, $data->username);
+            xlsWriteLabel($tablebody, $kolombody++, $data->password);
+            xlsWriteLabel($tablebody, $kolombody++, $data->salt);
+            xlsWriteLabel($tablebody, $kolombody++, $data->email);
+            xlsWriteLabel($tablebody, $kolombody++, $data->activation_code);
+            xlsWriteLabel($tablebody, $kolombody++, $data->forgotten_password_code);
+            xlsWriteNumber($tablebody, $kolombody++, $data->forgotten_password_time);
+            xlsWriteLabel($tablebody, $kolombody++, $data->remember_code);
+            xlsWriteNumber($tablebody, $kolombody++, $data->created_on);
+            xlsWriteNumber($tablebody, $kolombody++, $data->last_login);
+            xlsWriteLabel($tablebody, $kolombody++, $data->active);
+            xlsWriteLabel($tablebody, $kolombody++, $data->first_name);
+            xlsWriteLabel($tablebody, $kolombody++, $data->last_name);
+            xlsWriteLabel($tablebody, $kolombody++, $data->company);
+            xlsWriteLabel($tablebody, $kolombody++, $data->phone);
+            xlsWriteNumber($tablebody, $kolombody++, $data->level);
 
-	    $tablebody++;
+            $tablebody++;
             $nourut++;
         }
 
@@ -718,8 +725,8 @@ class Pegawai_beban extends AI_Admin
             'users_data' => $this->Pegawai_retail_model->get_by_id_toko($this->userdata->id_toko),
             'start' => 0
         );
-        
-        $this->load->view('retail/admin/pegawai/users_doc',$data);
+
+        $this->load->view('retail/admin/pegawai/users_doc', $data);
     }
 
 }
