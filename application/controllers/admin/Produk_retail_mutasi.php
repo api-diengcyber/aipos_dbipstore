@@ -58,6 +58,25 @@ class Produk_retail_mutasi extends AI_Admin
         $data = $this->db->get('users u')->result();
         echo json_encode($data);
     }
+    public function get_user_cabang_no_admin()
+    {
+        header('Content-Type: application/json');
+        $term = $this->input->post('term');
+        $not_id_users = $this->userdata->id_users;
+        $restrict_produk = $this->input->post('restrict_produk');
+        if (!empty($restrict_produk)) {
+            $this->db->join('produk_retail pr', 'pr.id_toko=u.id_toko AND pr.id_users=u.id_users', 'inner');
+        }
+        $this->db->where('(u.first_name LIKE "%' . $term . '%" OR u.username LIKE "%' . $term . '%" OR u.alamat LIKE "%' . $term . '%")');
+        $this->db->where('u.id_toko', $this->userdata->id_toko);
+        if (!empty($not_id_users)) {
+            $this->db->where('u.id_users !=', $not_id_users);
+        }
+        $this->db->group_by('u.id_users');
+        // $this->db->where('level !=', 1);
+        $data = $this->db->get('users u')->result();
+        echo json_encode($data);
+    }
 
     public function read($id)
     {

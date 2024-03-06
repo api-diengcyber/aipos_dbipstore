@@ -253,7 +253,8 @@
             <a href="<?php echo site_url('admin/pegawai_beban/' . $type) ?>" class="btn btn-default">Cancel</a>
           </form>
 
-          <div class="hr hr32 hr-dotted"></div>
+          <div class="hr hr32 hr-dotted">
+          </div>
 
           <!-- PAGE CONTENT ENDS -->
         </div><!-- /.col -->
