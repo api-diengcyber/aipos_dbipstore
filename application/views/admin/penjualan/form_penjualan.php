@@ -721,13 +721,14 @@
           Penjualan Retail
         </h1>
       </div><!-- /.page-header -->
-      <span class="pull-right">
-        <label class="pull-right inline">
-          <small class="muted smaller-90">Touchscreen :</small>
-          <input type="checkbox" class="ace ace-switch ace-switch-5" id="touchToggle" />
-          <span class="lbl middle"></span>
-        </label>
-      </span><!-- /.col -->
+      <!-- <span class="pull-right">
+            <label class="pull-right inline">
+              <small class="muted smaller-90">Touchscreen :</small>
+              <input type="checkbox" class="ace ace-switch ace-switch-5" id="touchToggle" />
+              <span class="lbl middle"></span>
+            </label>
+          </span> -->
+      <!-- /.col -->
       <div class="row" id="keyboard">
         <div class="col-xs-12">
           <!-- PAGE CONTENT BEGINS -->
@@ -740,7 +741,7 @@
                     <input type="text" name="tgl" class="form-control input-2" id="tampil_tgl_order" placeholder="Tgl Order" value="<?php echo $tgl_order; ?>" readonly />
                   </div>
                 </div>
-                <div class="col-xs-4" style="padding-left:0px;">
+                <div class="col-xs-3" style="padding-left:0px;">
                   <div class="form-group">
                     <label for="varchar"><b>No Faktur</b> <?php echo form_error('no_faktur') ?></label>
                     <input type="text" class="form-control input-2" id="tampil_no_faktur" placeholder="No Faktur" value="<?php echo $no_faktur; ?>" readonly />
@@ -1047,26 +1048,28 @@
           </div>
           <div class="row">
             <div class="col-xs-12">
-              <table id="t" class="table table-striped table-bordered table-hover table-temp">
-                <thead>
-                  <tr>
-                    <th class="center" width="2">No</th>
-                    <th>Nama Barang</th>
-                    <th width="40">Stok</th>
-                    <!-- <th width="100">Pilihan Harga</th> -->
-                    <th class="text-center" width="90">Qty</th>
-                    <th class="text-center" width="90">Qty Bonus</th>
-                    <th class="text-center" width="100">H. Sat</th>
-                    <!-- <th class="text-center" width="80">Disk 1 (%)</th>
-                        <th class="text-center" width="80">Disk 2 (%)</th>
-                        <th class="text-center" width="80">Disk 3 (%)</th> -->
-                    <th class="text-center" width="100">Sub Total</th>
-                    <th class="text-center" width="100">Aksi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                </tbody>
-              </table>
+              <div class="table-responsive">
+                <table id="t" class="table table-striped table-bordered table-hover table-temp">
+                  <thead>
+                    <tr>
+                      <th class="center" width="2">No</th>
+                      <th>Nama Barang</th>
+                      <th width="40">Stok</th>
+                      <!-- <th width="100">Pilihan Harga</th> -->
+                      <th class="text-center" width="90">Qty</th>
+                      <th class="text-center" width="90">Qty Bonus</th>
+                      <th class="text-center" width="100">H. Sat</th>
+                      <!-- <th class="text-center" width="80">Disk 1 (%)</th>
+                          <th class="text-center" width="80">Disk 2 (%)</th>
+                          <th class="text-center" width="80">Disk 3 (%)</th> -->
+                      <th class="text-center" width="100">Sub Total</th>
+                      <th class="text-center" width="100">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
               <div class="row">
                 <div class="col-xs-6">
                   <button type="button" class="btn btn-block btn-lg btn-primary btn-selesai" disabled>Selesai</button>
@@ -2569,6 +2572,7 @@
                   // deskripsi: ,
                 };
               }));
+
             }
           });
         }
@@ -2811,7 +2815,7 @@
       app_total_diskon = 0;
       $('input[name="nama_barang"]').val("");
       $('.btn-selesai').attr("disabled", "disabled");
-      console.log('ok');
+      // console.log('ok');
       $.ajax({
         url: '<?php echo base_url() ?>admin/penjualan_retail/load_temp',
         type: 'post',
@@ -3164,18 +3168,18 @@
     }
     dk(0);
 
-    function isMobileDevice() {
-      return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
-    };
-    if (isMobileDevice() == true) {
-      $('#toggleProduk').click(function() {
-        dp(0, 1);
-      });
-      $('#touchToggle').attr('checked', 'checked');
-      $('#keyboard').toggleClass('d-none');
-      $('.page-content').toggleClass('bgc-blue');
-      $('#touchscreen').toggleClass('d-block');
-    }
+    // function isMobileDevice() {
+    //   return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+    // };
+    // if (isMobileDevice() == true) {
+    //   $('#toggleProduk').click(function() {
+    //     dp(0, 1);
+    //   });
+    //   $('#touchToggle').attr('checked', 'checked');
+    //   $('#keyboard').toggleClass('d-none');
+    //   $('.page-content').toggleClass('bgc-blue');
+    //   $('#touchscreen').toggleClass('d-block');
+    // }
     var afterResponseTouchKat = function() {
       var swipe = $('#kat_product_touch');
       swipe.on('swipeleft', function(e) {

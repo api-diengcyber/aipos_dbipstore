@@ -178,15 +178,8 @@
                   <label for="varchar">Bulan - Tahun
                     <?php echo form_error('bulan') ?>
                   </label>
-                  <!-- <select name="" id="" class="form-control">
-                          <option value="" selected disabled>--Pilih Bulan--</option>
-                          <?php
-                          foreach ($bulan as $b) {
-                            ?>
-                            <option value="<?= $b->id ?>"><?= $b->bulan ?></option>
-                          <?php } ?>
-                        </select> -->
-                  <input type="text" class="form-control datepicker" name="bulan" id="datepicker4" placeholder="Bulan"
+
+                  <input type="text" class="form-control " name="bulan" id="datepicker4" placeholder="Bulan"
                     value="<?php echo $bulan; ?>" />
                 </div>
                 <div class="form-group">
@@ -201,7 +194,8 @@
                     <?php echo form_error('nominal') ?>
                   </label>
                   <input type="text" class="form-control nominal" name="nominal" id="nominal"
-                    placeholder="Nominal Seluruh Hari Aktif" value="<?php echo $nominal; ?>" />
+                    placeholder="Nominal Seluruh Hari Aktif"
+                    value="<?php echo number_format(!empty($nominal) ? $nominal : 0, 0, ',', '.'); ?>" />
                 </div>
               </div>
               <div class="col-sm-6">
@@ -217,7 +211,8 @@
                     <?php echo form_error('nominal_lembur') ?>
                   </label>
                   <input type="text" class="form-control nominal" name="nominal_lembur" id="nominal_lembur"
-                    placeholder="Nominal Seluruh Lembur" value="<?php echo $nominal_lembur; ?>" />
+                    placeholder="Nominal Seluruh Lembur"
+                    value="<?php echo number_format(!empty($nominal_lembur) ? $nominal_lembur : 0, 0, ',', '.'); ?>" />
                 </div>
                 <div class="form-group">
                   <label for="varchar">Jumlah Target
@@ -231,7 +226,8 @@
                     <?php echo form_error('nominal_target') ?>
                   </label>
                   <input type="text" class="form-control nominal" name="nominal_target" id="nominal_target"
-                    placeholder="Nominal Seluruh Target" value="<?php echo $nominal_target; ?>" />
+                    placeholder="Nominal Seluruh Target"
+                    value="<?php echo number_format(!empty($nominal_target) ? $nominal_target : 0, 0, ',', '.'); ?>" />
                 </div>
               </div>
             </div>
