@@ -2802,6 +2802,7 @@ class Penjualan_retail extends AI_Admin
         foreach ($res as $key) {
             $data[$i]['value'] = $key->barcode;
             $data[$i]['label'] = $key->nama_produk;
+            $data[$i]['id_produk'] = $key->id_produk_2;
             $data[$i]['deskripsi'] = $key->deskripsi;
             $data[$i]['type'] = $type;
             $i++;

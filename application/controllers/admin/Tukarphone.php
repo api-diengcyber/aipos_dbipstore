@@ -49,10 +49,10 @@ class Tukarphone extends AI_Admin
 
     public function aksi($aksi = '', $id = '')
     {
-        $array = array(
+        $array = [
             'tukarphone_id' => $id,
             'tukarphone_kode' => md5($id),
-        );
+        ];
         $this->session->set_userdata($array);
 
         $this->db->where('id_toko', $this->userdata->id_toko);

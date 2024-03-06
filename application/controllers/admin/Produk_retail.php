@@ -27,10 +27,16 @@ class Produk_retail extends AI_Admin
 		$this->view('produk/produk_retail_list', $data);
 	}
 
-	public function json($id_produk_2 = '') // parent id
+	public function json($id_produk_2 = '', $id_users = '') // parent id
 	{
 		header('Content-Type: application/json');
-		echo $this->Produk_retail_model->json($this->userdata->id_toko, $id_produk_2);
+		echo $this->Produk_retail_model->json($this->userdata->id_toko, $id_produk_2, $id_users);
+	}
+
+	public function json_new($id_users = '', $id_produk_2 = '')
+	{
+		header('Content-Type: application/json');
+		echo $this->Produk_retail_model->json_new($this->userdata->id_toko, $id_users);
 	}
 
 

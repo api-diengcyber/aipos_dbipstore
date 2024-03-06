@@ -14,8 +14,6 @@ class User_retail_model extends CI_Model
     function __construct()
     {
         parent::__construct();
-
-
     }
 
     // datatables
@@ -195,7 +193,6 @@ class User_retail_model extends CI_Model
         $this->db->where($this->id, $id);
         $this->db->delete($this->table);
     }
-
 }
 
 /* End of file Akun_model.php */

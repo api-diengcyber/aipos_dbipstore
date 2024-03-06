@@ -154,8 +154,8 @@
                   <th>Nama Produk</th>
                   <th>Deskripsi</th>
                   <th>Hrg Jual</th>
-                            <th>Hrg Grosir</th>
-                            <th>Hrg Member</th>
+                  <th>Hrg Grosir</th>
+                  <th>Hrg Member</th>
                   <!-- <th>Hrg 4</th> -->
                   <!-- <th>Hrg 5</th>
                   <th>Hrg 6</th> -->
@@ -207,23 +207,23 @@
                     "data": "barcode"
                   }, {
                     "data": "nama_kategori"
-                  }, 
-                  {                 
-                    "data": "nama_produk",                     
-                  }, 
+                  },
                   {
-                   
-                      "data": "deskripsi",
-                     
-                  }, 
+                    "data": "nama_produk",
+                  },
+                  {
+
+                    "data": "deskripsi",
+
+                  },
                   {
                     "data": "harga_1"
                   }, {
                     "data": "harga_2"
-                  }, 
+                  },
                   {
                     "data": "harga_3"
-                  }, 
+                  },
                   // {
                   //   "data": "harga_4"
                   // }, {

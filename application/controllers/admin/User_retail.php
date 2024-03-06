@@ -345,7 +345,6 @@ class User_retail extends AI_Admin
 
     public function nonactive($id)
     {
-
         $row = $this->User_retail_model->get_by_id($id);
         if ($row) {
             if ($row->level == '2') {
