@@ -1,4 +1,4 @@
-    <style>
+<style>
       .sidebar {
         display: none;
       }
@@ -2461,7 +2461,9 @@
               $("#nominal_tunai").focus();
             }, 80);
           } else {
-
+            $(".panelSplit").addClass("hide");
+            $(".panelSplitPembayaranLainnya").addClass("hide");
+            $(".panelPembayaranLainnya").addClass("hide");
           }
 
           toggleCOD();

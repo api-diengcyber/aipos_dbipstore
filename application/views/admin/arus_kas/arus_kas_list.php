@@ -225,7 +225,8 @@
 											<?= $no++ ?>
 										</td>
 										<td>
-											(bulan-tahun <?= $b->bulan ?>)
+											(bulan-tahun
+											<?= $b->bulan ?>)
 										</td>
 										<td>
 											-
@@ -251,12 +252,12 @@
 											-
 										</td>
 										<td>
-											<?= number_format($b->nominal / $b->hari_aktif) ?>
+											<?= number_format($b->nominal + $b->nominal_lembur + $b->nominal_target) ?>
 										</td>
 									</tr>
 
 									<?php
-									$jml_beban_keluar += ($b->nominal / $b->hari_aktif);
+									$jml_beban_keluar += ($b->nominal + $b->nominal_lembur + $b->nominal_target);
 								}
 
 
