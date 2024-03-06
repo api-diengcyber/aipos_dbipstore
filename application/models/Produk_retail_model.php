@@ -31,11 +31,22 @@ class Produk_retail_model extends CI_Model
         $this->datatables->join('pembelian b', 'p.id_produk_2=b.id_produk AND b.id_users=u.id_users AND b.id_toko=p.id_toko', 'left');
         $this->datatables->join('stok_produk stok', 'p.id_produk_2=stok.id_produk AND stok.id_pembelian=b.id_pembelian AND stok.id_toko=p.id_toko', 'left');
         $this->datatables->join('satuan_produk s', 'p.satuan=s.id_satuan AND s.id_users=u.id_users AND s.id_toko=p.id_toko', 'left');
+
+        if ($this->userdata->level != 1) {
+            // $this->datatables->join('produk_retail_mutasi pm', 'pm.id_produk=p.id_produk_2 AND pm.id_toko=p.id_toko');
+            // $this->datatables->where('pm.id_users_tujuan', $this->userdata->id_users);
+            $this->datatables->where('p.id_users', $this->userdata->id_users);
+        }
+
+
         if (!empty($id_produk_2)) { //parent id
             $this->datatables->where('p.id_produk_2 = ' . $id_produk_2 . ' OR p.parent_id = ' . $id_produk_2);
         } else {
             $this->datatables->where('p.parent_id IS NULL');
+
         }
+
+
 
         // $this->datatables->add_column('deskripsi' ,'' );
         $this->datatables->add_column('input_harga_beli', 'Rp <input type="number" class="text-right" name="harga_beli[]" id="harga_beli" data-id="$1" class="form-control" value="$2" maxlength="13" readonly >', 'id_produk_2, harga_satuan');
@@ -487,8 +498,8 @@ class Produk_retail_model extends CI_Model
             $ins[$t] = array(
                 "id_toko" => $id_toko,
                 "id_users" => $this->userdata->id_users,
-                "barcode"  => $barcode,
-                "id_kategori"  => $objWorksheet->getCellByColumnAndRow(2, $i)->getValue(),
+                "barcode" => $barcode,
+                "id_kategori" => $objWorksheet->getCellByColumnAndRow(2, $i)->getValue(),
                 "nama_produk" => $objWorksheet->getCellByColumnAndRow(3, $i)->getValue(),
                 "deskripsi" => $objWorksheet->getCellByColumnAndRow(4, $i)->getValue(),
                 "harga_1" => $objWorksheet->getCellByColumnAndRow(5, $i)->getValue(),
@@ -534,7 +545,7 @@ class Produk_retail_model extends CI_Model
             $ins[$t] = array(
                 "id_temp" => $t,
                 "id_toko" => $id_toko,
-                "barcode"  => $barcode,
+                "barcode" => $barcode,
                 "nama_produk" => $nama_produk,
                 "kategori" => $kategori,
                 "harga_1" => $harga_1 * 1,
@@ -569,15 +580,15 @@ class Produk_retail_model extends CI_Model
     function get_data_prod($start, $limit, $id_kategori, $id_toko)
     {
         $id_toko = $this->userdata->id_toko;
-        $qry     = $this->db->where('id_toko', $this->userdata->id_toko)->where('id_opsi', 1)->get('opsi')->row();
-        $status  = $qry->opsi;
-        $data    = $this->query_dat_produk(false, '', '', $id_kategori, $status);
-        $data_limit  = $this->query_dat_produk(true, $start, $limit, $id_kategori, $status);
-        $total_rows  = count($data);
+        $qry = $this->db->where('id_toko', $this->userdata->id_toko)->where('id_opsi', 1)->get('opsi')->row();
+        $status = $qry->opsi;
+        $data = $this->query_dat_produk(false, '', '', $id_kategori, $status);
+        $data_limit = $this->query_dat_produk(true, $start, $limit, $id_kategori, $status);
+        $total_rows = count($data);
         $status_rows = $total_rows - $start;
         if ($status_rows < $limit && $status_rows > 0) {
             $limit = $status_rows;
-            $dt    = $this->query_dat_produk(true, $start, $limit, $id_kategori, $status);
+            $dt = $this->query_dat_produk(true, $start, $limit, $id_kategori, $status);
             return $data = array('produk' => $dt, 'total' => $total_rows);
         } else {
             return $data = array('produk' => $data_limit, 'total' => $total_rows);
@@ -586,7 +597,7 @@ class Produk_retail_model extends CI_Model
     function query_dat_produk($status, $start, $limit, $id_kategori, $status_opsi)
     {
         $id_toko = $this->userdata->id_toko;
-        $opsi    = '';
+        $opsi = '';
         if ($status_opsi == 1 || $status == 2) {
             $opsi = '';
         } else {

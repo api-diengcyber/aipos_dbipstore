@@ -229,7 +229,7 @@ class Produk_retail extends AI_Admin
 			'button' => 'Tambah',
 			'action' => site_url('admin/produk_retail/create_action'),
 			'id_produk' => set_value('id_produk'),
-			'id_toko' => $this->userdata->id_toko,
+			'id_users_tujuan' => set_value('id_users_tujuan'),
 			'barcode' => set_value('IMEI'),
 			//  'barcode' => set_value('IMEI'),
 			'kategori' => set_value('kategori'),
@@ -279,7 +279,7 @@ class Produk_retail extends AI_Admin
 				// upsdatew gambar //
 				$config['upload_path'] = 'assets/gambar_produk/';
 				$config['allowed_types'] = 'gif|jpeg|png|jpg';
-				$config['max_size']  = '1000';
+				$config['max_size'] = '1000';
 				$config['max_width'] = '2000';
 				$config['max_height'] = '2000';
 
@@ -375,9 +375,9 @@ class Produk_retail extends AI_Admin
 
 				/* Pembelian */
 				/*$row_pembelian = $this->db->where('id_toko', $this->input->post('id_toko',TRUE))
-										->where('id_faktur', $id_faktur)
-										->where('id_produk', $id_produk)
-										->get('pembelian')->row();*/
+																->where('id_faktur', $id_faktur)
+																->where('id_produk', $id_produk)
+																->get('pembelian')->row();*/
 				// $row_pembelian = $this->db->select('p.*')
 				// 						->from('pembelian p')
 				// 						->join('users u', 'p.id_users=u.id_users AND p.id_toko=u.id_toko')
@@ -403,7 +403,7 @@ class Produk_retail extends AI_Admin
 					'tgl_expire' => date('d-m-2099'),
 					'pembayaran' => '1',
 					'harga_satuan' => $harga_beli,
-					'id_supplier'	=> $this->input->post('supplier'),
+					'id_supplier' => $this->input->post('supplier'),
 					'jumlah' => 1,
 					'total_bayar' => $harga_beli,
 				);
@@ -429,7 +429,7 @@ class Produk_retail extends AI_Admin
 				// upsdatew gambar //
 				$config['upload_path'] = 'assets/gambar_produk/';
 				$config['allowed_types'] = 'gif|jpeg|png|jpg';
-				$config['max_size']  = '1000';
+				$config['max_size'] = '1000';
 				$config['max_width'] = '2000';
 				$config['max_height'] = '2000';
 
@@ -523,9 +523,9 @@ class Produk_retail extends AI_Admin
 
 				/* Pembelian */
 				/*$row_pembelian = $this->db->where('id_toko', $this->input->post('id_toko',TRUE))
-            						->where('id_faktur', $id_faktur)
-            						->where('id_produk', $id_produk)
-            						->get('pembelian')->row();*/
+															->where('id_faktur', $id_faktur)
+															->where('id_produk', $id_produk)
+															->get('pembelian')->row();*/
 				// $row_pembelian = $this->db->select('p.*')
 				// 						  ->from('pembelian p')
 				// 						  ->join('users u', 'p.id_users=u.id_users AND p.id_toko=u.id_toko')
@@ -551,7 +551,7 @@ class Produk_retail extends AI_Admin
 					'tgl_expire' => date('d-m-2099'),
 					'pembayaran' => '1',
 					'harga_satuan' => $harga_beli,
-					'id_supplier'	=> $this->input->post('supplier'),
+					'id_supplier' => $this->input->post('supplier'),
 					'jumlah' => 1,
 					'total_bayar' => $harga_beli,
 				);
@@ -669,7 +669,7 @@ class Produk_retail extends AI_Admin
 			// upsdatew gambar //
 			$config['upload_path'] = 'assets/gambar_produk/';
 			$config['allowed_types'] = 'gif|jpeg|png|jpg';
-			$config['max_size']  = '1000';
+			$config['max_size'] = '1000';
 			$config['max_width'] = '2000';
 			$config['max_height'] = '2000';
 
@@ -728,10 +728,10 @@ class Produk_retail extends AI_Admin
 			$this->deleteJoin('produk_retail', 't1.id_produk_2="' . $row->id_produk_2 . '"');
 			$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
 			/*$this->Produk_retail_model->delete($id);
-            $row_stok = $this->Stok_produk_model->get_by_id_produk($row->id_produk, $row->id_toko);
-            if($row_stok){
-            	$this->Stok_produk_model->delete($row_stok->id);
-            }*/
+							  $row_stok = $this->Stok_produk_model->get_by_id_produk($row->id_produk, $row->id_toko);
+							  if($row_stok){
+								  $this->Stok_produk_model->delete($row_stok->id);
+							  }*/
 			$this->session->set_flashdata('message', 'Delete Record Success');
 			redirect(site_url('admin/produk_retail'));
 		} else {
@@ -795,7 +795,7 @@ class Produk_retail extends AI_Admin
 			xlsWriteLabel($tablehead, $kolomhead++, "SATUAN");
 			xlsWriteLabel($tablehead, $kolomhead++, "HARGA");
 		} else {
-			foreach ($res_produk as $key_pr) :
+			foreach ($res_produk as $key_pr):
 				xlsWriteLabel($tablehead, $kolomhead++, $key_pr->nama_produk . " QTY");
 				xlsWriteLabel($tablehead, $kolomhead++, $key_pr->nama_produk . " HARGA");
 			endforeach;
@@ -838,7 +838,7 @@ class Produk_retail extends AI_Admin
 
 		$array_jml = array();
 
-		foreach ($res as $data) :
+		foreach ($res as $data):
 			$biayacod = 0;
 			$kolombody = 0;
 			$harga_ppn = $data->harga_jual + ($data->harga_jual * (10 / 100));
@@ -871,7 +871,7 @@ class Produk_retail extends AI_Admin
 				$namabank = '-';
 			}
 
-			$bayar      = $data->nominal + $data->ongkir + $biayacod;
+			$bayar = $data->nominal + $data->ongkir + $biayacod;
 			$bayarnocod = $data->nominal + $data->ongkir;
 			xlsWriteNumber($tablebody, $kolombody++, $nourut);
 			xlsWriteLabel($tablebody, $kolombody++, $data->tgl_order);
@@ -961,7 +961,7 @@ class Produk_retail extends AI_Admin
 	{
 		$this->load->model('Pengaturan_transaksi_model');
 		$res_orders = $this->_get_orders_by_date($awal_periode, $akhir_periode);
-		foreach ($res_orders as $k_o) :
+		foreach ($res_orders as $k_o):
 			$res_od = $this->_get_orders_detail($k_o->id_orders_2);
 
 			echo $k_o->tgl_order . " :: " . $k_o->no_faktur . "<br>";
@@ -974,22 +974,22 @@ class Produk_retail extends AI_Admin
 				$jml_sub += $k_od->sub_total;
 				$laba = $k_od->sub_total - ($k_od->harga_beli * $k_od->jumlah);
 				/* echo "Nama Produk : ".$k_od->nama_produk."<br>";
-        echo "Harga Beli : ".$k_od->harga_beli."<br>";
-        echo "Jumlah : ".$k_od->jumlah."<br>";
-        // echo "Harga Jual : ".$k_od->harga_jual."<br>";
-        echo "Nominal : ".$k_od->sub_total."<br>";
-        echo "Laba : ".$laba."<br>";
-        echo ""; */
+								echo "Harga Beli : ".$k_od->harga_beli."<br>";
+								echo "Jumlah : ".$k_od->jumlah."<br>";
+								// echo "Harga Jual : ".$k_od->harga_jual."<br>";
+								echo "Nominal : ".$k_od->sub_total."<br>";
+								echo "Laba : ".$laba."<br>";
+								echo ""; */
 			}
 			/*echo "HPP : ".$jml_hpp."<br>";
-      echo "NOMINAL : ".$jml_sub."<br>";
-      echo "<br><br><br>";*/
+						echo "NOMINAL : ".$jml_sub."<br>";
+						echo "<br><br><br>";*/
 
 			/* $data_update = array(
-        'laba' => $jml_sub-$jml_hpp,
-      );
-      $this->db->where('id_orders_2', $k_o->id_orders_2);
-      $this->db->update('orders', $data_update); */
+						  'laba' => $jml_sub-$jml_hpp,
+						);
+						$this->db->where('id_orders_2', $k_o->id_orders_2);
+						$this->db->update('orders', $data_update); */
 
 			$row_bayar = (object) array();
 
@@ -1356,7 +1356,7 @@ class Produk_retail extends AI_Admin
 		$produk = $this->db->where('id_produk_2', $id_produk_2)->where('id_toko', $this->userdata->id_toko)->get('produk_retail')->row();
 		$varians = $this->input->post('nama_produk');
 		$gambars = $_FILES['gambar'];
-		$nama_produk =  $produk->nama_produk;
+		$nama_produk = $produk->nama_produk;
 
 		$uploaded_files = $this->Upload_model->mupload_files('assets/gambar_produk', '', $gambars);
 
@@ -1366,8 +1366,8 @@ class Produk_retail extends AI_Admin
 			$last_id = $this->db->query("{$produk_query} FOR UPDATE")->row();
 
 			$output = $produk;
-			$output->nama_produk =  $nama_produk . ' - ' . $varian;
-			$output->id_produk  = null;
+			$output->nama_produk = $nama_produk . ' - ' . $varian;
+			$output->id_produk = null;
 			$output->id_produk_2 = $last_id->id_produk_2 + 1;
 			$output->parent_id = $id_produk_2;
 

@@ -31,17 +31,20 @@
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
             </div>
 
@@ -51,7 +54,8 @@
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-add-container">
                 Inside
                 <b>.container</b>
@@ -104,43 +108,46 @@
 
           <div class="row" style="margin-bottom: 10px">
             <div class="col-md-12">
-              <?php if ($this->uri->segment(4)) { ?>
-                <?php echo anchor(site_url('admin/produk_retail/generate_varian/' . $this->uri->segment(4)), 'Generate Varian', 'class="btn btn-info"'); ?>
-              <?php } ?>
-              <?php echo anchor(site_url('admin/produk_retail/create/' . $this->uri->segment(4)), $this->uri->segment(4) ? 'Tambah Varian' : 'Tambah Produk', 'class="btn btn-primary"'); ?>
-              <?php if ($id_modul == '5') { ?>
-                <button type="button" class="btn btn-success" id="btn_import_excel">Import Excel</button>
-                <div id="myModal" class="modal fade" role="dialog">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <form class="form-horizontal" action="<?php echo base_url() ?>admin/produk_retail/import_excel/" method="post" enctype="multipart/form-data">
-                        <div class="modal-header">
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                          <h4 class="modal-title">Import Excel</h4>
-                        </div>
-                        <div class="modal-body">
-                          <div class="form-group">
-                            <label class="control-label col-md-3 no-padding-right" for="">File</label>
-                            <div class="col-md-9">
-                              <input type="file" class="form-control" name="file" id="file" required accept=".xlsx" />
+              <?php if ($this->userdata->level == 1) { ?>
+                <?php if ($this->uri->segment(4)) { ?>
+                  <?php echo anchor(site_url('admin/produk_retail/generate_varian/' . $this->uri->segment(4)), 'Generate Varian', 'class="btn btn-info"'); ?>
+                <?php } ?>
+                <?php echo anchor(site_url('admin/produk_retail/create/' . $this->uri->segment(4)), $this->uri->segment(4) ? 'Tambah Varian' : 'Tambah Produk', 'class="btn btn-primary"'); ?>
+                <?php if ($id_modul == '5') { ?>
+                  <button type="button" class="btn btn-success" id="btn_import_excel">Import Excel</button>
+                  <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <form class="form-horizontal" action="<?php echo base_url() ?>admin/produk_retail/import_excel/"
+                          method="post" enctype="multipart/form-data">
+                          <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Import Excel</h4>
+                          </div>
+                          <div class="modal-body">
+                            <div class="form-group">
+                              <label class="control-label col-md-3 no-padding-right" for="">File</label>
+                              <div class="col-md-9">
+                                <input type="file" class="form-control" name="file" id="file" required accept=".xlsx" />
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="modal-footer">
-                          <button type="submit" class="btn btn-primary">Kirim</button>
-                          <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                        </div>
-                      </form>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Kirim</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                          </div>
+                        </form>
+                      </div>
                     </div>
                   </div>
-                </div>
+                <?php } ?>
+                <?php echo anchor(site_url('admin/migrasi'), 'Import Excel', 'class="btn btn-success"'); ?>
+                <?php echo anchor(site_url('admin/produk_retail/excel'), 'Export Excel', 'class="btn btn-inverse"'); ?>
+                <?php echo anchor(site_url('admin/produk_retail/word'), 'Export Word', 'class="btn btn-inverse"'); ?>
+                <span class="pull-right">
+                  <a href="<?php echo base_url() ?>admin/produk_retail/edit_semua" class="btn btn-primary">Edit Semua</a>
+                </span>
               <?php } ?>
-              <?php echo anchor(site_url('admin/migrasi'), 'Import Excel', 'class="btn btn-success"'); ?>
-              <?php echo anchor(site_url('admin/produk_retail/excel'), 'Export Excel', 'class="btn btn-inverse"'); ?>
-              <?php echo anchor(site_url('admin/produk_retail/word'), 'Export Word', 'class="btn btn-inverse"'); ?>
-              <span class="pull-right">
-                <a href="<?php echo base_url() ?>admin/produk_retail/edit_semua" class="btn btn-primary">Edit Semua</a>
-              </span>
             </div>
           </div>
 
@@ -167,8 +174,8 @@
           <script src="<?php echo base_url('assets/datatables/jquery.dataTables.js') ?>"></script>
           <script src="<?php echo base_url('assets/datatables/dataTables.bootstrap.js') ?>"></script>
           <script type="text/javascript">
-            $(document).ready(function() {
-              $.fn.dataTableExt.oApi.fnPagingInfo = function(oSettings) {
+            $(document).ready(function () {
+              $.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {
                 return {
                   "iStart": oSettings._iDisplayStart,
                   "iEnd": oSettings.fnDisplayEnd(),
@@ -181,11 +188,11 @@
               };
 
               var t = $("#mytable").dataTable({
-                initComplete: function() {
+                initComplete: function () {
                   var api = this.api();
                   $('#mytable_filter input')
                     .off('.DT')
-                    .on('keyup.DT', function(e) {
+                    .on('keyup.DT', function (e) {
                       api.search(this.value).draw();
                     });
                 },
@@ -197,54 +204,54 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                  "url": "<?php echo base_url() ?>admin/produk_retail/json/<?php echo $this->uri->segment(4) ? $this->uri->segment(4) : ''  ?>",
+                  "url": "<?php echo base_url() ?>admin/produk_retail/json/<?php echo $this->uri->segment(4) ? $this->uri->segment(4) : '' ?>",
                   "type": "POST"
                 },
                 columns: [{
-                    "data": "id_produk_2",
-                    "orderable": false
-                  }, {
-                    "data": "barcode"
-                  }, {
-                    "data": "nama_kategori"
-                  },
-                  {
-                    "data": "nama_produk",
-                  },
-                  {
+                  "data": "id_produk_2",
+                  "orderable": false
+                }, {
+                  "data": "barcode"
+                }, {
+                  "data": "nama_kategori"
+                },
+                {
+                  "data": "nama_produk",
+                },
+                {
 
-                    "data": "deskripsi",
+                  "data": "deskripsi",
 
-                  },
-                  {
-                    "data": "harga_1"
-                  }, {
-                    "data": "harga_2"
-                  },
-                  {
-                    "data": "harga_3"
-                  },
-                  // {
-                  //   "data": "harga_4"
-                  // }, {
-                  //   "data": "harga_5"
-                  // }, {
-                  //   "data": "harga_6"
-                  // },
-                  {
-                    "data": "action",
-                    "orderable": false,
-                    "className": "text-center",
-                    render: function(data) {
-                      if (data) return data;
-                      return '';
-                    }
+                },
+                {
+                  "data": "harga_1"
+                }, {
+                  "data": "harga_2"
+                },
+                {
+                  "data": "harga_3"
+                },
+                // {
+                //   "data": "harga_4"
+                // }, {
+                //   "data": "harga_5"
+                // }, {
+                //   "data": "harga_6"
+                // },
+                {
+                  "data": "action",
+                  "orderable": false,
+                  "className": "text-center",
+                  render: function (data) {
+                    if (data) return data;
+                    return '';
                   }
+                }
                 ],
                 order: [
                   [0, 'desc']
                 ],
-                rowCallback: function(row, data, iDisplayIndex) {
+                rowCallback: function (row, data, iDisplayIndex) {
                   var info = this.fnPagingInfo();
                   var page = info.iPage;
                   var length = info.iLength;
@@ -260,8 +267,8 @@
                   // $('td:eq(9)', row).html(tandaPemisahTitik(data.harga_5 * 1));
                 }
               });
-              $('#mytable').on('draw.dt', function() {
-                $('select[name=mytable_length]').on('change', function() {
+              $('#mytable').on('draw.dt', function () {
+                $('select[name=mytable_length]').on('change', function () {
                   var val = $(this).val();
                   document.location = '<?php echo base_url("admin/produk_retail?page='+val+'"); ?>';
                 });
@@ -278,8 +285,8 @@
 
 <?php if ($id_modul == '5') { ?>
   <script>
-    jQuery(function($) {
-      $("#btn_import_excel").click(function() {
+    jQuery(function ($) {
+      $("#btn_import_excel").click(function () {
         $("#myModal").modal('show');
       });
     });
