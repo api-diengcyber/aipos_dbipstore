@@ -65,17 +65,20 @@ class Produk_retail_model extends CI_Model
         // $this->datatables->add_column('read_action', anchor(site_url('gudang/produk_retail/read/$1'),'<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>'), 'id_produk_2');
         // $this->datatables->add_column('action', anchor(site_url('gudang/produk_retail/read/$1'),'<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('gudang/produk_retail/update/$1'),'<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('gudang/produk_retail/delete/$1'),'<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_produk_2');  
         // }
-        if ($this->userdata->level == 1 || $this->userdata->level == 12) {
+        // if ($this->userdata->level == 1 || $this->userdata->level == 12) {
+        if ($this->userdata->level == 1) {
             $this->datatables->add_column('read_action', anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>'), 'id_produk_2');
 
             $action = (empty($id_produk_2) ? anchor(site_url('admin/produk_retail/index/$1'), '<button class="btn btn-xs btn-primary">Varian</button>') : '') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javascript: return confirm(\'Are You Sure ?\')"');
 
-            $this->datatables->add_column('action', $action, 'id_produk_2');
+
         } else {
 
             $this->datatables->add_column('read_action', anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>'), 'id_produk_2');
-            $this->datatables->add_column('action', anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('gudang/produk_retail/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;", 'id_produk_2');
+
+            $action = (empty($id_produk_2) ? anchor(site_url('admin/produk_retail/index/$1'), '<button class="btn btn-xs btn-primary">Varian</button>') : '') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javascript: return confirm(\'Are You Sure ?\')"');
         }
+        $this->datatables->add_column('action', $action, 'id_produk_2');
         $this->datatables->where('p.id_toko', $this->userdata->id_toko);
         // $this->datatables->where('u.id_cabang', $this->userdata->id_cabang);
         // $this->db->where_in('u.level',[1,3,7]);
@@ -346,34 +349,141 @@ class Produk_retail_model extends CI_Model
     }
 
     // get data by search
+
     function get_by_search($id_toko, $term, $tgl = '', $limit = 5, $jenis = '')
     {
-        $this->db->select('pr.*');
+
+        $this->db->select('pr.*,pr.id_produk_2, sat.satuan AS satuan_produk, ' . $this->Mutasi_stok_model->select_stok_mutasi());
+        $this->db->from('produk_retail pr');
+        $this->db->join('users u', 'pr.id_users=u.id_users AND pr.id_toko=u.id_toko');
+        $this->db->join('pembelian p', 'pr.id_produk_2=p.id_produk AND p.id_users=u.id_users AND pr.id_toko=p.id_toko', 'left');
+        $this->db->join('satuan_produk sat', 'pr.satuan=sat.id_satuan AND sat.id_users=u.id_users AND sat.id_toko=pr.id_toko', 'left');
+        $this->Mutasi_stok_model->query_stok_mutasi($this->db, $this->userdata->id_toko, null, 'pr.id_produk_2');
+
+        // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
+        $this->db->like('pr.nama_produk', $term, 'BOTH');
+        $this->db->where('pr.id_users', $this->userdata->id_users);
+        $this->db->or_like('pr.barcode', $term, 'BOTH');
+        $this->db->where('pr.id_toko', $this->userdata->id_toko);
+        $this->db->where('pr.id_users', $this->userdata->id_users);
+
+        $this->db->order_by('pr.id_produk_2', 'DESC');
+
+        $this->db->group_by('pr.barcode');
+
+        return $this->db->get()->result();
+
+
+
+        // -----------------------------------
+
+        // $this->db->select('pr.*,sp.stok');
+
+        // $this->db->from($this->table . ' pr');
+        // $this->db->join('stok_produk as sp', 'sp.id_produk=pr.id_produk_2');
+        // $this->db->where('sp.stok', 0);
+        // $this->db->where('pr.id_users', $this->userdata->id_users);
+
+        // // $this->db->join('users u', 'pr.id_users=u.id_users AND pr.id_toko=u.id_toko');
+        // $this->db->like('pr.nama_produk', $term, 'BOTH');
+        // // $this->db->where('pr.id_toko', $this->userdata->id_toko);
+
+        // // $this->db->where('sp.stok!=', -1);
+        // // $this->db->where('sp.id_toko', $this->userdata->id_toko);
+
+        // // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
+        // // if ($jenis == 'bahan') {
+        // //     $this->db->where('pr.jenis <> 0');
+        // // } else if ($jenis == 'konsinyasi') {
+        // //     $this->db->where('pr.id_kategori', 7);
+        // // } else {
+        // //     $this->db->where('pr.jenis', 0);
+        // // }
+        // // $this->db->where('u.level', 2);
+        // // $this->db->where('pr.jenis', 0);
+        // $this->db->or_like('pr.barcode', $term, 'BOTH');
+        // $this->db->where('pr.id_toko', $this->userdata->id_toko);
+        // // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
+        // // if ($jenis == 'bahan') {
+        // //     $this->db->where('pr.jenis <> 0');
+        // // } else if ($jenis == 'konsinyasi') {
+        // //     $this->db->where('pr.id_kategori', 7);
+        // // } else {
+        // //     $this->db->where('pr.jenis', 0);
+        // // }
+        // // $this->db->where('u.level', 2);
+
+
+        // // $this->db->where('sp.id_pembelian', 5);
+        // $this->db->group_by('pr.id_produk_2');
+        // $this->db->limit($limit);
+        // return $this->db->get()->result();
+    }
+    function get_by_search_beli($id_toko, $term, $tgl = '', $limit = 5, $jenis = '')
+    {
+
+        // $this->db->select('pr.*,pr.id_produk_2, sat.satuan AS satuan_produk, ' . $this->Mutasi_stok_model->select_stok_mutasi());
+        // $this->db->from('produk_retail pr');
+        // $this->db->join('users u', 'pr.id_users=u.id_users AND pr.id_toko=u.id_toko');
+        // $this->db->join('pembelian p', 'pr.id_produk_2=p.id_produk AND p.id_users=u.id_users AND pr.id_toko=p.id_toko', 'left');
+        // $this->db->join('satuan_produk sat', 'pr.satuan=sat.id_satuan AND sat.id_users=u.id_users AND sat.id_toko=pr.id_toko', 'left');
+        // $this->Mutasi_stok_model->query_stok_mutasi($this->db, $this->userdata->id_toko, null, 'pr.id_produk_2');
+
+        // // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
+        // $this->db->like('pr.nama_produk', $term, 'BOTH');
+        // $this->db->where('pr.id_users', $this->userdata->id_users);
+        // $this->db->or_like('pr.barcode', $term, 'BOTH');
+        // $this->db->where('pr.id_toko', $this->userdata->id_toko);
+        // // $this->db->where('pr.id_users', $this->userdata->id_users);
+
+        // $this->db->order_by('pr.id_produk_2', 'DESC');
+
+        // $this->db->group_by('pr.barcode');
+
+        // return $this->db->get()->result();
+
+
+
+        // -----------------------------------
+
+        $this->db->select('pr.*,sp.stok');
+
         $this->db->from($this->table . ' pr');
+        $this->db->join('stok_produk as sp', 'sp.id_produk=pr.id_produk_2');
+        $this->db->where('sp.stok', 0);
+        // $this->db->where('pr.id_users', $this->userdata->id_users);
+
         // $this->db->join('users u', 'pr.id_users=u.id_users AND pr.id_toko=u.id_toko');
         $this->db->like('pr.nama_produk', $term, 'BOTH');
-        $this->db->where('pr.id_toko', $this->userdata->id_toko);
+        // $this->db->where('pr.id_toko', $this->userdata->id_toko);
+
+        // $this->db->where('sp.stok!=', -1);
+        // $this->db->where('sp.id_toko', $this->userdata->id_toko);
+
         // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
-        if ($jenis == 'bahan') {
-            $this->db->where('pr.jenis <> 0');
-        } else if ($jenis == 'konsinyasi') {
-            $this->db->where('pr.id_kategori', 7);
-        } else {
-            $this->db->where('pr.jenis', 0);
-        }
+        // if ($jenis == 'bahan') {
+        //     $this->db->where('pr.jenis <> 0');
+        // } else if ($jenis == 'konsinyasi') {
+        //     $this->db->where('pr.id_kategori', 7);
+        // } else {
+        //     $this->db->where('pr.jenis', 0);
+        // }
         // $this->db->where('u.level', 2);
         // $this->db->where('pr.jenis', 0);
         $this->db->or_like('pr.barcode', $term, 'BOTH');
         $this->db->where('pr.id_toko', $this->userdata->id_toko);
         // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
-        if ($jenis == 'bahan') {
-            $this->db->where('pr.jenis <> 0');
-        } else if ($jenis == 'konsinyasi') {
-            $this->db->where('pr.id_kategori', 7);
-        } else {
-            $this->db->where('pr.jenis', 0);
-        }
+        // if ($jenis == 'bahan') {
+        //     $this->db->where('pr.jenis <> 0');
+        // } else if ($jenis == 'konsinyasi') {
+        //     $this->db->where('pr.id_kategori', 7);
+        // } else {
+        //     $this->db->where('pr.jenis', 0);
+        // }
         // $this->db->where('u.level', 2);
+
+
+        // $this->db->where('sp.id_pembelian', 5);
         $this->db->group_by('pr.id_produk_2');
         $this->db->limit($limit);
         return $this->db->get()->result();

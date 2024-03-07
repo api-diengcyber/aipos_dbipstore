@@ -42,10 +42,13 @@ class User_retail_model extends CI_Model
 
     function json_id_toko($id_toko, $dir = 'outlet')
     {
-        $this->datatables->select('id,id_users,id_toko,ip_address,username,password,salt,email,activation_code,forgotten_password_code,forgotten_password_time,remember_code,created_on,last_login,active,first_name,last_name,company,alamat,phone,level,foto, IF(active=1, "Aktif", "Tidak Aktif") AS t_active,( CASE WHEN level = 1 THEN "ADMIN" WHEN level = 2 THEN "KASIR" WHEN level = 3 THEN "GUDANG" WHEN level = 4 THEN "SALES" WHEN level = 5 THEN "MARKETING" ELSE "PRINCIPAL" END ) AS t_level');
+        $this->datatables->select('id,id_users,id_toko,ip_address,username,password,salt,email,activation_code,forgotten_password_code,forgotten_password_time,remember_code,created_on,last_login,active,first_name,last_name,company,alamat,phone,level,foto, IF(active=1, "Aktif", "Tidak Aktif") AS t_active,( CASE WHEN level = 1 THEN "ADMIN" WHEN level = 2 THEN "KASIR" WHEN level = 3 THEN "GUDANG" WHEN level = 4 THEN "SPV" WHEN level = 5 THEN "HRD" WHEN level = 6 THEN "MANAGER" WHEN level = 7 THEN "ADMIN DIREKSI" ELSE "SALES" END ) AS t_level');
         $this->datatables->from('users');
+        if ($this->userdata->level != 1) {
+
+            $this->datatables->where('id_cabang', $this->userdata->id_cabang);
+        }
         $this->datatables->where('id_toko', $this->userdata->id_toko);
-        // $this->datatables->where('id_cabang', $this->userdata->id_cabang);
         $this->datatables->add_column('action', anchor(site_url($dir . '/user_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url($dir . '/user_retail/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url($dir . '/user_retail/nonactive/$1'), '<button class="btn btn-xs btn-danger" id="btnActive"><i id="iconActive" class="ace-icon glyphicon glyphicon-off bigger-120"></i></button>', 'onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id');
         $this->db->order_by('active', 'desc');
         $this->db->order_by('level', 'asc');

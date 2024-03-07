@@ -108,46 +108,46 @@
 
           <div class="row" style="margin-bottom: 10px">
             <div class="col-md-12">
-              <?php if ($this->userdata->level == 1) { ?>
-                <?php if ($this->uri->segment(4)) { ?>
-                  <?php echo anchor(site_url('admin/produk_retail/generate_varian/' . $this->uri->segment(4)), 'Generate Varian', 'class="btn btn-info"'); ?>
-                <?php } ?>
-                <?php echo anchor(site_url('admin/produk_retail/create/' . $this->uri->segment(4)), $this->uri->segment(4) ? 'Tambah Varian' : 'Tambah Produk', 'class="btn btn-primary"'); ?>
-                <?php if ($id_modul == '5') { ?>
-                  <button type="button" class="btn btn-success" id="btn_import_excel">Import Excel</button>
-                  <div id="myModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <form class="form-horizontal" action="<?php echo base_url() ?>admin/produk_retail/import_excel/"
-                          method="post" enctype="multipart/form-data">
-                          <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Import Excel</h4>
-                          </div>
-                          <div class="modal-body">
-                            <div class="form-group">
-                              <label class="control-label col-md-3 no-padding-right" for="">File</label>
-                              <div class="col-md-9">
-                                <input type="file" class="form-control" name="file" id="file" required accept=".xlsx" />
-                              </div>
+
+              <?php if ($this->uri->segment(4)) { ?>
+                <?php echo anchor(site_url('admin/produk_retail/generate_varian/' . $this->uri->segment(4)), 'Generate Varian', 'class="btn btn-info"'); ?>
+              <?php } ?>
+              <?php echo anchor(site_url('admin/produk_retail/create/' . $this->uri->segment(4)), $this->uri->segment(4) ? 'Tambah Varian' : 'Tambah Produk', 'class="btn btn-primary"'); ?>
+              <?php if ($id_modul == '5') { ?>
+                <button type="button" class="btn btn-success" id="btn_import_excel">Import Excel</button>
+                <div id="myModal" class="modal fade" role="dialog">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <form class="form-horizontal" action="<?php echo base_url() ?>admin/produk_retail/import_excel/"
+                        method="post" enctype="multipart/form-data">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Import Excel</h4>
+                        </div>
+                        <div class="modal-body">
+                          <div class="form-group">
+                            <label class="control-label col-md-3 no-padding-right" for="">File</label>
+                            <div class="col-md-9">
+                              <input type="file" class="form-control" name="file" id="file" required accept=".xlsx" />
                             </div>
                           </div>
-                          <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Kirim</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                          </div>
-                        </form>
-                      </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-primary">Kirim</button>
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                        </div>
+                      </form>
                     </div>
                   </div>
-                <?php } ?>
-                <?php echo anchor(site_url('admin/migrasi'), 'Import Excel', 'class="btn btn-success"'); ?>
-                <?php echo anchor(site_url('admin/produk_retail/excel'), 'Export Excel', 'class="btn btn-inverse"'); ?>
-                <?php echo anchor(site_url('admin/produk_retail/word'), 'Export Word', 'class="btn btn-inverse"'); ?>
-                <span class="pull-right">
-                  <a href="<?php echo base_url() ?>admin/produk_retail/edit_semua" class="btn btn-primary">Edit Semua</a>
-                </span>
+                </div>
               <?php } ?>
+              <?php echo anchor(site_url('admin/migrasi'), 'Import Excel', 'class="btn btn-success"'); ?>
+              <?php echo anchor(site_url('admin/produk_retail/excel'), 'Export Excel', 'class="btn btn-inverse"'); ?>
+              <?php echo anchor(site_url('admin/produk_retail/word'), 'Export Word', 'class="btn btn-inverse"'); ?>
+              <span class="pull-right">
+                <a href="<?php echo base_url() ?>admin/produk_retail/edit_semua" class="btn btn-primary">Edit Semua</a>
+              </span>
+
             </div>
           </div>
 

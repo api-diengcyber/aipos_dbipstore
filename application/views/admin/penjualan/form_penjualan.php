@@ -1028,15 +1028,15 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-2">
+                <div class="col-md-2 hide">
                   <div class="form-group">
                     <select class="status_barcode" style="width:100%;">
                       <option value="1" disabled>IMEI</option>
-                      <option value="2" selected>NAMA BARANG</option>
+                      <option value="2" selected>IMEI / NAMA BARANG</option>
                     </select>
                   </div>
                 </div>
-                <div class="col-md-6" style="padding-left:0px;">
+                <div class="col-md-6" >
                   <div class="form-group">
                     <form action="#" class="form_barang" method="post">
                       <input type="text" class="form-control nama_barang" name="nama_barang" placeholder="IMEI / Nama Barang" autocomplete="off" autofocus />
@@ -1053,7 +1053,8 @@
                   <thead>
                     <tr>
                       <th class="center" width="2">No</th>
-                      <th>Nama Barang</th>
+                      <th>IMEI</th>
+                      <th>Nama Barang / Deskripsi</th>
                       <th width="40">Stok</th>
                       <!-- <th width="100">Pilihan Harga</th> -->
                       <th class="text-center" width="90">Qty</th>
@@ -2568,7 +2569,7 @@
               response($.map(data, function(value, key) {
                 return {
                   value: value.value,
-                  label: value.label + ' (' + value.deskripsi + ')',
+                  label: value.barcode+' / '+value.label + ' (' + value.deskripsi + ')',
                   // deskripsi: ,
                 };
               }));
@@ -2875,6 +2876,7 @@
             html_pil_harga += '</select>';
             html += `<tr>
                       <th class="center">${temp[item].no}</th>
+                      <th>${temp[item].barcode}</th>
                       <th><p>${temp[item].nama_produk}</p><p>Deskripsi :</p> <p>${temp[item].deskripsi}</p></th>
                       <th>${temp[item].stok}</th>`;
             // html += `<th style="padding:0px;background-color:#fff;">${html_pil_harga}</th>`;
