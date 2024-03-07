@@ -105,6 +105,7 @@
                 value="<?php echo $id_toko; ?>" readonly />
               <div class="form-group">
                 <label for="">Suplier
+                  <?= $data_supplier_select ?>
                   <?php echo form_error('suplier') ?>
                 </label>
 
@@ -263,16 +264,16 @@
                   maxlength="20" placeholder="0" value="<?php echo $harga_3; ?>" />
               </div>
               <!-- <div class="form-group">
-                        <label for="int">Harga 4 <?php // echo form_error('harga_4')                           ?></label>
-                        <input type="text" class="form-control" name="harga_4" id="harga_4" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_4;                           ?>" />
+                        <label for="int">Harga 4 <?php // echo form_error('harga_4')                                            ?></label>
+                        <input type="text" class="form-control" name="harga_4" id="harga_4" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_4;                                            ?>" />
                     </div>
                     <div class="form-group">
-                        <label for="int">Harga 5 <?php // echo form_error('harga_5')                           ?></label>
-                        <input type="text" class="form-control" name="harga_5" id="harga_5" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_5;                           ?>" />
+                        <label for="int">Harga 5 <?php // echo form_error('harga_5')                                            ?></label>
+                        <input type="text" class="form-control" name="harga_5" id="harga_5" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_5;                                            ?>" />
                     </div>
                     <div class="form-group">
-                        <label for="int">Harga 6 <?php // echo form_error('harga_6')                           ?></label>
-                        <input type="text" class="form-control" name="harga_6" id="harga_6" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_6;                           ?>" />
+                        <label for="int">Harga 6 <?php // echo form_error('harga_6')                                            ?></label>
+                        <input type="text" class="form-control" name="harga_6" id="harga_6" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_6;                                            ?>" />
                     </div> -->
               <div class="form-group">
                 <label for="deskripsi">Deskripsi
@@ -281,6 +282,43 @@
                 <textarea class="form-control" rows="3" name="deskripsi" id="deskripsi"
                   placeholder="Deskripsi"><?php echo $deskripsi; ?></textarea>
               </div>
+              <!-- <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label>Pembayaran</label>
+                    <select class="form-control" name="pembayaran" id="pembayaran">
+                      <option value="1">TUNAI</option>
+                      <option value="2">HUTANG / KREDIT</option>
+                      <option value="3">TRANSFER</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-6" id="panel-jatuh-tempo" style="display: none;">
+                  <label>Jatuh Tempo
+                    <?php echo form_error('') ?>
+                  </label>
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="deadline" id="datepicker2" placeholder="dd-mm-yyyy"
+                      value="<?php echo date('d-m-Y') ?>">
+                  </div>
+                </div>
+                <div class="col-xs-6 hide" id="panel-bank">
+                  <div class="form-group">
+                    <label>Bank
+                      <?php echo form_error('bank') ?>
+                    </label>
+                    <select class="form-control" name="id_bank" id="bank">
+                      <option value="">-- Pilih Bank --</option>
+                      <?php
+                      foreach ($data_bank as $key): ?>
+                        <option value="<?php echo $key->id ?>">
+                          <?php echo $key->bank ?>
+                        </option>
+                      <?php endforeach ?>
+                    </select>
+                  </div>
+                </div>
+              </div> -->
               <!-- <div class="form-group">
                 <label for="">Mutasi Langsung?</label>
                 <select name="" id="mutasi_langsung" style="border-color:transparent">
@@ -437,6 +475,21 @@
 </script>
 <script>
   $(document).ready(function () {
+
+    $("#pembayaran").on("change", function (e) {
+      var val = $(this).val();
+      if (val * 1 == 2) {
+        $("#panel-jatuh-tempo").show();
+      } else {
+        $("#panel-jatuh-tempo").hide();
+      }
+      if (val * 1 == 3) {
+        $("#panel-bank").removeClass('hide');
+      } else {
+        $("#panel-bank").addClass('hide');
+      }
+    });
+
     $("#mutasi_langsung").change(function () {
       var selectedMutasi = $(this).val();
       // alert(selectedMutasi);

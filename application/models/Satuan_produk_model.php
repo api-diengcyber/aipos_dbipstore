@@ -1,6 +1,8 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
-class Satuan_produk_model extends CI_Model {
+class Satuan_produk_model extends CI_Model
+{
 
 	public $table = 'satuan_produk';
 	public $id = 'id_satuan';
@@ -9,48 +11,50 @@ class Satuan_produk_model extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-        
-        
+
+
 	}
 
-    /* datatables */
-    function json($id_toko) {
-        $this->datatables->select('sp.id, sp.id_satuan, sp.id_toko, sp.satuan');
-        $this->datatables->from('satuan_produk sp');
-        $this->datatables->join('users u', 'sp.id_users=u.id_users AND sp.id_toko=u.id_toko');
-        $this->datatables->where('sp.id_toko', $this->userdata->id_toko);
-        $this->datatables->where('u.id_cabang', $this->userdata->id_cabang);
+	/* datatables */
+	function json($id_toko)
+	{
+		$this->datatables->select('sp.id, sp.id_satuan, sp.id_toko, sp.satuan');
+		$this->datatables->from('satuan_produk sp');
+		$this->datatables->join('users u', 'sp.id_users=u.id_users AND sp.id_toko=u.id_toko');
+		$this->datatables->where('sp.id_toko', $this->userdata->id_toko);
+		$this->datatables->where('u.id_cabang', $this->userdata->id_cabang);
 		// $this->datatables->where('u.level', 3);
-		if($this->userdata->level == 1){
-        $this->datatables->add_column('action', anchor(site_url('admin/satuan_produk/update/$1'),'<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('admin/satuan_produk/delete/$1'),'<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_satuan');
-		}else if($this->userdata->level == 3){
-		$this->datatables->add_column('action', anchor(site_url('outlet/satuan_produk/update/$1'),'<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('outlet/satuan_produk/delete/$1'),'<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_satuan');		
+		if ($this->userdata->level == 1) {
+			$this->datatables->add_column('action', anchor(site_url('admin/satuan_produk/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/satuan_produk/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_satuan');
+		} else {
+			$this->datatables->add_column('action', anchor(site_url('admin/satuan_produk/update/$1'), '<button disabled class="disabled btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('outlet/satuan_produk/delete/$1'), '<button disabled class="disabled btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_satuan');
 		}
 		$this->datatables->group_by('sp.id_satuan');
-        return $this->datatables->generate();
-    }
+		return $this->datatables->generate();
+	}
 
-    /* datatables */
-    function json_produksi($id_toko) {
-        $this->datatables->select('sp.id, sp.id_satuan, sp.id_toko, sp.satuan');
-        $this->datatables->from('satuan_produk sp');
-        $this->datatables->join('users u', 'sp.id_users=u.id_users AND sp.id_toko=u.id_toko');
-        $this->datatables->where('sp.id_toko', $this->userdata->id_toko);
-        $this->datatables->where('u.id_cabang', $this->userdata->id_cabang);
-        $this->datatables->where('u.level', 2);
-        $this->datatables->add_column('action', anchor(site_url('produksi/satuan_produk/update/$1'),'<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>')."&nbsp;&nbsp;&nbsp;&nbsp;".anchor(site_url('produksi/satuan_produk/delete/$1'),'<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>','onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_satuan');
-        $this->datatables->group_by('sp.id_satuan');
-        return $this->datatables->generate();
-    }
+	/* datatables */
+	function json_produksi($id_toko)
+	{
+		$this->datatables->select('sp.id, sp.id_satuan, sp.id_toko, sp.satuan');
+		$this->datatables->from('satuan_produk sp');
+		$this->datatables->join('users u', 'sp.id_users=u.id_users AND sp.id_toko=u.id_toko');
+		$this->datatables->where('sp.id_toko', $this->userdata->id_toko);
+		$this->datatables->where('u.id_cabang', $this->userdata->id_cabang);
+		$this->datatables->where('u.level', 2);
+		$this->datatables->add_column('action', anchor(site_url('produksi/satuan_produk/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('produksi/satuan_produk/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_satuan');
+		$this->datatables->group_by('sp.id_satuan');
+		return $this->datatables->generate();
+	}
 
 	/* get by id */
 	function get_by_id($id, $id_toko)
 	{
 		$this->db->select('sp.*');
 		$this->db->from('satuan_produk sp');
-        $this->db->join('users u', 'sp.id_users=u.id_users AND sp.id_toko=u.id_toko');
-        $this->db->where('sp.id_toko', $this->userdata->id_toko);
-        $this->db->where('u.id_cabang', $this->userdata->id_cabang);
+		$this->db->join('users u', 'sp.id_users=u.id_users AND sp.id_toko=u.id_toko');
+		$this->db->where('sp.id_toko', $this->userdata->id_toko);
+		$this->db->where('u.id_cabang', $this->userdata->id_cabang);
 		$this->db->where('sp.id_satuan', $id);
 		return $this->db->get()->row();
 	}
@@ -60,10 +64,10 @@ class Satuan_produk_model extends CI_Model {
 	{
 		$this->db->select('sp.*');
 		$this->db->from('satuan_produk sp');
-        $this->db->join('users u', 'sp.id_users=u.id_users AND sp.id_toko=u.id_toko');
-        $this->db->where('sp.id_toko', $this->userdata->id_toko);
-        $this->db->where('u.id_cabang', $this->userdata->id_cabang);
-        $this->db->group_by('sp.id_satuan');
+		$this->db->join('users u', 'sp.id_users=u.id_users AND sp.id_toko=u.id_toko');
+		$this->db->where('sp.id_toko', $this->userdata->id_toko);
+		// $this->db->where('u.id_cabang', $this->userdata->id_cabang);
+		$this->db->group_by('sp.id_satuan');
 		return $this->db->get()->result();
 	}
 
@@ -86,9 +90,9 @@ class Satuan_produk_model extends CI_Model {
 	/* delete */
 	function delete($id)
 	{
-    	$this->db->query('SET FOREIGN_KEY_CHECKS = 0;');
-		$this->db->query('DELETE t1 FROM satuan_produk t1 INNER JOIN users u ON t1.id_users=u.id_users AND t1.id_toko=u.id_toko WHERE t1.id_toko="'.$this->userdata->id_toko.'" AND u.id_cabang="'.$this->userdata->id_cabang.'" AND t1.id_satuan="'.$id.'"');
-    	$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
+		$this->db->query('SET FOREIGN_KEY_CHECKS = 0;');
+		$this->db->query('DELETE t1 FROM satuan_produk t1 INNER JOIN users u ON t1.id_users=u.id_users AND t1.id_toko=u.id_toko WHERE t1.id_toko="' . $this->userdata->id_toko . '" AND u.id_cabang="' . $this->userdata->id_cabang . '" AND t1.id_satuan="' . $id . '"');
+		$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
 	}
 
 }

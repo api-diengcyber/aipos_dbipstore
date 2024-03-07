@@ -11,7 +11,7 @@ class Penjualan_retail extends AI_Admin
         $this->libraries('escpos');
         $this->models('Produk_retail_model, Penjualan_retail_model, Transaksi_penjualan_model, Member_retail_model, Orders_temp_retail_model, Orders_detail_retail_model, Piutang_retail_model, Pengaturan_akuntansi_model, Toko_retail_model, User_retail_model, Stok_produk_model, Pembelian_retail_model, Printer_model, Recta_print_model, Pengaturan_opsi_model:M_opsi, Tukarphone_model');
         $data = $this->M_opsi->get_opsi_stok($this->userdata->id_toko);
-        $this->status =  $data->opsi;
+        $this->status = $data->opsi;
     }
 
     public function index()
@@ -30,7 +30,7 @@ class Penjualan_retail extends AI_Admin
 
     public function read($id)
     {
-        $active = array('active_penjualan' => 'active',);
+        $active = array('active_penjualan' => 'active', );
         $row = $this->Penjualan_retail_model->get_by_id($id);
         if ($row) {
             // pembayaran //
@@ -142,6 +142,9 @@ class Penjualan_retail extends AI_Admin
 
     public function create($id_order = '')
     {
+
+        // var_dump($this->userdata);
+
         $tp = $this->input->get('tp');
         if (empty($tp)) {
             $this->session->unset_userdata('tukartambah_id');
@@ -228,14 +231,14 @@ class Penjualan_retail extends AI_Admin
 
                     $last_user = $this->db->order_by('id_users', 'DESC')->get('users')->row();
                     $additional_data = [
-                        'id_users'   => $last_user->id_users + 1,
-                        'id_toko'    => $this->userdata->id_toko,
+                        'id_users' => $last_user->id_users + 1,
+                        'id_toko' => $this->userdata->id_toko,
                         'first_name' => $nama_pembeli,
-                        'last_name'  => "",
-                        'company'    => "",
-                        'phone'      => $row_lo->no_hp,
-                        'id_cabang'  => $this->userdata->id_cabang,
-                        'level'      => 6,
+                        'last_name' => "",
+                        'company' => "",
+                        'phone' => $row_lo->no_hp,
+                        'id_cabang' => $this->userdata->id_cabang,
+                        'level' => 6,
                     ];
                     $id_user = $this->ion_auth->register($identity, $password, $email, $additional_data);
                     if (!empty($id_user)) {
@@ -293,6 +296,12 @@ class Penjualan_retail extends AI_Admin
             }
         }
 
+        if ($this->userdata->id_users != 1) {
+            $sales = $this->db->where('id_toko', $this->userdata->id_toko)->where('level', 8)->where('id_cabang', $this->userdata->id_cabang)->order_by('first_name', 'asc')->get('users')->result();
+        } else {
+            $sales = $this->db->where('id_toko', $this->userdata->id_toko)->where('level', 8)->order_by('first_name', 'asc')->get('users')->result();
+        }
+
         $data = [
             'id_toko' => $this->userdata->id_toko,
             'nama_toko' => $this->userdata->nama_toko,
@@ -322,7 +331,7 @@ class Penjualan_retail extends AI_Admin
             'data_media' => $this->db->get('pil_media')->result(),
             'data_bank' => $this->db->get('pil_bank')->result(),
             'data_expedisi' => $this->db->get('expedisi')->result(),
-            'data_sales' => $this->db->where('id_toko', $this->userdata->id_toko)->where('level', 2)->order_by('first_name', 'asc')->get('users')->result(),
+            'data_sales' => $sales,
             'opsi_pilihan' => $this->M_opsi->get_opsi_pilihan($this->userdata->id_toko),
             'opsi_popup' => $this->M_opsi->get_opsi_popup($this->userdata->id_toko),
         ];
@@ -364,7 +373,7 @@ class Penjualan_retail extends AI_Admin
             'd_nama' => $this->input->post('d_nama', true),
             'd_alamat' => $this->input->post('d_alamat', true),
             'd_hp' => $this->input->post('d_hp', true),
-            'nominal_split' =>  $this->input->post('nominal_split1', true),
+            'nominal_split' => $this->input->post('nominal_split1', true),
 
         ];
         $r = $this->Transaksi_penjualan_model->action($this->userdata->id_toko, $data_i);
@@ -385,11 +394,11 @@ class Penjualan_retail extends AI_Admin
         if ($data_i['pembayaran'] == 4) {
             $data_split = [
                 'id_orders' => $last_id->id_orders,
-                'id_toko'   => $this->userdata->id_toko,
+                'id_toko' => $this->userdata->id_toko,
                 'pembayaran' => $this->input->post('bayar_split_2'),
                 'id_bank' => $this->input->post('bank_split_2'),
                 'deadline' => $this->input->post('deadline_split_2'),
-                'nominal'   =>  $this->input->post('nominal_split_2')
+                'nominal' => $this->input->post('nominal_split_2')
             ];
             $this->db->insert('split_bayar', $data_split);
         }
@@ -629,13 +638,13 @@ class Penjualan_retail extends AI_Admin
                 'ppn' => 0
             ];
             //   var_dump($data);
-            $telp = str_replace("08", "628",  $telp_pembeli);
+            $telp = str_replace("08", "628", $telp_pembeli);
             $toko = $this->db->select("*")
                 ->from('toko')
                 ->where('id', $this->userdata->id_toko)
                 ->get()
                 ->row();
-            $pesan =    $data['toko']->nama_toko . "\n" .
+            $pesan = $data['toko']->nama_toko . "\n" .
                 "Telp: " . $data['toko']->telp . "\n" .
                 "Alamat: " . $data['toko']->alamat . "\n" .
                 "------------------------\n" .
@@ -804,7 +813,7 @@ class Penjualan_retail extends AI_Admin
         }
         $sp = 32;
         $tampil_faktur = "Faktur: " . $row_orders->no_faktur;
-        $tampil_kasir  = "Kasir : " . $row_user->first_name;
+        $tampil_kasir = "Kasir : " . $row_user->first_name;
         $tampil_jam = $row_orders->jam_order;
         $tampil_tgl = $row_orders->tgl_order;
         $len_faktur = strlen($tampil_faktur);
@@ -1177,11 +1186,11 @@ class Penjualan_retail extends AI_Admin
         }
         $sp = 41;
         $tampil_faktur = "No. Faktur: " . $row_orders->no_faktur . ' ';
-        $tampil_kasir  = "Kasir     : " . $row_user->first_name . ' ';
+        $tampil_kasir = "Kasir     : " . $row_user->first_name . ' ';
         $tampil_jam = $row_orders->jam_order;
         $tampil_tgl = $row_orders->tgl_order;
         $tampil_pembeli = "Pembeli   : " . $nama_pembeli;
-        $tampil_alamat =  "Alamat   : " . $alamat_pembeli;
+        $tampil_alamat = "Alamat   : " . $alamat_pembeli;
         $tampil_mekanik = "Mekanik   : " . $data_mekanik;
         $len_faktur = strlen($tampil_faktur);
         $len_kasir = strlen($tampil_kasir);
@@ -1240,16 +1249,16 @@ class Penjualan_retail extends AI_Admin
             $tampil_jml = '    ' . $key->jumlah;
             $diskon = '';
             if ($key->diskon > 0) {
-                $diskon     = '(' . $key->diskon . ' %)';
+                $diskon = '(' . $key->diskon . ' %)';
             }
-            $subtotal   = number_format($key->subtotal, 0, ',', '.');
+            $subtotal = number_format($key->subtotal, 0, ',', '.');
             $len_diskon = strlen($diskon);
             $len_jumlah = strlen($tampil_jml);
-            $len_sub    = strlen($subtotal);
+            $len_sub = strlen($subtotal);
             $len_tot_harga = strlen($tampil_tot_harga);
             $len_harga = strlen($harga);
             $space_after_jumlah = 26 - ($len_jumlah + $len_diskon + $len_harga);
-            $space_before_sub   = $sp - $len_sub - 26;
+            $space_before_sub = $sp - $len_sub - 26;
             //echo $space_before_sub;
             $is_harga = "";
             for ($i = 0; $i < $space_after_jumlah; $i++) {
@@ -1284,16 +1293,16 @@ class Penjualan_retail extends AI_Admin
         }
         $diskon_total = " Rp " . number_format($diskon_tot + $diskon_produk, 0, ',', '.');
         $tampil_bayar = " Rp " . number_format($bayar, 0, ',', '.');
-        $tampil_kembali  = " Rp " . number_format($kembali, 0, ',', '.');
+        $tampil_kembali = " Rp " . number_format($kembali, 0, ',', '.');
         $tampil_tot_harga = " Rp " . number_format($total_harga, 0, ',', '.');
-        $len_tot_harga   = strlen($tampil_tot_harga);
-        $len_tot_diskon  = strlen($diskon_total);
+        $len_tot_harga = strlen($tampil_tot_harga);
+        $len_tot_diskon = strlen($diskon_total);
         $len_tot_h_bayar = strlen($tampil_total_h_bayar);
         $len_bayar = strlen($tampil_bayar);
         $len_diskon_tot = strlen($diskon_tot);
         $len_kembali = strlen($tampil_kembali);
         $space_after_total = $sp - $len_tot_harga - 27;
-        $space_after_th    = $sp - $len_tot_h_bayar - 27;
+        $space_after_th = $sp - $len_tot_h_bayar - 27;
         $space_after_pembayaran = $sp - $len_bayar - 27;
         $space_after_kembali = $sp - $len_kembali - 27;
         $space_after_diskon_member = $sp - $len_diskon_tot - 27;
@@ -1717,6 +1726,7 @@ class Penjualan_retail extends AI_Admin
                 'no' => $i,
                 'id_orders_temp' => $key->id_orders_temp,
                 'id_produk_2' => $key->id_produk_2,
+                'barcode' => $key->barcode,
                 'nama_produk' => $key->nama_produk,
                 'deskripsi' => $key->deskripsi,
                 'harga_1' => $key->harga_1,
@@ -1778,7 +1788,7 @@ class Penjualan_retail extends AI_Admin
         $tgl = date('Y-m-d');
 
         // PANEL BARANG //
-        $panelBarang =  "
+        $panelBarang = "
         <script src='" . base_url() . "assets/js/jquery-2.1.4.min.js'></script>
           <table id='dynamic-table' class='table table-striped table-bordered table-hover'>
             <thead>
@@ -1950,7 +1960,7 @@ class Penjualan_retail extends AI_Admin
 
         //opsi diskon
         $od = $this->M_opsi->get_opsi_diskon($this->userdata->id_toko)->opsi;
-        $panelBarang =  "
+        $panelBarang = "
         <style>
             #dynamic-table thead th{
                 background: linear-gradient(to bottom , #9CEDFF, #5DBFDC);
@@ -2029,7 +2039,7 @@ class Penjualan_retail extends AI_Admin
                     $tgl_expire = $key6->tgl_expire;
                     if (!empty($tgl_expire)) {
                         $exexpire = explode("-", $tgl_expire);
-                        $hr_exp  = $exexpire[0];
+                        $hr_exp = $exexpire[0];
                         $bln_exp = !empty($exexpire[1]) ? $exexpire[1] : '';
                         $thn_exp = !empty($exexpire[2]) ? $exexpire[2] : '';
                         $stgl_expire = $thn_exp . "-" . $bln_exp . "-" . $hr_exp;
@@ -2803,8 +2813,31 @@ class Penjualan_retail extends AI_Admin
             $data[$i]['value'] = $key->barcode;
             $data[$i]['label'] = $key->nama_produk;
             $data[$i]['id_produk'] = $key->id_produk_2;
+            $data[$i]['barcode'] = $key->barcode;
             $data[$i]['deskripsi'] = $key->deskripsi;
             $data[$i]['type'] = $type;
+            $data[$i]['stok'] = $key->stok;
+            $i++;
+        }
+        echo json_encode($data);
+    }
+    public function json_produk_beli($type = '')
+    {
+        header('Content-Type: application/json');
+        $term = $this->input->post('term');
+        $tgl = $this->input->post('tgl');
+        $limit = 15;
+        $res = $this->Produk_retail_model->get_by_search_beli($this->userdata->id_toko, $term, $tgl, $limit, $type);
+        $data = array();
+        $i = 0;
+        foreach ($res as $key) {
+            $data[$i]['value'] = $key->barcode;
+            $data[$i]['label'] = $key->nama_produk;
+            $data[$i]['id_produk'] = $key->id_produk_2;
+            $data[$i]['barcode'] = $key->barcode;
+            $data[$i]['deskripsi'] = $key->deskripsi;
+            $data[$i]['type'] = $type;
+            $data[$i]['stok'] = $key->stok;
             $i++;
         }
         echo json_encode($data);
@@ -2949,9 +2982,9 @@ class Penjualan_retail extends AI_Admin
     }
     function addMekanikTemp()
     {
-        $iot    = $this->input->post('id_orders_temp'); //id_orders_temporary
+        $iot = $this->input->post('id_orders_temp'); //id_orders_temporary
         $id_kar = $this->input->post('id_mekanik'); //semua mekanik
-        $plat   = $this->input->post('plat');
+        $plat = $this->input->post('plat');
         foreach ($id_kar as $ik => $id) {
             $data = array('id_orders_temp' => $iot, 'id_mekanik' => $id, 'id_toko' => $this->userdata->id_toko, 'plat' => $plat);
             $insert = $this->db->insert('detail_mekanik_temp', $data);

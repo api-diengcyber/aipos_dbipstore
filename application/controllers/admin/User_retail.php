@@ -73,6 +73,27 @@ class User_retail extends AI_Admin
 
     public function create()
     {
+        if ($this->userdata->level != 1) {
+            $id_cabang = $this->userdata->id_cabang;
+            $id_level = 8;
+        } else {
+            $id_cabang = null;
+            $id_level = null;
+        }
+        $cabang = $this->db->select('c.*')
+            ->from('cabang c')
+            ->where('id_toko', $this->userdata->id_toko)
+            ->where('id', $id_cabang)
+            ->get()
+            ->result();
+
+        $level = $this->db->select('*')
+            ->from('users_level_lookup')
+            ->where('id', $id_level)
+            ->get()
+            ->result();
+        // var_dump($cabang);
+
         $data = array(
             'id_toko' => $this->userdata->id_toko,
             'nama_toko' => $this->userdata->nama_toko,
@@ -90,9 +111,11 @@ class User_retail extends AI_Admin
             'phone' => set_value('phone'),
             'alamat' => set_value('alamat'),
             'foto' => set_value('foto'),
+            'cabang' => set_value('cabang'),
+            'pil_cabang' => $cabang,
             'level' => set_value('level'),
             'password_baru' => set_value('password_baru'),
-            'pil_level' => $this->db->get('users_level_lookup')->result(),
+            'pil_level' => $level,
         );
 
         $active = array(
@@ -114,7 +137,7 @@ class User_retail extends AI_Admin
             // upsdatew gambar //
             $config['upload_path'] = 'assets/foto/';
             $config['allowed_types'] = 'gif|jpeg|png|jpg|bmp';
-            $config['max_size']  = '1000';
+            $config['max_size'] = '1000';
             $config['max_width'] = '2000';
             $config['max_height'] = '2000';
 
@@ -149,9 +172,11 @@ class User_retail extends AI_Admin
             $identity = $this->input->post('email');
             $password = $this->input->post('password_baru');
             $email = $this->input->post('email');
+            $id_cabang = $this->input->post('cabang');
             $additional_data = array(
                 'id_users' => $id_users,
                 'id_toko' => $this->userdata->id_toko,
+                'id_cabang' => $id_cabang,
                 'first_name' => $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
                 'phone' => $this->input->post('phone'),
@@ -181,8 +206,8 @@ class User_retail extends AI_Admin
 
                 $data_printer = [
                     'id_user' => $user->id_users,
-                    'id_toko'    => $this->userdata->id_toko,
-                    'opsi'    => 2,
+                    'id_toko' => $this->userdata->id_toko,
+                    'opsi' => 2,
                 ];
 
                 $this->db->insert('printer_mode', $data_printer);
@@ -249,7 +274,7 @@ class User_retail extends AI_Admin
             // upsdatew gambar //
             $config['upload_path'] = 'assets/foto/';
             $config['allowed_types'] = 'gif|jpeg|png|jpg';
-            $config['max_size']  = '1000';
+            $config['max_size'] = '1000';
             $config['max_width'] = '2000';
             $config['max_height'] = '2000';
 
@@ -275,7 +300,7 @@ class User_retail extends AI_Admin
                 $company = "";
             }
             $users = $this->db->where('id_toko', $this->input->post('id_toko'))->where('id', $this->input->post('id'))->get('users')->row();
-            $data  = array(
+            $data = array(
                 // 'id_toko' => $this->input->post('id_toko',TRUE),
                 'username' => $this->input->post('email', TRUE),
                 'email' => $this->input->post('email', TRUE),
@@ -333,7 +358,7 @@ class User_retail extends AI_Admin
             $r = '1';
         }
         if ($r == '1') {
-            $data = array('active' => '1',);
+            $data = array('active' => '1', );
             $this->User_retail_model->update($id, $data);
             $this->session->set_flashdata('message', 'Deactive Record Success');
             redirect(site_url('admin/user_retail'));

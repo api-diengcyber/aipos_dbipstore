@@ -33,17 +33,20 @@
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
             </div>
 
@@ -53,7 +56,8 @@
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-add-container">
                 Inside
                 <b>.container</b>
@@ -105,29 +109,37 @@
                   <div class="col-xs-2" style="padding-right:0px;">
                     <div class="form-group">
                       <label>No Faktur</label>
-                      <input type="text" class="form-control" name="nofaktur" id="nofaktur" placeholder="No Faktur" disabled>
+                      <input type="text" class="form-control" name="nofaktur" id="nofaktur" placeholder="No Faktur"
+                        disabled>
                     </div>
                   </div>
                   <div class="col-xs-2">
                     <div class="form-group">
-                      <label>Tanggal Masuk <?php echo form_error('tgl') ?></label>
-                      <input type="text" class="form-control" name="tgl" id="datepicker1" placeholder="dd-mm-yyyy" value="<?php echo $tgl ?>">
+                      <label>Tanggal Masuk
+                        <?php echo form_error('tgl') ?>
+                      </label>
+                      <input type="text" class="form-control" name="tgl" id="datepicker1" placeholder="dd-mm-yyyy"
+                        value="<?php echo $tgl ?>">
                     </div>
                   </div>
                   <!-- </div>
                       <div class="row"> -->
                   <div class="col-xs-2">
                     <div class="form-group">
-                      <label>Supplier <?php echo form_error('supplier') ?></label>
+                      <label>Supplier
+                        <?php echo form_error('supplier') ?>
+                      </label>
                       <select class="form-control" name="supplier" id="supplier">
                         <option value="">-- Pilih Supplier --</option>
-                        <?php foreach ($data_supplier as $key) :
+                        <?php foreach ($data_supplier as $key):
                           $selected = '';
                           if (!empty($this->session->userdata('tukarphone_id')) && strpos($key->nama_supplier, 'TUKAR TAMBAH') > -1) {
                             $selected = 'selected';
                           }
                           ?>
-                          <option value="<?php echo $key->id_supplier ?>" <?php echo $selected ?>><?php echo $key->nama_supplier ?></option>
+                          <option value="<?php echo $key->id_supplier ?>" <?php echo $selected ?>>
+                            <?php echo $key->nama_supplier ?>
+                          </option>
                         <?php endforeach ?>
                       </select>
                     </div>
@@ -135,16 +147,16 @@
                   <!-- <div class="col-xs-2">
                           <div class="form-group">
                             <label>Gudang <?php //echo form_error('cabang') 
-                                          ?></label>
+                            ?></label>
                             <select class="form-control" name="cabang" id="cabang">
                               <option value="">-- Pilih Gudang --</option>
                             <?php //
                             //foreach ($data_cabang as $key): 
                             ?>
                               <option value="<?php //echo $key->id_users 
-                                              ?>" <?php //echo $key->first_name.''.$key->last_name=="GUDANGPUSAT"?"selected":"" 
-                                                  ?>><?php //echo $key->first_name.' '.$key->last_name 
-                                                      ?></option>
+                              ?>" <?php //echo $key->first_name.''.$key->last_name=="GUDANGPUSAT"?"selected":"" 
+                              ?>><?php //echo $key->first_name.' '.$key->last_name 
+                              ?></option>
                             <?php //endforeach 
                             ?>
                             </select>
@@ -165,26 +177,34 @@
                     </div>
                   </div>
                   <div class="col-xs-2" id="panel-jatuh-tempo" style="display: none;">
-                    <label>Jatuh Tempo <?php echo form_error('') ?></label>
+                    <label>Jatuh Tempo
+                      <?php echo form_error('') ?>
+                    </label>
                     <div class="form-group">
-                      <input type="text" class="form-control" name="jatuh_tempo" id="datepicker2" placeholder="dd-mm-yyyy" value="<?php echo date('d-m-Y') ?>">
+                      <input type="text" class="form-control" name="jatuh_tempo" id="datepicker2"
+                        placeholder="dd-mm-yyyy" value="<?php echo date('d-m-Y') ?>">
                     </div>
                   </div>
                   <div class="col-xs-2 hide" id="panel-bank">
                     <div class="form-group">
-                      <label>Bank <?php echo form_error('bank') ?></label>
+                      <label>Bank
+                        <?php echo form_error('bank') ?>
+                      </label>
                       <select class="form-control" name="bank" id="bank">
                         <option value="">-- Pilih Bank --</option>
                         <?php
-                        foreach ($data_bank as $key) : ?>
-                          <option value="<?php echo $key->id ?>"><?php echo $key->bank ?></option>
+                        foreach ($data_bank as $key): ?>
+                          <option value="<?php echo $key->id ?>">
+                            <?php echo $key->bank ?>
+                          </option>
                         <?php endforeach ?>
                       </select>
                     </div>
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" name="term" id="term" placeholder="IMEI / NAMA PRODUK" style="font-size:20px;padding:10px 6px 10px 6px;height:38px;">
+                  <input type="text" class="form-control" name="term" id="term" placeholder="IMEI / NAMA PRODUK"
+                    style="font-size:20px;padding:10px 6px 10px 6px;height:38px;">
                 </div>
               </div>
               <div class="col-md-6">
@@ -208,7 +228,8 @@
                   <tfoot>
                     <tr>
                       <th colspan="5" class="text-right">TOTAL</th>
-                      <th class="text-right"><span class="total"></span><input type="hidden" name="total" class="total val"><input type="hidden" name="total_bruto" class="bruto val"></th>
+                      <th class="text-right"><span class="total"></span><input type="hidden" name="total"
+                          class="total val"><input type="hidden" name="total_bruto" class="bruto val"></th>
                       <th rowspan="3"></th>
                     </tr>
                   </tfoot>
@@ -229,15 +250,15 @@
 </div><!-- /.main-content -->
 
 <script type="text/javascript">
-  $(document).ready(function() {
+  $(document).ready(function () {
     $("#term").autocomplete({
-      source: function(request, response) {
+      source: function (request, response) {
         $.ajax({
-          url: '<?php echo base_url() ?>admin/penjualan_retail/json_produk/<?php echo $type ?>',
+          url: '<?php echo base_url() ?>admin/penjualan_retail/json_produk_beli/<?php echo $type ?>',
           type: 'post',
           data: 'term=' + request.term + '&tgl=<?php echo date("Y-m-d") ?>',
-          success: function(data) {
-            response($.map(data, function(value, key) {
+          success: function (data) {
+            response($.map(data, function (value, key) {
               return {
                 value: value.value,
                 label: value.label + ' (' + value.deskripsi + ')',
@@ -250,7 +271,7 @@
       minLength: 1,
       delay: 0,
       autoFocus: true,
-      select: function(event, ui) {
+      select: function (event, ui) {
         $('#term').val(ui.item.label);
         addTemp(ui.item.value);
         return false;
@@ -263,19 +284,19 @@
         url: '<?php echo base_url() ?>admin/pembelian/tambah_temp',
         type: 'post',
         data: 'barcode=' + barcode,
-        success: function(response) {
+        success: function (response) {
           $('#term').removeAttr("disabled");
           $('#term').val("");
           listTemp();
         },
-        error: function() {
+        error: function () {
           $('#term').removeAttr("disabled");
           $('#term').val("");
         }
       });
     }
 
-    $("#pembayaran").on("change", function(e) {
+    $("#pembayaran").on("change", function (e) {
       var val = $(this).val();
       if (val * 1 == 1) {
         $("#panel-jatuh-tempo").show();
@@ -289,11 +310,11 @@
       }
     });
 
-    $(".btn-submit").click(function(e) {
+    $(".btn-submit").click(function (e) {
       e.preventDefault();
       var invalidDate = 0;
       var validasiExpire = new Promise((resolve, reject) => {
-        $(".expire_date").each(function() {
+        $(".expire_date").each(function () {
           var expire_date = $(this).val().length;
           if (expire_date < 10) {
             invalidDate++;
@@ -315,7 +336,7 @@
       $.ajax({
         url: '<?php echo base_url() ?>admin/pembelian/list_temp/<?php echo $type ?>',
         type: 'get',
-        success: function(response) {
+        success: function (response) {
           $('[type="submit"]').removeAttr("disabled");
           if (response.status == "ok") {
             $("tbody").html(response.data);
@@ -323,7 +344,7 @@
             console.log(response);
           }
         },
-        error: function() {
+        error: function () {
           $('[type="submit"]').removeAttr("disabled");
         }
       });
@@ -335,7 +356,7 @@
         var total = 0;
         var arr_produk = [];
         var arr_bruto = {};
-        $('.subtotal').each(function() {
+        $('.subtotal').each(function () {
           let data_id = $(this).attr('data-id');
           if (!arr_produk[data_id]) {
             var val = jNumber($(this).text()) * 1;
@@ -346,18 +367,18 @@
           arr_produk[data_id] = true;
         });
         var oi = 0;
-        $('.harga_satuan').each(function() {
+        $('.harga_satuan').each(function () {
           var val = jNumber($(this).val()) * 1;
-          if (typeof(arr_bruto[oi]) === "undefined") {
+          if (typeof (arr_bruto[oi]) === "undefined") {
             arr_bruto[oi] = {};
           }
           arr_bruto[oi]['harga_satuan'] = val;
           oi++;
         });
         oi = 0;
-        $('.jumlah').each(function() {
+        $('.jumlah').each(function () {
           var val = jNumber($(this).val()) * 1;
-          if (typeof(arr_bruto[oi]) === "undefined") {
+          if (typeof (arr_bruto[oi]) === "undefined") {
             arr_bruto[oi] = {};
           }
           arr_bruto[oi]['jumlah'] = val;
@@ -391,11 +412,11 @@
         hitungtotal();
         updateTemp(id, 'expire_date=' + expire_date + '&harga_satuan=' + harga_satuan + '&jumlah=' + jumlah + '&diskon=' + diskon + '&total=' + total + '&diskon_nominal=' + diskon_nominal + '&subtotal=' + subtotal);
       }
-      $(".numbering").on("keyup", function() {
+      $(".numbering").on("keyup", function () {
         var val = jNumber($(this).val());
         $(this).val(numberWithCommas(val));
       });
-      $(".editable").on("change", function() {
+      $(".editable").on("change", function () {
         var id = $(this).attr('data-id');
         hitungsubtotal(id);
       });
@@ -406,10 +427,10 @@
           url: '<?php echo base_url() ?>admin/pembelian/update_temp',
           type: 'post',
           data: 'id=' + id + '&' + data,
-          success: function(response) {
+          success: function (response) {
             $('.editable').removeAttr('readonly');
           },
-          error: function() {
+          error: function () {
             $('.editable').removeAttr('readonly');
           }
         });
@@ -425,9 +446,9 @@
           changeYear: true,
           showButtonPanel: true,
           minDate: mindate,
-          beforeShow: function() {
+          beforeShow: function () {
             var datepicker = $(this).datepicker("widget");
-            setTimeout(function() {
+            setTimeout(function () {
               var buttons = datepicker.find('.ui-datepicker-buttonpane').find('button');
               buttons.eq(0).addClass('btn btn-xs');
               buttons.eq(1).addClass('btn btn-xs btn-success');
@@ -437,7 +458,7 @@
         });
       }
       setDatepicker(new Date());
-      $('input[name="tgl"]').on("change", function(e) {
+      $('input[name="tgl"]').on("change", function (e) {
         e.stopImmediatePropagation();
         var val = $(this).val();
         var spl = val.split('-');
@@ -447,7 +468,7 @@
         setDatepicker(new Date(y, (m * 1) - 1, d));
         $(".expire_date").val('');
       });
-      $(".btn-hapus-temp").on("click", function(e) {
+      $(".btn-hapus-temp").on("click", function (e) {
         e.stopImmediatePropagation();
         var that = $(this);
         that.attr("disabled", "disabled");
@@ -456,10 +477,10 @@
           url: '<?php echo base_url() ?>admin/pembelian/hapus_temp',
           type: 'post',
           data: 'id=' + id,
-          success: function(response) {
+          success: function (response) {
             listTemp();
           },
-          error: function() {
+          error: function () {
             listTemp();
           }
         });

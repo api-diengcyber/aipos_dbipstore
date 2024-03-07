@@ -1,4 +1,5 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
 class Pembelian extends AI_Admin
 {
@@ -6,7 +7,7 @@ class Pembelian extends AI_Admin
 	public function __construct()
 	{
 		parent::__construct();
-		$this->models('Faktur_retail_model, Pembelian_retail_model');
+		$this->models('Faktur_retail_model, Pembelian_retail_model, Satuan_produk_model,');
 		$this->load->model('Tukarphone_model');
 	}
 
@@ -56,8 +57,16 @@ class Pembelian extends AI_Admin
 		$this->view('pembelian2/pembelian_read', $data);
 	}
 
-	public function create($type = '')
+	public function create($type = '', $id_produk_2 = '')
 	{
+		if ($id_produk_2 != null) {
+			$parent = $this->Produk_retail_model->get_by_id($id_produk_2);
+			$kode_produk = $parent->kode_produk;
+		} else {
+			$parent = null;
+			$kode_produk = null;
+		}
+
 		$tp = $this->input->get('tp');
 		if (empty($tp)) {
 			$this->session->unset_userdata('tukartambah_id');
@@ -67,7 +76,16 @@ class Pembelian extends AI_Admin
 			$this->db->where('id_toko', $this->userdata->id_toko);
 			$this->db->delete('pembelian_temp');
 		}
+		$data_kategori = $this->db->select('kp.*')
+			->from('kategori_produk kp')
+
+			->where('kp.id_toko', $this->userdata->id_toko)
+			//->where('u.id_cabang', $this->userdata->id_cabang)								 
+			->order_by('kp.nama_kategori', 'asc')
+			->group_by('kp.id_kategori_2')
+			->get();
 		$data = array(
+
 			'type' => $type,
 			'is_pusat' => false,
 			'tgl' => set_value('tgl', date('d-m-Y')),
@@ -76,6 +94,48 @@ class Pembelian extends AI_Admin
 			'data_supplier' => $this->db->where($this->where())->get('supplier')->result(),
 			'data_cabang' => $this->db->where('level = 3')->where('id_toko', $this->userdata->id_toko)->get('users')->result(),
 			'data_bank' => $this->db->get('pil_bank')->result(),
+			'data_supplier' => $this->db->where('id_toko', $this->userdata->id_toko)->get('supplier')->result(),
+			'data_supplier_select' => null,
+			'parent' => $parent,
+			'id_toko' => $this->userdata->id_toko,
+			'id_users' => $this->userdata->id_users,
+			'nama_toko' => $this->userdata->nama_toko,
+			'nama_user' => $this->userdata->email,
+			'active_pembelian_create' => 'active',
+			'id_modul' => $this->userdata->id_modul,
+			'nama_modul' => $this->userdata->nama_modul,
+			'button' => 'Tambah',
+			'action' => site_url('admin/produk_retail/create_action'),
+			'id_produk' => set_value('id_produk'),
+			'id_users_tujuan' => set_value('id_users_tujuan'),
+			'barcode' => set_value('IMEI'),
+			//  'barcode' => set_value('IMEI'),
+			'kategori' => set_value('kategori'),
+			// 'kode_produk' => set_value('kode_produk', $kode_produk),
+			'nama_produk' => set_value('nama_produk'),
+			'deskripsi' => set_value('deskripsi'),
+			'harga_beli' => set_value('harga_beli'),
+			'harga_1' => set_value('harga_1'),
+			'harga_2' => set_value('harga_2'),
+			'harga_3' => set_value('harga_3'),
+			'harga_4' => set_value('harga_4'),
+			'harga_5' => set_value('harga_5'),
+			'harga_6' => set_value('harga_6'),
+			'harga_7' => set_value('harga_7'),
+			'stok' => set_value('stok'),
+			'satuan' => set_value('satuan'),
+			'berat' => set_value('berat'),
+			'mingros' => set_value('mingros'),
+			'diskon' => set_value('diskon'),
+			'rak' => set_value('rak'),
+			'stok_awal' => set_value('stok_awal'),
+			'hpp_awal' => set_value('hpp_awal'),
+			'allow_awal' => true,
+			'gambar' => set_value('gambar'),
+			'gambarlama' => set_value('gambarlama'),
+			'data_satuan' => $this->Satuan_produk_model->get_by_id_toko($this->userdata->id_toko),
+			'data_kategori' => $data_kategori,
+
 		);
 		if ($type == 'produksi') {
 			$data['active_pembelian_produksi_create'] = 'active';
@@ -84,7 +144,7 @@ class Pembelian extends AI_Admin
 		} else {
 			$data['active_pembelian_create'] = 'active';
 		}
-		$this->view('pembelian2/pembelian_form', $data);
+		$this->view('pembelian2/pembelian_form2', $data);
 	}
 
 	public function tambah_temp()
@@ -169,7 +229,7 @@ class Pembelian extends AI_Admin
 		$no = 1;
 		$html = '';
 		$total = 0;
-		foreach ($res_temp as $key) :
+		foreach ($res_temp as $key):
 			$html .= '<tr>
 						<td>' . $no . '</td>
 						<td>' . $key->nama_produk . ' (' . $key->nama_satuan . '), Harga Jual : ' . number_format($key->harga_1, 0, ',', '.') . ', ' . number_format($key->harga_2, 0, ',', '.') . ', ' . number_format($key->harga_3, 0, ',', '.') . '<p>Deskripsi</p><p>' . $key->deskripsi . '</p></td>
@@ -282,7 +342,7 @@ class Pembelian extends AI_Admin
 					$id_hutang = $this->db->insert_id();
 				}
 				$nominal_diskon = 0;
-				foreach ($res_temp as $key) :
+				foreach ($res_temp as $key):
 					$id_pembelian = 1;
 					$row_last_pembelian = $this->db->where('id_toko', $this->userdata->id_toko)->order_by('id', 'desc')->get('pembelian')->row();
 					if ($row_last_pembelian) {
@@ -386,7 +446,7 @@ class Pembelian extends AI_Admin
 				->where('p.id_toko', $row_fr->id_toko)
 				->where('p.id_faktur', $row_fr->id_faktur)
 				->get()->result();
-			foreach ($res_p as $key) :
+			foreach ($res_p as $key):
 				$data_insert = array(
 					'id_toko' => $key->id_toko,
 					'id_users' => $this->userdata->id_users,
@@ -441,7 +501,7 @@ class Pembelian extends AI_Admin
 		$no = 1;
 		$html = '';
 		$total = 0;
-		foreach ($res_temp as $key) :
+		foreach ($res_temp as $key):
 			$html .= '<tr>
 						<td>' . $no . '</td>
 						<td>' . $key->nama_produk . ' (' . $key->nama_satuan . ')</td>
@@ -616,7 +676,7 @@ class Pembelian extends AI_Admin
 						->where('j.no_faktur', $row_fr->no_faktur)
 						->where('(' . $jwhere_like . ')')
 						->get()->result();
-					foreach ($res_jurnal as $key_j) :
+					foreach ($res_jurnal as $key_j):
 						$this->db->where('id_toko', $this->userdata->id_toko);
 						$this->db->where('id', $key_j->id);
 						$this->db->delete('jurnal');
