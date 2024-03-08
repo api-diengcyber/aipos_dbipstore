@@ -232,7 +232,6 @@
 											-
 										</td>
 										<td>
-											Beban Karyawan
 											<?php
 											$nama_karyawan = $this->db->select('u.*')
 												->from('users u')

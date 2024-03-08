@@ -148,18 +148,18 @@
                           } ?>>
 
                           <?php echo $k->first_name;
-                          if ($k->level == 2) {
-                            echo " | SALES";
-                          } elseif ($k->level = 3) {
-                            echo " | GUDANG";
-
-                          } elseif ($k->level = 4) {
-                            echo " | SALES";
-                          } elseif ($k->level = 5) {
-                            echo " | MARKETING";
-                          } else {
-                            echo "| PRINCIPAL";
-                          }
+                          // if ($k->level == 2) {
+                          //   echo " | SALES";
+                          // } elseif ($k->level = 3) {
+                          //   echo " | GUDANG";
+                      
+                          // } elseif ($k->level = 4) {
+                          //   echo " | SALES";
+                          // } elseif ($k->level = 5) {
+                          //   echo " | MARKETING";
+                          // } else {
+                          //   echo "| PRINCIPAL";
+                          // }
                           ?>
 
                         </option>
@@ -198,38 +198,48 @@
                     value="<?php echo number_format(!empty($nominal) ? $nominal : 0, 0, ',', '.'); ?>" />
                 </div>
               </div>
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <label for="varchar">Jumlah Lembur
-                    <?php echo form_error('lembur') ?>
-                  </label>
-                  <input type="number" class="form-control" name="lembur" id="lembur" placeholder="Jumlah Lembur"
-                    value="<?php echo $lembur; ?>" />
+              <?php if ($type == 'non_karyawan') { ?>
+
+              <?php } else { ?>
+
+
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="varchar">Jumlah Lembur
+                      <?php echo form_error('lembur') ?>
+                    </label>
+                    <input type="number" class="form-control" name="lembur" id="lembur" placeholder="Jumlah Lembur"
+                      value="<?php echo $lembur; ?>" />
+                  </div>
+                  <div class="form-group">
+                    <label for="varchar">Nominal Seluruh Lembur
+                      <?php echo form_error('nominal_lembur') ?>
+                    </label>
+                    <input type="text" class="form-control nominal" name="nominal_lembur" id="nominal_lembur"
+                      placeholder="Nominal Seluruh Lembur"
+                      value="<?php echo number_format(!empty($nominal_lembur) ? $nominal_lembur : 0, 0, ',', '.'); ?>" />
+                  </div>
+                  <div class="form-group">
+                    <label for="varchar">Jumlah Target
+                      <?php echo form_error('target') ?>
+                    </label>
+                    <input type="number" class="form-control " name="target" id="target" placeholder="Jumlah Target"
+                      value="<?php echo $target; ?>" />
+                  </div>
+                  <div class="form-group">
+                    <label for="varchar">Nominal Seluruh Target
+                      <?php echo form_error('nominal_target') ?>
+                    </label>
+                    <input type="text" class="form-control nominal" name="nominal_target" id="nominal_target"
+                      placeholder="Nominal Seluruh Target"
+                      value="<?php echo number_format(!empty($nominal_target) ? $nominal_target : 0, 0, ',', '.'); ?>" />
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="varchar">Nominal Seluruh Lembur
-                    <?php echo form_error('nominal_lembur') ?>
-                  </label>
-                  <input type="text" class="form-control nominal" name="nominal_lembur" id="nominal_lembur"
-                    placeholder="Nominal Seluruh Lembur"
-                    value="<?php echo number_format(!empty($nominal_lembur) ? $nominal_lembur : 0, 0, ',', '.'); ?>" />
-                </div>
-                <div class="form-group">
-                  <label for="varchar">Jumlah Target
-                    <?php echo form_error('target') ?>
-                  </label>
-                  <input type="number" class="form-control " name="target" id="target" placeholder="Jumlah Target"
-                    value="<?php echo $target; ?>" />
-                </div>
-                <div class="form-group">
-                  <label for="varchar">Nominal Seluruh Target
-                    <?php echo form_error('nominal_target') ?>
-                  </label>
-                  <input type="text" class="form-control nominal" name="nominal_target" id="nominal_target"
-                    placeholder="Nominal Seluruh Target"
-                    value="<?php echo number_format(!empty($nominal_target) ? $nominal_target : 0, 0, ',', '.'); ?>" />
-                </div>
-              </div>
+                <?php
+              }
+              ?>
+
+
             </div>
 
 

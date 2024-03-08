@@ -22,7 +22,7 @@ class Satuan_produk_model extends CI_Model
 		$this->datatables->from('satuan_produk sp');
 		$this->datatables->join('users u', 'sp.id_users=u.id_users AND sp.id_toko=u.id_toko');
 		$this->datatables->where('sp.id_toko', $this->userdata->id_toko);
-		$this->datatables->where('u.id_cabang', $this->userdata->id_cabang);
+		// $this->datatables->where('u.id_cabang', $this->userdata->id_cabang);
 		// $this->datatables->where('u.level', 3);
 		if ($this->userdata->level == 1) {
 			$this->datatables->add_column('action', anchor(site_url('admin/satuan_produk/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/satuan_produk/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javasciprt: return confirm(\'Are You Sure ?\')"'), 'id_satuan');

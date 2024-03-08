@@ -1,35 +1,62 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+  exit('No direct script access allowed');
 
-class Retur_jual2 extends AI_Admin {
+class Retur_jual2 extends AI_Admin
+{
 
-	public function __construct()
-	{
-		parent::__construct();
+  public function __construct()
+  {
+    parent::__construct();
     $this->load->model('Retur_jual_model');
-	}
+  }
 
-	public function index()
-	{
+  public function index()
+  {
     $data = [
       'active_retur_penjualan_manual_create' => 'active',
     ];
     $this->view('retur_jual2/retur_jual_list', $data);
   }
 
-	public function json()
-	{
-      header('Content-Type: application/json');
-      echo $this->Retur_jual_model->json($this->userdata->id_toko);
-	}
-  
+  public function json()
+  {
+    header('Content-Type: application/json');
+    echo $this->Retur_jual_model->json($this->userdata->id_toko);
+  }
+
   public function ajax_cari_barang()
   {
+
+    $kasir_cabang = $this->db->select('u.*')
+      ->from('users u')
+      ->where('u.id_cabang', $this->userdata->id_cabang)
+      ->where('u.level', 2)
+      ->get()
+      ->row();
+
     header('Content-Type: application/json');
     $term = $this->input->post('term', true);
     $data = array();
-    $res = $this->db->where('id_toko', $this->userdata->id_toko)->like('nama_produk', $term, 'both')->or_like('barcode', $term, 'both')->get('produk_retail')->result();
+    $subquery = $this->db->select('id_produk')
+      ->from('retur_jual_temp')
+      ->get_compiled_select();
+
+    $this->db->select('pr.*');
+    $this->db->from('produk_retail pr');
+    $this->db->where("pr.id_produk_2 NOT IN ($subquery)", NULL, FALSE);
+    if ($this->userdata->level != 1) {
+      // $this->datatables->join('produk_retail_mutasi pm', 'pm.id_produk=p.id_produk_2 AND pm.id_toko=p.id_toko');
+      // $this->datatables->where('pm.id_users_tujuan', $this->userdata->id_users);
+      $this->datatables->where('pr.id_users', $kasir_cabang->id_users);
+    }
+    $this->db->like('pr.nama_produk', $term, 'both');
+    $this->db->or_like('pr.barcode', $term, 'both');
+    $res = $this->db->get()->result();
+
+    // $res = $this->db->where('id_toko', $this->userdata->id_toko)->like('nama_produk', $term, 'both')->or_like('barcode', $term, 'both')->get('produk_retail')->result();
     foreach ($res as $key) {
       $data[] = array(
+        'barcode' => $key->barcode,
         'value' => $key->id_produk_2,
         'label' => $key->nama_produk,
       );
@@ -48,7 +75,7 @@ class Retur_jual2 extends AI_Admin {
     $row = $this->db->where('id_toko', $this->userdata->id_toko)->where('id_produk', $id_produk)->get('retur_jual_temp')->row();
     if ($row) {
       $data_update = array(
-        'jumlah' => $row->jumlah+1,
+        'jumlah' => $row->jumlah + 1,
       );
       $this->db->where('id', $row->id);
       $this->db->update('retur_jual_temp', $data_update);
@@ -80,11 +107,11 @@ class Retur_jual2 extends AI_Admin {
   public function ajax_table()
   {
     header('Content-Type: application/json');
-    $res = $this->db->select('rjt.*, pr.nama_produk')
-                    ->from('retur_jual_temp rjt')
-                    ->join('produk_retail pr', 'rjt.id_produk=pr.id_produk_2')
-                    ->where('rjt.id_toko', $this->userdata->id_toko)
-                    ->get()->result();
+    $res = $this->db->select('rjt.*, pr.nama_produk,pr.deskripsi,pr.barcode')
+      ->from('retur_jual_temp rjt')
+      ->join('produk_retail pr', 'rjt.id_produk=pr.id_produk_2')
+      ->where('rjt.id_toko', $this->userdata->id_toko)
+      ->get()->result();
     $result = array(
       'status' => 'ok',
       'data' => $res,
@@ -122,15 +149,15 @@ class Retur_jual2 extends AI_Admin {
 
     $this->db->where('id', $id);
     $this->db->delete('retur_jual_temp');
-    
+
     $result = array(
       'status' => 'ok',
     );
     echo json_encode($result);
   }
 
-	public function create()
-	{
+  public function create()
+  {
     $data = array(
       'id_toko' => $this->userdata->id_toko,
       'nama_toko' => $this->userdata->nama_toko,
@@ -138,28 +165,29 @@ class Retur_jual2 extends AI_Admin {
       'active_retur_penjualan_manual_create' => 'active',
       'id_modul' => $this->userdata->id_modul,
       'nama_modul' => $this->userdata->nama_modul,
-      'action' => site_url().'admin/retur_jual2/create_action',
+      'action' => site_url() . 'admin/retur_jual2/create_action',
       'tanggal' => set_value('tanggal', date('d-m-Y')),
+      'tgl_retur' => set_value('tanggal', date('d-m-Y')),
     );
     $this->view('retur_jual2/retur_jual_form', $data);
   }
 
   private function get_retur()
   {
-      $digit = 8;
-      $row = $this->db->select('RIGHT(no_retur,'.$digit.') AS no')
-                      ->from('retur_jual')
-                      ->where('id_toko', $this->userdata->id_toko)
-                      ->order_by('no_retur', 'desc')
-                      ->get()->row();
-      $no = 1;
-      if ($row) {
-        $no = $row->no+1;
-      }
-      $kode = 'RJ'.sprintf('%0'.$digit.'d', $no);
-      return $kode;
+    $digit = 8;
+    $row = $this->db->select('RIGHT(no_retur,' . $digit . ') AS no')
+      ->from('retur_jual')
+      ->where('id_toko', $this->userdata->id_toko)
+      ->order_by('no_retur', 'desc')
+      ->get()->row();
+    $no = 1;
+    if ($row) {
+      $no = $row->no + 1;
+    }
+    $kode = 'RJ' . sprintf('%0' . $digit . 'd', $no);
+    return $kode;
   }
-  
+
   public function create_action()
   {
     $this->_rules();
@@ -169,16 +197,16 @@ class Retur_jual2 extends AI_Admin {
       $tanggal = $this->input->post('tanggal', true);
       $ket = $this->input->post('ket', true);
       $res_temp = $this->db->select('rjt.*, pr.nama_produk, pr.harga_beli')
-                           ->from('retur_jual_temp rjt')
-                           ->join('produk_retail pr', 'rjt.id_produk=pr.id_produk_2 AND rjt.id_toko=pr.id_toko')
-                           ->where('rjt.id_toko', $this->userdata->id_toko)
-                           ->order_by('rjt.id', 'asc')
-                           ->get()->result();
+        ->from('retur_jual_temp rjt')
+        ->join('produk_retail pr', 'rjt.id_produk=pr.id_produk_2 AND rjt.id_toko=pr.id_toko')
+        ->where('rjt.id_toko', $this->userdata->id_toko)
+        ->order_by('rjt.id', 'asc')
+        ->get()->result();
 
       $id_retur = 1;
       $row_last_retur = $this->db->where('id_toko', $this->userdata->id_toko)->order_by('id_retur', 'desc')->get('retur_jual')->row();
       if ($row_last_retur) {
-        $id_retur = $row_last_retur->id_retur+1;
+        $id_retur = $row_last_retur->id_retur + 1;
       }
 
       $total = 0;
@@ -187,15 +215,15 @@ class Retur_jual2 extends AI_Admin {
       foreach ($res_temp as $key):
         $row_sp = $this->db->where('id_toko', $this->userdata->id_toko)->where('id_produk', $key->id_produk)->order_by('id', 'desc')->get('stok_produk')->row();
         if ($row_sp) {
-          if ($fpilihan==null) {
+          if ($fpilihan == null) {
             $fpilihan = $key->pilihan;
           }
-          $subtotal = $key->harga_satuan*$key->jumlah;
+          $subtotal = $key->harga_satuan * $key->jumlah;
           $total += $subtotal;
-          $subtotal_hpp = $key->harga_beli*$key->jumlah;
+          $subtotal_hpp = $key->harga_beli * $key->jumlah;
           $total_hpp += $subtotal_hpp;
 
-           // stok mati
+          // stok mati
           if ($key->pilihan == "1") {
             $data_insert = array(
               'id_users' => $this->userdata->id_users,
@@ -208,7 +236,7 @@ class Retur_jual2 extends AI_Admin {
             $this->db->insert('stok_produk_mati', $data_insert);
           } else {
             $data_update = array(
-              'stok' => $row_sp->stok+$key->jumlah,
+              'stok' => $row_sp->stok + $key->jumlah,
             );
             $this->db->where('id', $row_sp->id);
             $this->db->update('stok_produk', $data_update);
@@ -227,6 +255,7 @@ class Retur_jual2 extends AI_Admin {
             'potongan' => 0,
             'subtotal' => $subtotal,
             'pilihan' => $key->pilihan,
+
           );
           $this->db->insert('retur_jual_detail', $data_insert);
         }
@@ -239,12 +268,13 @@ class Retur_jual2 extends AI_Admin {
         'id_retur' => $id_retur,
         'id_toko' => $this->userdata->id_toko,
         'id_users' => $this->userdata->id_users,
-        'tgl' => $tanggal.' '.date('H:i:s'),
+        'tgl' => $tanggal . ' ' . date('H:i:s'),
         'no_retur' => $this->get_retur(),
         'no_faktur' => '',
         'total' => $total,
         'ppn' => 0,
         'total_ppn' => 0,
+        'retur' => $this->input->post('return'),
         'ket' => $ket,
       );
       $this->db->insert('retur_jual', $data_insert);
@@ -254,11 +284,17 @@ class Retur_jual2 extends AI_Admin {
       $no_faktur = 0;
       eval($this->Pengaturan_transaksi_model->accounting('buatreturjual'));
       $this->session->set_flashdata('message', 'Create record success');
-      redirect(site_url('admin/retur_jual2/create'));
+      if ($this->input->post('return') == 1) {
+
+        redirect(site_url('admin/penjualan_retail/create'));
+      } else {
+
+        redirect(site_url('admin/retur_jual2/create'));
+      }
     }
   }
 
-  public function _rules() 
+  public function _rules()
   {
     $this->form_validation->set_rules('tanggal', 'tanggal', 'trim|required');
     $this->form_validation->set_error_delimiters('<span class="text-danger">', '</span>');

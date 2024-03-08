@@ -175,12 +175,37 @@ class Pegawai_beban extends AI_Admin
 
     public function create()
     {
-        $karyawan = $this->db->select("*")
-            ->from('users')
-            ->where('id_toko', $this->userdata->id_toko)
-            ->where('id_users!=', $this->userdata->id_users)
+
+        $kasir_cabang = $this->db->select('u.*')
+            ->from('users u')
+            ->where('u.id_cabang', $this->userdata->id_cabang)
+            ->where('u.level', 2)
             ->get()
-            ->result();
+            ->row();
+
+        if ($this->userdata->level == 1) {
+            $karyawan = $this->db->select("*")
+                ->from('users')
+                ->where('id_toko', $this->userdata->id_toko)
+                // ->where('id_users!=', $kasir_cabang->id_users)
+                ->where('id_users!=', $this->userdata->id_users)
+                ->get()
+                ->result();
+
+        } else {
+            $karyawan = $this->db->select("*")
+                ->from('users')
+                ->where('id_toko', $this->userdata->id_toko)
+                ->where('id_cabang=', $kasir_cabang->id_cabang)
+                ->where('id_users!=', $this->userdata->id_users)
+                // ->where('id_users!=', $this->userdata->id_users)
+                ->get()
+                ->result();
+
+        }
+
+
+
         // $bulan = $this->db->select("*")
         //             ->from('bulan')
         //             ->get()
@@ -286,6 +311,7 @@ class Pegawai_beban extends AI_Admin
         $data = [
             'id_toko' => $this->userdata->id_toko,
             'id_users' => $id_users,
+            'input_by' => $this->userdata->id_users,
             'hari_aktif' => $hari_aktif,
             'bulan' => $bulan,
             'lembur' => $lembur,
@@ -346,6 +372,36 @@ class Pegawai_beban extends AI_Admin
 
     public function update($id)
     {
+
+        $kasir_cabang = $this->db->select('u.*')
+            ->from('users u')
+            ->where('u.id_cabang', $this->userdata->id_cabang)
+            ->where('u.level', 2)
+            ->get()
+            ->row();
+
+        if ($this->userdata->level == 1) {
+            $karyawan = $this->db->select("*")
+                ->from('users')
+                ->where('id_toko', $this->userdata->id_toko)
+                // ->where('id_users!=', $kasir_cabang->id_users)
+                ->where('id_users!=', $this->userdata->id_users)
+                ->get()
+                ->result();
+
+        } else {
+            $karyawan = $this->db->select("*")
+                ->from('users')
+                ->where('id_toko', $this->userdata->id_toko)
+                ->where('id_cabang=', $kasir_cabang->id_cabang)
+                ->where('id_users!=', $this->userdata->id_users)
+                // ->where('id_users!=', $this->userdata->id_users)
+                ->get()
+                ->result();
+
+        }
+
+
         $row = $this->db->select('b.*')
             ->from('beban b')
             ->join('users u', 'u.id_users=b.id_users')
@@ -353,12 +409,12 @@ class Pegawai_beban extends AI_Admin
             ->where('b.id_toko', $this->userdata->id_toko)
             ->get()
             ->row();
-        $karyawan = $this->db->select("*")
-            ->from('users')
-            ->where('id_toko', $this->userdata->id_toko)
-            ->where('id_users!=', $this->userdata->id_users)
-            ->get()
-            ->result();
+        // $karyawan = $this->db->select("*")
+        //     ->from('users')
+        //     ->where('id_toko', $this->userdata->id_toko)
+        //     ->where('id_users!=', $this->userdata->id_users)
+        //     ->get()
+        //     ->result();
         if ($row) {
 
             $data = array(
@@ -535,11 +591,11 @@ class Pegawai_beban extends AI_Admin
         $bulan = $this->input->post('bulan');
         $hari_aktif = $this->input->post('hari_aktif');
         $lembur = $this->input->post('lembur');
-        $nominal_lembur = $this->input->post('nominal_lembur');
+        $nominal_lembur = str_replace('.', '', $this->input->post('nominal_lembur', true));
         $target = $this->input->post('target');
-        $nominal_target = $this->input->post('nominal_target');
-        $nominal = $this->input->post('nominal');
-
+        $nominal_target = str_replace('.', '', $this->input->post('nominal_target', true));
+        $nominal =
+            str_replace('.', '', $this->input->post('nominal', true));
         $data = [
             'id_toko' => $this->userdata->id_toko,
             'nama' => $nama,

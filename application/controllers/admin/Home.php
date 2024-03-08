@@ -1,4 +1,5 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+  exit('No direct script access allowed');
 
 class Home extends AI_Admin
 {
@@ -14,12 +15,12 @@ class Home extends AI_Admin
   {
     $this->Admin_model->set_foreign_0();
     $res = $this->Admin_model->get_order($this->userdata->id_toko)->result();
-    foreach ($res as $key) :
+    foreach ($res as $key):
       $res_lod = $this->Admin_model->get_od($this->userdata->id_toko, $key->id_orders_2)->result();
       // delete orders_detail
       $this->Admin_model->delete_od($this->userdata->id_toko, $key->id_orders_2);
       // insert orders detail
-      foreach ($res_lod as $key2) :
+      foreach ($res_lod as $key2):
         $data_insert = array(
           'id_orders_2' => $key->id_orders_2,
           'id_orders_sales' => $key->id_sales,
@@ -55,8 +56,25 @@ class Home extends AI_Admin
     $where_stok = 'sp.id_toko = ' . $this->userdata->id_toko;
     $where_join_stock = $this->userdata->id_toko;
 
+
     $data['produk_terjual'] = $this->Admin_model->get_produk_jual($this->userdata->id_toko)->row();
-    $data['produk'] = $this->db->query('SELECT COUNT(id_produk) AS jml FROM produk_retail WHERE ' . $where_id_toko)->row();
+
+
+    if ($this->userdata->level != 1) {
+      $kasir_cabang = $this->db->select('u.*')
+        ->from('users u')
+        ->where('u.id_cabang', $this->userdata->id_cabang)
+        ->where('u.level', $this->userdata->level)
+        ->get()
+        ->row();
+      $where_id_user = "id_users = " . $kasir_cabang->id_users;
+
+      $data['produk'] = $this->db->query('SELECT COUNT(id_produk) AS jml FROM produk_retail WHERE ' . $where_id_toko . ' AND ' . $where_id_user)->row();
+      // $this->db->where('o.id_users', $kasir_cabang->id_users);
+    } else {
+      $data['produk'] = $this->db->query('SELECT COUNT(id_produk) AS jml FROM produk_retail WHERE ' . $where_id_toko)->row();
+    }
+
     /* $data['total_stok'] = $this->db->select('SUM(sp.stok) AS jml_stok')
                                   ->from('stok_produk sp')
                                   ->where($where_stok)
@@ -72,29 +90,29 @@ class Home extends AI_Admin
     //   }
     // }
 
-    $this->db->select('pr.*,pr.id_produk_2 as id2, sat.satuan AS satuan_produk, '.$this->Mutasi_stok_model->select_stok_mutasi());
-		$this->db->from('produk_retail pr');
-		$this->db->join('users u', 'pr.id_users=u.id_users AND pr.id_toko=u.id_toko');
-		$this->db->join('pembelian p', 'pr.id_produk_2=p.id_produk AND p.id_users=u.id_users AND pr.id_toko=p.id_toko', 'left');
-		$this->db->join('satuan_produk sat', 'pr.satuan=sat.id_satuan AND sat.id_users=u.id_users AND sat.id_toko=pr.id_toko', 'left');
-		$this->Mutasi_stok_model->query_stok_mutasi($this->db, $this->userdata->id_toko, null, 'pr.id_produk_2');
-		$this->db->where('pr.id_toko', $this->userdata->id_toko);
-		// $this->db->where('u.id_cabang', $this->userdata->id_cabang);
-		$this->db->where('pr.parent_id',null);
-		$this->db->order_by('pr.id_produk_2','DESC');
-		
-		$this->db->group_by('pr.barcode');
+    $this->db->select('pr.*,pr.id_produk_2 as id2, sat.satuan AS satuan_produk, ' . $this->Mutasi_stok_model->select_stok_mutasi());
+    $this->db->from('produk_retail pr');
+    $this->db->join('users u', 'pr.id_users=u.id_users AND pr.id_toko=u.id_toko');
+    $this->db->join('pembelian p', 'pr.id_produk_2=p.id_produk AND p.id_users=u.id_users AND pr.id_toko=p.id_toko', 'left');
+    $this->db->join('satuan_produk sat', 'pr.satuan=sat.id_satuan AND sat.id_users=u.id_users AND sat.id_toko=pr.id_toko', 'left');
+    $this->Mutasi_stok_model->query_stok_mutasi($this->db, $this->userdata->id_toko, null, 'pr.id_produk_2');
+    $this->db->where('pr.id_toko', $this->userdata->id_toko);
+    // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
+    $this->db->where('pr.parent_id', null);
+    $this->db->order_by('pr.id_produk_2', 'DESC');
 
-		$total_stok_array = $this->db->get()->result();
+    $this->db->group_by('pr.barcode');
+
+    $total_stok_array = $this->db->get()->result();
     $data['total_stok'] = (object) array("jml_stok" => 0);
     foreach ($total_stok_array as $stok) {
-          $data['total_stok']->jml_stok += $stok->stok;
-        }
+      $data['total_stok']->jml_stok += $stok->stok;
+    }
 
-		// $data = array(
-		// 	'active_lap_stok_produk' => 'active',
-		// 	'contents' => $res,
-		// );
+    // $data = array(
+    // 	'active_lap_stok_produk' => 'active',
+    // 	'contents' => $res,
+    // );
 
     /**
      * End total stok
@@ -121,7 +139,7 @@ class Home extends AI_Admin
     $date = new DateTime();
     $date->modify('+' . $tempo_penj . ' day');
     $deadline2 = $date->format('Y-m-d');
-    $data['tempo_pembelian']   = $this->Faktur_retail_model->get_all_by_id_toko($this->userdata->id_toko, $deadline1);
+    $data['tempo_pembelian'] = $this->Faktur_retail_model->get_all_by_id_toko($this->userdata->id_toko, $deadline1);
     $data['piutang_penjualan'] = $this->Piutang_retail_model->get_piutang_penjualan($deadline2);
 
     // var_dump($data['tempo_pembelian']);
@@ -179,6 +197,8 @@ class Home extends AI_Admin
     $data['grafik_order_per_hari'] = $this->Sales_order_model->grafik_order_per_hari();
     $data['grafik_order_per_bulan'] = $this->Sales_order_model->grafik_order_per_bulan();
     $data['grafik_order_per_kasir'] = $this->Sales_order_model->grafik_order_per_kasir();
+
+    // var_dump($data);
 
     $this->view('home', $data);
   }

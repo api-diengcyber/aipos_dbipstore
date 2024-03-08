@@ -76,22 +76,51 @@ class User_retail extends AI_Admin
         if ($this->userdata->level != 1) {
             $id_cabang = $this->userdata->id_cabang;
             $id_level = 8;
+            $level = $this->db->select('*')
+                ->from('users_level_lookup')
+                ->where('id', $id_level)
+                ->get()
+                ->result();
+            $cabang = $this->db->select('c.*')
+                ->from('cabang c')
+                ->where('id_toko', $this->userdata->id_toko)
+                ->where('id', $id_cabang)
+                ->get()
+                ->result();
+
+            // var_dump($cabang, $id_cabang);
+
+        } elseif ($this->userdata->level == 1) {
+            $id_cabang = null;
+            $level = $this->db->select('*')
+                ->from('users_level_lookup')
+                // ->where('id', $id_level)
+                ->get()
+                ->result();
+            $cabang = $this->db->select('c.*')
+                ->from('cabang c')
+                ->where('id_toko', $this->userdata->id_toko)
+                ->where('id', $id_cabang)
+                ->get()
+                ->result();
         } else {
             $id_cabang = null;
             $id_level = null;
+            $level = $this->db->select('*')
+                ->from('users_level_lookup')
+                ->where('id', $id_level)
+                ->get()
+                ->result();
+            $cabang = $this->db->select('c.*')
+                ->from('cabang c')
+                ->where('id_toko', $this->userdata->id_toko)
+                ->where('id', $id_cabang)
+                ->get()
+                ->result();
         }
-        $cabang = $this->db->select('c.*')
-            ->from('cabang c')
-            ->where('id_toko', $this->userdata->id_toko)
-            ->where('id', $id_cabang)
-            ->get()
-            ->result();
 
-        $level = $this->db->select('*')
-            ->from('users_level_lookup')
-            ->where('id', $id_level)
-            ->get()
-            ->result();
+
+
         // var_dump($cabang);
 
         $data = array(
@@ -121,7 +150,7 @@ class User_retail extends AI_Admin
         $active = array(
             'active_user' => 'active',
         );
-
+        // var_dump($level);
         $this->view('user/users_form', $data);
     }
 
