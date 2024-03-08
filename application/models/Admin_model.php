@@ -1,4 +1,5 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+  exit('No direct script access allowed');
 
 class Admin_model extends CI_Model
 {
@@ -34,7 +35,7 @@ class Admin_model extends CI_Model
   {
     $i = 0;
     $wh = array();
-    foreach ($arr as $key) :
+    foreach ($arr as $key):
       $i++;
       $sw = 'SUBSTRING_INDEX(SUBSTRING_INDEX(m.controller,"/",' . $i . '),"/",-1)';
       $wh[] = '(' . $sw . '="' . $key . '" OR ' . $sw . '="*")';
@@ -150,9 +151,21 @@ class Admin_model extends CI_Model
 
   function get_produk_jual($id_toko)
   {
+
+    $kasir_cabang = $this->db->select('u.*')
+      ->from('users u')
+      ->where('u.id_cabang', $this->userdata->id_cabang)
+      ->where('u.level!=', 1)
+      ->get()
+      ->row();
+
     $this->db->select('SUM(od.jumlah) AS jumlah');
     $this->db->from('orders o');
     $this->db->join('orders_detail od', 'o.id_orders_2=od.id_orders_2 AND o.id_toko=od.id_toko');
+    $this->db->where('o.id_toko', $id_toko);
+    if ($this->userdata->level != 1) {
+      $this->db->where('o.id_users', $kasir_cabang->id_users);
+    }
     $this->db->where('o.id_toko', $id_toko);
     return $this->db->get();
   }

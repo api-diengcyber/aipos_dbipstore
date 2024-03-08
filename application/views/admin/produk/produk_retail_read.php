@@ -34,17 +34,20 @@
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
             </div>
 
@@ -54,7 +57,8 @@
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-add-container">
                 Inside
                 <b>.container</b>
@@ -94,63 +98,91 @@
             if (file_exists($tampil_gambar)) {
               ?>
               <img src="<?php echo base_url() . $tampil_gambar ?>" width="300px" style="border:3px solid grey;">
-          <?php };
-          }; ?>
+            <?php }
+            ;
+          }
+          ; ?>
         </div>
         <div class="col-xs-12">
           <!-- PAGE CONTENT BEGINS -->
           <table class="table">
             <tr>
-              <td width="150">Barcode</td>
-              <td><?php echo $barcode; ?></td>
+              <td width="150">IMEI</td>
+              <td>
+                <?php echo $barcode; ?>
+              </td>
             </tr>
             <tr>
               <td>Kategori</td>
-              <td><?php echo $id_kategori; ?></td>
+              <td>
+                <?php echo $id_kategori; ?>
+              </td>
             </tr>
             <tr>
               <td>Nama Produk</td>
-              <td><?php echo $nama_produk; ?></td>
+              <td>
+                <?php echo $nama_produk; ?>
+              </td>
             </tr>
             <tr>
               <td>Stok</td>
-              <td><?php echo $stok ?></td>
+              <td>
+                <?php echo $stok ?>
+              </td>
             </tr>
             <tr>
               <td>Deskripsi</td>
-              <td><?php echo $deskripsi; ?></td>
+              <td>
+                <?php echo $deskripsi; ?>
+              </td>
             </tr>
             <tr>
               <td>Harga Umum</td>
-              <td><?php echo number_format($harga_1, 0, ',', '.'); ?></td>
+              <td>
+                <?php echo number_format($harga_1, 0, ',', '.'); ?>
+              </td>
             </tr>
             <tr>
               <td>Harga Grosir</td>
-              <td><?php echo number_format($harga_2, 0, ',', '.'); ?></td>
+              <td>
+                <?php echo number_format($harga_2, 0, ',', '.'); ?>
+              </td>
             </tr>
             <tr>
               <td>Harga Member</td>
-              <td><?php echo number_format($harga_3, 0, ',', '.'); ?></td>
+              <td>
+                <?php echo number_format($harga_3, 0, ',', '.'); ?>
+              </td>
             </tr>
             <tr>
               <td>Satuan</td>
-              <td><?php echo $satuan; ?></td>
+              <td>
+                <?php echo $satuan; ?>
+              </td>
             </tr>
             <tr>
               <td>Berat</td>
-              <td><?php echo $berat; ?></td>
+              <td>
+                <?php echo $berat; ?>
+              </td>
             </tr>
             <tr>
               <td>Minimal Grosir</td>
-              <td><?php echo $mingros; ?></td>
+              <td>
+                <?php echo $mingros; ?>
+              </td>
             </tr>
             <tr>
               <td>Diskon</td>
-              <td><?php echo $diskon; ?></td>
+              <td>
+                <?php echo $diskon; ?>
+              </td>
             </tr>
             <tr>
               <td>Rak</td>
-              <td><?php echo $rak; ?></td>
+              <td>
+                <?php echo $rak; ?>
+              </td>
             </tr>
             <tr>
               <td></td>
