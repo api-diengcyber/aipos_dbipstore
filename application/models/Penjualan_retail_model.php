@@ -135,7 +135,7 @@ class Penjualan_retail_model extends CI_Model
         $this->db->select('SUM(o.nominal) AS nominal, SUBSTRING(o.jam_order,1,5) AS jam, SUM(o.laba) AS laba');
         $this->db->from('(SELECT o.*, u.id_cabang FROM orders o JOIN users u ON u.id_users=o.id_users AND u.id_toko=o.id_toko GROUP BY o.id_orders_2) AS o');
         $this->db->where('o.id_toko', $this->userdata->id_toko);
-        $this->db->where('o.id_cabang', $this->userdata->id_cabang);
+        // $this->db->where('o.id_cabang', $this->userdata->id_cabang);
         $this->db->where('o.tgl_order', $tgl_order);
         if (!empty($id_member)) {
             $this->db->where('o.pembeli', $id_member);
@@ -229,9 +229,9 @@ class Penjualan_retail_model extends CI_Model
             $this->db->join('retur_jual r', 'r.no_faktur=o.no_faktur AND r.id_users=u.id_users AND r.id_toko=o.id_toko', 'left');
         }
         $this->db->where('o.id_toko', $this->userdata->id_toko);
-        if ($this->userdata->level != 1) {
-            $this->datatables->where('o.id_users', $kasir_cabang->id_users);
-        }
+        // if ($this->userdata->level != 1 && $this->userdata->level != 1 && $this->userdata->level != 4 && $this->userdata->level != 5 && $this->userdata->level != 6 && $this->userdata->level != 7) {
+        //     $this->datatables->where('o.id_users', $kasir_cabang->id_users);
+        // }
         $this->db->where("DATE(CONCAT(SUBSTRING(o.tgl_order,7,4),'-',SUBSTRING(o.tgl_order,4,2),'-',SUBSTRING(o.tgl_order,1,2))) BETWEEN '" . $tgl1 . "' AND '" . $tgl2 . "'");
         // if (!empty($id_member)) {
         //     $this->db->where('o.pembeli', $id_member);

@@ -185,7 +185,12 @@ class Pembelian_produk_langsung extends AI_Admin
 	public function create($id_produk_2 = '')
 	{
 
-
+		$kasir_cabang = $this->db->select('u.*')
+			->from('users u')
+			->where('u.id_cabang', $this->userdata->id_cabang)
+			->where('u.level', 2)
+			->get()
+			->row();
 		$barcode = $this->create_barcode();
 		if ($id_produk_2 != null) {
 			$parent = $this->Produk_retail_model->get_by_id($id_produk_2);
@@ -213,13 +218,26 @@ class Pembelian_produk_langsung extends AI_Admin
 			->from('pil_bank b')
 			->get()
 			->result();
-		$data_produk = $this->db->select('pr.*')
-			->from('produk_retail pr')
-			->where('pr.id_users', $this->userdata->id_users)
-			->where('pr.id_toko', $this->userdata->id_toko)
-			->where('pr.parent_id', null)
-			->get()
-			->result();
+		if ($this->userdata->level == 1 || $this->userdata->level == 4 || $this->userdata->level == 5 || $this->userdata->level == 6 || $this->userdata->level == 7) {
+			$data_produk = $this->db->select('pr.*')
+				->from('produk_retail pr')
+				// ->where('pr.id_users', $this->userdata->id_users)
+				->where('pr.id_toko', $this->userdata->id_toko)
+				->where('pr.parent_id', null)
+				->get()
+				->result();
+
+		} else {
+			$data_produk = $this->db->select('pr.*')
+				->from('produk_retail pr')
+				->where('pr.id_users', $kasir_cabang->id_users)
+				->where('pr.id_toko', $this->userdata->id_toko)
+				->where('pr.parent_id', null)
+				->get()
+				->result();
+		}
+
+
 		// $data_kategori = $this->db->select('kp.*, s.nama_supplier')
 		// 						  ->from('kategori_produk kp')
 		// 						  ->join('supplier s', 'kp.id_supplier=s.id_supplier AND kp.id_toko=s.id_toko')
@@ -402,9 +420,9 @@ class Pembelian_produk_langsung extends AI_Admin
 
 				/* Pembelian */
 				/*$row_pembelian = $this->db->where('id_toko', $this->input->post('id_toko',TRUE))
-																																																																																																																																																																																		->where('id_faktur', $id_faktur)
-																																																																																																																																																																																		->where('id_produk', $id_produk)
-																																																																																																																																																																																		->get('pembelian')->row();*/
+																																																																																																																																																																																											->where('id_faktur', $id_faktur)
+																																																																																																																																																																																											->where('id_produk', $id_produk)
+																																																																																																																																																																																											->get('pembelian')->row();*/
 				// $row_pembelian = $this->db->select('p.*')
 				// 						->from('pembelian p')
 				// 						->join('users u', 'p.id_users=u.id_users AND p.id_toko=u.id_toko')
@@ -560,9 +578,9 @@ class Pembelian_produk_langsung extends AI_Admin
 
 				/* Pembelian */
 				/*$row_pembelian = $this->db->where('id_toko', $this->input->post('id_toko',TRUE))
-																																																																																																																																																																																	->where('id_faktur', $id_faktur)
-																																																																																																																																																																																	->where('id_produk', $id_produk)
-																																																																																																																																																																																	->get('pembelian')->row();*/
+																																																																																																																																																																																										->where('id_faktur', $id_faktur)
+																																																																																																																																																																																										->where('id_produk', $id_produk)
+																																																																																																																																																																																										->get('pembelian')->row();*/
 				// $row_pembelian = $this->db->select('p.*')
 				// 						  ->from('pembelian p')
 				// 						  ->join('users u', 'p.id_users=u.id_users AND p.id_toko=u.id_toko')
@@ -768,10 +786,10 @@ class Pembelian_produk_langsung extends AI_Admin
 			$this->deleteJoin('produk_retail', 't1.id_produk_2="' . $row->id_produk_2 . '"');
 			$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
 			/*$this->Produk_retail_model->delete($id);
-																																																																																																																																	$row_stok = $this->Stok_produk_model->get_by_id_produk($row->id_produk, $row->id_toko);
-																																																																																																																																	if($row_stok){
-																																																																																																																																		$this->Stok_produk_model->delete($row_stok->id);
-																																																																																																																																	}*/
+																																																																																																																																							   $row_stok = $this->Stok_produk_model->get_by_id_produk($row->id_produk, $row->id_toko);
+																																																																																																																																							   if($row_stok){
+																																																																																																																																								   $this->Stok_produk_model->delete($row_stok->id);
+																																																																																																																																							   }*/
 			$this->session->set_flashdata('message', 'Delete Record Success');
 			redirect(site_url('admin/produk_retail'));
 		} else {
@@ -1014,22 +1032,22 @@ class Pembelian_produk_langsung extends AI_Admin
 				$jml_sub += $k_od->sub_total;
 				$laba = $k_od->sub_total - ($k_od->harga_beli * $k_od->jumlah);
 				/* echo "Nama Produk : ".$k_od->nama_produk."<br>";
-																																																																																																																																																																										echo "Harga Beli : ".$k_od->harga_beli."<br>";
-																																																																																																																																																																										echo "Jumlah : ".$k_od->jumlah."<br>";
-																																																																																																																																																																										// echo "Harga Jual : ".$k_od->harga_jual."<br>";
-																																																																																																																																																																										echo "Nominal : ".$k_od->sub_total."<br>";
-																																																																																																																																																																										echo "Laba : ".$laba."<br>";
-																																																																																																																																																																										echo ""; */
+																																																																																																																																																																																			echo "Harga Beli : ".$k_od->harga_beli."<br>";
+																																																																																																																																																																																			echo "Jumlah : ".$k_od->jumlah."<br>";
+																																																																																																																																																																																			// echo "Harga Jual : ".$k_od->harga_jual."<br>";
+																																																																																																																																																																																			echo "Nominal : ".$k_od->sub_total."<br>";
+																																																																																																																																																																																			echo "Laba : ".$laba."<br>";
+																																																																																																																																																																																			echo ""; */
 			}
 			/*echo "HPP : ".$jml_hpp."<br>";
-																																																																																																																															  echo "NOMINAL : ".$jml_sub."<br>";
-																																																																																																																															  echo "<br><br><br>";*/
+																																																																																																																																						 echo "NOMINAL : ".$jml_sub."<br>";
+																																																																																																																																						 echo "<br><br><br>";*/
 
 			/* $data_update = array(
-																																																																																																																																'laba' => $jml_sub-$jml_hpp,
-																																																																																																																															  );
-																																																																																																																															  $this->db->where('id_orders_2', $k_o->id_orders_2);
-																																																																																																																															  $this->db->update('orders', $data_update); */
+																																																																																																																																						   'laba' => $jml_sub-$jml_hpp,
+																																																																																																																																						 );
+																																																																																																																																						 $this->db->where('id_orders_2', $k_o->id_orders_2);
+																																																																																																																																						 $this->db->update('orders', $data_update); */
 
 			$row_bayar = (object) array();
 

@@ -38,10 +38,14 @@ class Produk_retail_model extends CI_Model
         $this->datatables->join('stok_produk stok', 'p.id_produk_2=stok.id_produk AND stok.id_pembelian=b.id_pembelian AND stok.id_toko=p.id_toko', 'left');
         $this->datatables->join('satuan_produk s', 'p.satuan=s.id_satuan AND s.id_users=u.id_users AND s.id_toko=p.id_toko', 'left');
 
-        if ($this->userdata->level != 1) {
+        if ($this->userdata->level == 2 || $this->userdata->level == 8) {
             // $this->datatables->join('produk_retail_mutasi pm', 'pm.id_produk=p.id_produk_2 AND pm.id_toko=p.id_toko');
             // $this->datatables->where('pm.id_users_tujuan', $this->userdata->id_users);
             $this->datatables->where('p.id_users', $kasir_cabang->id_users);
+        } elseif ($this->userdata->level == 3) {
+            $this->datatables->where('p.id_users', $this->userdata->id_users);
+        } else {
+
         }
 
 
@@ -373,21 +377,37 @@ class Produk_retail_model extends CI_Model
         $this->Mutasi_stok_model->query_stok_mutasi($this->db, $this->userdata->id_toko, null, 'pr.id_produk_2');
 
         // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
-        if ($this->userdata->level == 1) {
-            $this->db->like('pr.nama_produk', $term, 'BOTH');
-            // $this->db->where('pr.id_users', $kasir_cabang->id_users);
-            $this->db->or_like('pr.barcode', $term, 'BOTH');
-            // $this->db->where('pr.id_toko', $this->userdata->id_toko);
-            // $this->db->where('pr.id_users', $kasir_cabang->id_users);
-
-        } else {
+        if ($this->userdata->level == 2 || $this->userdata->level == 8) {
             $this->db->like('pr.nama_produk', $term, 'BOTH');
             $this->db->where('pr.id_users', $kasir_cabang->id_users);
             $this->db->or_like('pr.barcode', $term, 'BOTH');
             $this->db->where('pr.id_toko', $this->userdata->id_toko);
             $this->db->where('pr.id_users', $kasir_cabang->id_users);
-
+        } elseif ($this->userdata->level == 3) {
+            $this->datatables->where('p.id_users', $this->userdata->id_users);
+        } else {
+            $this->db->like('pr.nama_produk', $term, 'BOTH');
+            // $this->db->where('pr.id_users', $kasir_cabang->id_users);
+            $this->db->or_like('pr.barcode', $term, 'BOTH');
         }
+
+
+
+        // if ($this->userdata->level == 1) {
+        //     $this->db->like('pr.nama_produk', $term, 'BOTH');
+        //     // $this->db->where('pr.id_users', $kasir_cabang->id_users);
+        //     $this->db->or_like('pr.barcode', $term, 'BOTH');
+        //     // $this->db->where('pr.id_toko', $this->userdata->id_toko);
+        //     // $this->db->where('pr.id_users', $kasir_cabang->id_users);
+
+        // } else {
+        //     $this->db->like('pr.nama_produk', $term, 'BOTH');
+        //     $this->db->where('pr.id_users', $kasir_cabang->id_users);
+        //     $this->db->or_like('pr.barcode', $term, 'BOTH');
+        //     $this->db->where('pr.id_toko', $this->userdata->id_toko);
+        //     $this->db->where('pr.id_users', $kasir_cabang->id_users);
+
+        // }
         // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
 
         $this->db->order_by('pr.id_produk_2', 'DESC');

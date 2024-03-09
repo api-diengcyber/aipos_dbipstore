@@ -52,7 +52,7 @@ class Laporan_retur extends AI_Admin
     if (!empty($user)) {
       $this->db->where('r.id_users', $user);
     }
-    if ($this->userdata->level != 1) {
+    if ($this->userdata->level != 1 && $this->userdata->level != 4 && $this->userdata->level != 5 && $this->userdata->level != 6 && $this->userdata->level != 7) {
       // $this->datatables->join('produk_retail_mutasi pm', 'pm.id_produk=p.id_produk_2 AND pm.id_toko=p.id_toko');
       // $this->datatables->where('pm.id_users_tujuan', $this->userdata->id_users);
       $this->datatables->where('r.id_users', $kasir_cabang->id_users);

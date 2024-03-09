@@ -60,7 +60,7 @@ class Home extends AI_Admin
     $data['produk_terjual'] = $this->Admin_model->get_produk_jual($this->userdata->id_toko)->row();
 
 
-    if ($this->userdata->level != 1) {
+    if ($this->userdata->level != 1 && $this->userdata->level != 4 && $this->userdata->level != 5 && $this->userdata->level != 6 && $this->userdata->level != 7) {
       $kasir_cabang = $this->db->select('u.*')
         ->from('users u')
         ->where('u.id_cabang', $this->userdata->id_cabang)
@@ -96,6 +96,9 @@ class Home extends AI_Admin
     $this->db->join('pembelian p', 'pr.id_produk_2=p.id_produk AND p.id_users=u.id_users AND pr.id_toko=p.id_toko', 'left');
     $this->db->join('satuan_produk sat', 'pr.satuan=sat.id_satuan AND sat.id_users=u.id_users AND sat.id_toko=pr.id_toko', 'left');
     $this->Mutasi_stok_model->query_stok_mutasi($this->db, $this->userdata->id_toko, null, 'pr.id_produk_2');
+
+
+
     $this->db->where('pr.id_toko', $this->userdata->id_toko);
     // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
     $this->db->where('pr.parent_id', null);

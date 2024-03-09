@@ -1,4 +1,5 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+	exit('No direct script access allowed');
 
 class AI_Controller extends CI_Controller
 {
@@ -12,6 +13,9 @@ class AI_Controller extends CI_Controller
 		if (!empty($this->userdata)) {
 			$this->Pengaturan_transaksi_model->id_toko = $this->userdata->id_toko;
 			$this->Pengaturan_transaksi_model->id_users = $this->userdata->id_users;
+		}
+		if (!$this->session->userdata) {
+			redirect('auth/logout'); // Mengarahkan ke controller Auth jika sesi tidak aktif
 		}
 	}
 
