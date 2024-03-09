@@ -291,7 +291,7 @@ class Pembelian_retail_model extends CI_Model
         // if($this->userdata->level !=1){
         //     $this->db->where('p.id_users', $this->userdata->id_users);
         // }
-        if ($this->userdata->level != 1) {
+        if ($this->userdata->level != 1 && $this->userdata->level != 4 && $this->userdata->level != 5 && $this->userdata->level != 6 && $this->userdata->level != 7) {
             $this->db->where(
                 'p.id_users',
                 $kasir_cabang->id_users

@@ -183,7 +183,7 @@ class Pegawai_beban extends AI_Admin
             ->get()
             ->row();
 
-        if ($this->userdata->level == 1) {
+        if ($this->userdata->level == 1 || $this->userdata->level == 4 || $this->userdata->level == 5 || $this->userdata->level == 6 || $this->userdata->level == 7) {
             $karyawan = $this->db->select("*")
                 ->from('users')
                 ->where('id_toko', $this->userdata->id_toko)

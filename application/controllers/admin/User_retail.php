@@ -78,6 +78,7 @@ class User_retail extends AI_Admin
             $id_level = 8;
             $level = $this->db->select('*')
                 ->from('users_level_lookup')
+                ->where('id!=', 3)
                 ->where('id', $id_level)
                 ->get()
                 ->result();
@@ -90,17 +91,18 @@ class User_retail extends AI_Admin
 
             // var_dump($cabang, $id_cabang);
 
-        } elseif ($this->userdata->level == 1) {
+        } elseif ($this->userdata->level == 1 || $this->userdata->level == 4 || $this->userdata->level == 5 || $this->userdata->level == 6 || $this->userdata->level == 7) {
             $id_cabang = null;
             $level = $this->db->select('*')
                 ->from('users_level_lookup')
+                ->where('id!=', 3)
                 // ->where('id', $id_level)
                 ->get()
                 ->result();
             $cabang = $this->db->select('c.*')
                 ->from('cabang c')
                 ->where('id_toko', $this->userdata->id_toko)
-                ->where('id', $id_cabang)
+                // ->where('id', $id_cabang)
                 ->get()
                 ->result();
         } else {
@@ -108,6 +110,7 @@ class User_retail extends AI_Admin
             $id_level = null;
             $level = $this->db->select('*')
                 ->from('users_level_lookup')
+                ->where('id!=', 3)
                 ->where('id', $id_level)
                 ->get()
                 ->result();

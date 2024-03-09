@@ -86,7 +86,7 @@
         <div class="row">
           <div class="col-md-4">
             <h1>
-              Dashboard
+              Dashboard 
             </h1>
           </div>
           <div class="col-md-4">

@@ -38,7 +38,7 @@ class Laporan_retail extends AI_Admin
 		$this->db->order_by('pr.id_produk_2', 'DESC');
 
 		$this->db->group_by('pr.barcode');
-		if ($this->userdata->level != 1) {
+		if ($this->userdata->level != 1 && $this->userdata->level != 4 && $this->userdata->level != 5 && $this->userdata->level != 6 && $this->userdata->level != 7) {
 			// $this->datatables->join('produk_retail_mutasi pm', 'pm.id_produk=p.id_produk_2 AND pm.id_toko=p.id_toko');
 			// $this->datatables->where('pm.id_users_tujuan', $this->userdata->id_users);
 			$this->datatables->where('pr.id_users', $kasir_cabang->id_users);
@@ -86,15 +86,15 @@ class Laporan_retail extends AI_Admin
 		$content = $this->db->get()->result();
 
 		/*'contents' => $this->db->select('pr.*, sp.satuan AS satuan_produk, SUM(stok.stok) AS stok')
-																											  ->from('(SELECT pr.*, u.id_cabang FROM produk_retail pr JOIN users u ON pr.id_users=u.id_users AND pr.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY pr.id_produk_2) AS pr')
-																											  ->join('(SELECT sp.* FROM satuan_produk sp JOIN users u ON sp.id_users=u.id_users AND sp.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY sp.id_satuan) AS sp', 'pr.satuan=sp.id_satuan AND sp.id_toko=pr.id_toko')
-																											  ->join('(SELECT p.* FROM pembelian p JOIN users u ON p.id_users=u.id_users AND p.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY p.id_pembelian) AS p', 'pr.id_produk_2=p.id_produk AND pr.id_toko=p.id_toko', 'left')
-																											  ->join('stok_produk stok', 'pr.id_produk_2=stok.id_produk AND stok.id_pembelian=p.id_pembelian AND stok.id_toko=pr.id_toko', 'left')
-																											  ->where('pr.id_toko', $this->userdata->id_toko)
-																											  ->where('pr.id_cabang', $this->userdata->id_cabang)
-																											  ->having('stok < 1 OR stok IS NULL')
-																											  ->group_by('stok.id_produk')
-																											  ->get()->result(),*/
+														  ->from('(SELECT pr.*, u.id_cabang FROM produk_retail pr JOIN users u ON pr.id_users=u.id_users AND pr.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY pr.id_produk_2) AS pr')
+														  ->join('(SELECT sp.* FROM satuan_produk sp JOIN users u ON sp.id_users=u.id_users AND sp.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY sp.id_satuan) AS sp', 'pr.satuan=sp.id_satuan AND sp.id_toko=pr.id_toko')
+														 ->join('(SELECT p.* FROM pembelian p JOIN users u ON p.id_users=u.id_users AND p.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY p.id_pembelian) AS p', 'pr.id_produk_2=p.id_produk AND pr.id_toko=p.id_toko', 'left')
+														 ->join('stok_produk stok', 'pr.id_produk_2=stok.id_produk AND stok.id_pembelian=p.id_pembelian AND stok.id_toko=pr.id_toko', 'left')
+														->where('pr.id_toko', $this->userdata->id_toko)
+														 ->where('pr.id_cabang', $this->userdata->id_cabang)
+														  ->having('stok < 1 OR stok IS NULL')
+																  ->group_by('stok.id_produk')
+															  ->get()->result(),*/
 
 		$data = [
 			'id_toko' => $this->userdata->id_toko,
@@ -168,7 +168,7 @@ class Laporan_retail extends AI_Admin
 		$data['kasir'] = "";
 		$data['data_bulan'] = $this->db->get('bulan')->result();
 
-		if ($this->userdata->level == "1") {
+		if ($this->userdata->level == 1 || $this->userdata->level == 4 || $this->userdata->level == 5 || $this->userdata->level == 6 || $this->userdata->level == 7) {
 			$data['data_kasir'] = $this->db->select('u.*')
 				->from('users u')
 				->where('u.id_toko', $this->userdata->id_toko)
@@ -1282,9 +1282,9 @@ class Laporan_retail extends AI_Admin
 		}
 		if (empty($id_principal)) {
 			/*$row_principal = $this->db->select('SUBSTRING_INDEX(nama_kategori,"-",1) AS nama_principal')->from('kategori_produk')->where('id_toko', $this->userdata->id_toko)->order_by('nama_kategori', 'asc')->get()->row();
-																																 if ($row_principal) {
-																																	 $id_principal = $row_principal->nama_principal;
-																																 }*/
+																																																						   if ($row_principal) {
+																																																							   $id_principal = $row_principal->nama_principal;
+																																																						   }*/
 			$row_principal = $this->db->select('s.*')
 				->from('supplier s')
 				->join('users u', 's.id_users=u.id_users AND s.id_toko=u.id_toko')
