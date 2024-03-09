@@ -276,7 +276,7 @@
 											<?= $k->tgl ?>
 										</td>
 										<td>
-											<?= $k->akun ?>
+											<?= $k->nama_akun ?>
 										</td>
 										<td>
 											<?= $k->ket ?>

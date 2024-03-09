@@ -223,11 +223,11 @@ class Arus_kas extends AI_Admin
 		$xawal_periode = date('Y-m-d', strtotime($awal_periode));
 		$xakhir_periode = date('Y-m-d', strtotime($akhir_periode));
 
-		$arus_kas = $this->db->select('as.*, a.akun')
+		$arus_kas = $this->db->select('as.*, a.nama_akun')
 			->from('arus_kas as')
-			->join('akun a', 'a.id=as.id_akun')
+			->join('akun_sederhana a', 'a.id=as.id_akun')
 			->where('as.id_toko', $this->userdata->id_toko)
-			->where("as.tgl BETWEEN '" . $awal_periode . "' AND '" . $akhir_periode . "'")
+			// ->where("as.tgl BETWEEN '" . $awal_periode . "' AND '" . $akhir_periode . "'")
 			->get()
 			->result();
 		$penjualan = $this->db->select('o.*,SUM(o.laba)as total')
