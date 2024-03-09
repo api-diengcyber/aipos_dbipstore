@@ -44,8 +44,8 @@
                     <option value="">-- Pilih Faktur --</option>
                     <?php foreach ($data_faktur as $key): ?>
                       <option value="<?php echo $key->id_faktur ?>" data-pembayaran="<?php echo $key->pembayaran ?>"
-                        data-hutang="<?php // echo $key->hutang        ?>" data-deadline="<?php echo $key->deadline ?>"
-                        data-kurang="<?php // echo $key->kurang        ?>" <?php echo $id_faktur == $key->id_faktur ? "selected" : ""; ?>>
+                        data-hutang="<?php // echo $key->hutang           ?>" data-deadline="<?php echo $key->deadline ?>"
+                        data-kurang="<?php // echo $key->kurang           ?>" <?php echo $id_faktur == $key->id_faktur ? "selected" : ""; ?>>
                         <?php echo $key->no_faktur . " - " . $key->nama_supplier ?>
                       </option>
                     <?php endforeach ?>
@@ -56,7 +56,7 @@
             <div class="row panel-other">
               <div class="col-md-12">
                 <div class="form-group">
-                  <span class="panel-pembayaran"></span>&nbsp;&nbsp;<span class="panel-ket"></span>
+                  <!-- <span class="panel-pembayaran"></span>&nbsp;&nbsp;<span class="panel-ket"></span> -->
                 </div>
               </div>
               <!-- <div class="col-md-10">
@@ -70,7 +70,7 @@
                   <table class="table table-bordered" id="mytable">
                     <thead>
                       <tr>
-                        <th width="10">Nosdf</th>
+                        <th width="10">No</th>
                         <th width="400">Nama Produk</th>
                         <th width="150" class="text-center">Harga Satuan Beli</th>
                         <th width="100" class="text-center">Jumlah Tersedia</th>
@@ -88,18 +88,18 @@
                   </table>
                 </div>
                 <!-- <div class="form-group">
-                          <label for="varchar">Produk <?php // echo form_error('id_produk')        ?></label>
+                          <label for="varchar">Produk <?php // echo form_error('id_produk')           ?></label>
                           <select class="form-control" name="id_produk" id="id_produk">
                             <option value="">-- Pilih Produk --</option>
                           </select>
                       </div>
                       <div class="form-group">
-                          <label for="varchar">Jumlah <?php // echo form_error('jumlah')        ?></label>
-                          <input type="text" class="form-control" name="jumlah" id="jumlah" placeholder="Jumlah" value="<?php // echo $jumlah;        ?>" />
+                          <label for="varchar">Jumlah <?php // echo form_error('jumlah')           ?></label>
+                          <input type="text" class="form-control" name="jumlah" id="jumlah" placeholder="Jumlah" value="<?php // echo $jumlah;           ?>" />
                       </div>
                       <div class="form-group">
-                          <label for="varchar">Alasan <?php // echo form_error('alasan')        ?></label>
-                          <input type="text" class="form-control" name="alasan" id="alasan" placeholder="Alasan" value="<?php // echo $alasan;        ?>" />
+                          <label for="varchar">Alasan <?php // echo form_error('alasan')           ?></label>
+                          <input type="text" class="form-control" name="alasan" id="alasan" placeholder="Alasan" value="<?php // echo $alasan;           ?>" />
                       </div> -->
               </div>
             </div>
