@@ -1,5 +1,5 @@
 <?php if (!defined('BASEPATH'))
-	exit('No direct script access allowed');
+	exit ('No direct script access allowed');
 
 class Laporan_retail extends AI_Admin
 {
@@ -26,7 +26,7 @@ class Laporan_retail extends AI_Admin
 			->get()
 			->row();
 
-		$this->db->select('pr.*,pr.id_produk_2 as id2, sat.satuan AS satuan_produk, ' . $this->Mutasi_stok_model->select_stok_mutasi());
+		$this->db->select('pr.*,pr.id_produk_2 as id2, sat.satuan AS satuan_produk, ' . $this->Mutasi_stok_model->select_stok_mutasi2());
 		$this->db->from('produk_retail pr');
 		$this->db->join('users u', 'pr.id_users=u.id_users AND pr.id_toko=u.id_toko');
 		$this->db->join('pembelian p', 'pr.id_produk_2=p.id_produk AND p.id_users=u.id_users AND pr.id_toko=p.id_toko', 'left');
@@ -86,15 +86,15 @@ class Laporan_retail extends AI_Admin
 		$content = $this->db->get()->result();
 
 		/*'contents' => $this->db->select('pr.*, sp.satuan AS satuan_produk, SUM(stok.stok) AS stok')
-														  ->from('(SELECT pr.*, u.id_cabang FROM produk_retail pr JOIN users u ON pr.id_users=u.id_users AND pr.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY pr.id_produk_2) AS pr')
-														  ->join('(SELECT sp.* FROM satuan_produk sp JOIN users u ON sp.id_users=u.id_users AND sp.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY sp.id_satuan) AS sp', 'pr.satuan=sp.id_satuan AND sp.id_toko=pr.id_toko')
-														 ->join('(SELECT p.* FROM pembelian p JOIN users u ON p.id_users=u.id_users AND p.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY p.id_pembelian) AS p', 'pr.id_produk_2=p.id_produk AND pr.id_toko=p.id_toko', 'left')
-														 ->join('stok_produk stok', 'pr.id_produk_2=stok.id_produk AND stok.id_pembelian=p.id_pembelian AND stok.id_toko=pr.id_toko', 'left')
-														->where('pr.id_toko', $this->userdata->id_toko)
-														 ->where('pr.id_cabang', $this->userdata->id_cabang)
-														  ->having('stok < 1 OR stok IS NULL')
-																  ->group_by('stok.id_produk')
-															  ->get()->result(),*/
+																																		->from('(SELECT pr.*, u.id_cabang FROM produk_retail pr JOIN users u ON pr.id_users=u.id_users AND pr.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY pr.id_produk_2) AS pr')
+																																		->join('(SELECT sp.* FROM satuan_produk sp JOIN users u ON sp.id_users=u.id_users AND sp.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY sp.id_satuan) AS sp', 'pr.satuan=sp.id_satuan AND sp.id_toko=pr.id_toko')
+																																	   ->join('(SELECT p.* FROM pembelian p JOIN users u ON p.id_users=u.id_users AND p.id_toko=u.id_toko WHERE u.id_cabang="'.$this->userdata->id_cabang.'" GROUP BY p.id_pembelian) AS p', 'pr.id_produk_2=p.id_produk AND pr.id_toko=p.id_toko', 'left')
+																																	   ->join('stok_produk stok', 'pr.id_produk_2=stok.id_produk AND stok.id_pembelian=p.id_pembelian AND stok.id_toko=pr.id_toko', 'left')
+																																	  ->where('pr.id_toko', $this->userdata->id_toko)
+																																	   ->where('pr.id_cabang', $this->userdata->id_cabang)
+																																		->having('stok < 1 OR stok IS NULL')
+																																				->group_by('stok.id_produk')
+																																			->get()->result(),*/
 
 		$data = [
 			'id_toko' => $this->userdata->id_toko,
@@ -115,25 +115,25 @@ class Laporan_retail extends AI_Admin
 		$per_laporan = '';
 		$awal_periode = date('d-m-Y');
 		$akhir_periode = date('d-m-Y');
-		if (!empty($this->input->post('per_laporan'))) {
+		if (!empty ($this->input->post('per_laporan'))) {
 			$per_laporan = $this->input->post('per_laporan');
 			$this->session->set_userdata(array('per_laporan' => $per_laporan));
 		}
-		if (!empty($this->session->userdata('per_laporan'))) {
+		if (!empty ($this->session->userdata('per_laporan'))) {
 			$per_laporan = $this->session->userdata('per_laporan');
 		}
-		if (!empty($this->input->post('awal_periode'))) {
+		if (!empty ($this->input->post('awal_periode'))) {
 			$awal_periode = $this->input->post('awal_periode');
 			$this->session->set_userdata(array('awal_periode' => $awal_periode));
 		}
-		if (!empty($this->session->userdata('awal_periode'))) {
+		if (!empty ($this->session->userdata('awal_periode'))) {
 			$awal_periode = $this->session->userdata('awal_periode');
 		}
-		if (!empty($this->input->post('akhir_periode'))) {
+		if (!empty ($this->input->post('akhir_periode'))) {
 			$akhir_periode = $this->input->post('akhir_periode');
 			$this->session->set_userdata(array('akhir_periode' => $akhir_periode));
 		}
-		if (!empty($this->session->userdata('akhir_periode'))) {
+		if (!empty ($this->session->userdata('akhir_periode'))) {
 			$akhir_periode = $this->session->userdata('akhir_periode');
 		}
 
@@ -200,7 +200,7 @@ class Laporan_retail extends AI_Admin
 
 
 
-		if (!empty($this->input->post('kasir'))) {
+		if (!empty ($this->input->post('kasir'))) {
 			$data['kasir'] = $this->input->post('kasir', true);
 			$data['pembayaran'] = $this->input->post('pembayaran', true);
 			$data['bank'] = $this->input->post('bank', true);
@@ -284,7 +284,7 @@ class Laporan_retail extends AI_Admin
 				}
 			}
 			$harga_member = '';
-			if (!empty($row->pembeli)) {
+			if (!empty ($row->pembeli)) {
 				/* jika pengaturan opsi menggunakan harga member */
 				$opsi_diskon = $this->M_opsi->get_opsi_diskon($this->userdata->id_toko);
 				if ($opsi_diskon->opsi == 0) {
@@ -319,6 +319,7 @@ class Laporan_retail extends AI_Admin
 				'detail_order' => $det,
 				'cetak' => site_url('admin/penjualan_retail/cetak_nota_penjualan/' . $no_faktur . ''),
 			];
+			// var_dump($data['detail_order']);
 			$this->view('laporan/detail_faktur_v2', $data);
 		} else {
 			redirect('admin/laporan_retail/penjualan', 'refresh');
@@ -367,9 +368,9 @@ class Laporan_retail extends AI_Admin
 			'nama_modul' => $this->userdata->nama_modul,
 			'data_order_per_kasir' => $this->db->select('COUNT(o.id_orders_2) AS jml_order, u.first_name, u.last_name')
 				->from('orders o')
-				->join('users u', 'o.id_users=u.id_users AND u.id_toko=o.id_toko')
+				->join('users u', 'o.id_users=u.id_users ')
 				->where('o.id_toko', $this->userdata->id_toko)
-				->where('u.id_cabang', $this->userdata->id_cabang)
+				// ->where('u.id_cabang', $this->userdata->id_cabang)
 				->group_by('o.id_users')
 				->get()->result(),
 			'data_pegawai' => $this->Pegawai_retail_model->get_by_id_toko($this->userdata->id_toko),
@@ -380,7 +381,7 @@ class Laporan_retail extends AI_Admin
 
 	public function pembelian()
 	{
-		if (!empty($this->input->post('awal_periode')) && !empty($this->input->post('akhir_periode'))) {
+		if (!empty ($this->input->post('awal_periode')) && !empty ($this->input->post('akhir_periode'))) {
 			$awal_periode = $this->input->post('awal_periode');
 			$akhir_periode = $this->input->post('akhir_periode');
 		} else {
@@ -403,7 +404,7 @@ class Laporan_retail extends AI_Admin
 
 	public function buku_besar_1()
 	{
-		if (!empty($this->input->post('awal_periode')) && !empty($this->input->post('akhir_periode'))) {
+		if (!empty ($this->input->post('awal_periode')) && !empty ($this->input->post('akhir_periode'))) {
 			$awal_periode = $this->input->post('awal_periode');
 			$akhir_periode = $this->input->post('akhir_periode');
 		} else {
@@ -453,7 +454,7 @@ class Laporan_retail extends AI_Admin
 	public function cetak_buku_besar_1()
 	{
 		if ($this->userdata) {
-			if (!empty($this->input->post('awal_periode')) && !empty($this->input->post('akhir_periode'))) {
+			if (!empty ($this->input->post('awal_periode')) && !empty ($this->input->post('akhir_periode'))) {
 				$awal_periode = $this->input->post('awal_periode');
 				$akhir_periode = $this->input->post('akhir_periode');
 			} else {
@@ -502,7 +503,7 @@ class Laporan_retail extends AI_Admin
 
 	public function buku_besar_2()
 	{
-		if (!empty($this->input->post('awal_periode')) && !empty($this->input->post('akhir_periode'))) {
+		if (!empty ($this->input->post('awal_periode')) && !empty ($this->input->post('akhir_periode'))) {
 			$awal_periode = $this->input->post('awal_periode');
 			$akhir_periode = $this->input->post('akhir_periode');
 		} else {
@@ -561,7 +562,7 @@ class Laporan_retail extends AI_Admin
 	public function cetak_buku_besar_2()
 	{
 		if ($this->userdata) {
-			if (!empty($this->input->post('awal_periode')) && !empty($this->input->post('akhir_periode'))) {
+			if (!empty ($this->input->post('awal_periode')) && !empty ($this->input->post('akhir_periode'))) {
 				$awal_periode = $this->input->post('awal_periode');
 				$akhir_periode = $this->input->post('akhir_periode');
 			} else {
@@ -625,7 +626,7 @@ class Laporan_retail extends AI_Admin
 		} else {
 			$where_akun = 'a.kode!="2.04"';
 		}
-		if (!empty($this->input->post('per', true))) {
+		if (!empty ($this->input->post('per', true))) {
 			$per = $this->input->post('per', true);
 		} else {
 			$per = date('d-m-Y');
@@ -668,7 +669,7 @@ class Laporan_retail extends AI_Admin
 		} else {
 			$where_akun = 'a.kode!="2.04"';
 		}
-		if (!empty($this->input->post('awal_periode', true)) && !empty($this->input->post('akhir_periode', true))) {
+		if (!empty ($this->input->post('awal_periode', true)) && !empty ($this->input->post('akhir_periode', true))) {
 			$awal_periode = $this->input->post('awal_periode', true);
 			$akhir_periode = $this->input->post('akhir_periode', true);
 		} else {
@@ -708,7 +709,7 @@ class Laporan_retail extends AI_Admin
 
 	public function piutang()
 	{
-		if (!empty($this->input->post('awal_periode')) && !empty($this->input->post('akhir_periode'))) {
+		if (!empty ($this->input->post('awal_periode')) && !empty ($this->input->post('akhir_periode'))) {
 			$awal_periode = $this->input->post('awal_periode');
 			$akhir_periode = $this->input->post('akhir_periode');
 		} else {
@@ -733,7 +734,7 @@ class Laporan_retail extends AI_Admin
 
 	public function hutang()
 	{
-		if (!empty($this->input->post('awal_periode')) && !empty($this->input->post('akhir_periode'))) {
+		if (!empty ($this->input->post('awal_periode')) && !empty ($this->input->post('akhir_periode'))) {
 			$awal_periode = $this->input->post('awal_periode');
 			$akhir_periode = $this->input->post('akhir_periode');
 		} else {
@@ -789,12 +790,12 @@ class Laporan_retail extends AI_Admin
 	{
 		// TAB ACTIVE //
 		$tab_active = 'harian';
-		if (!empty($this->input->post('tab_active', true))) {
+		if (!empty ($this->input->post('tab_active', true))) {
 			$tab_active = $this->input->post('tab_active', true);
 		}
 		/// HARIAN //
 		$pil_tanggal = "minggu";
-		if (!empty($this->input->post('pil_tanggal', true))) {
+		if (!empty ($this->input->post('pil_tanggal', true))) {
 			$pil_tanggal = $this->input->post('pil_tanggal', true);
 		}
 		$week_range = $this->x_week_range(date('d-m-Y'));
@@ -810,8 +811,8 @@ class Laporan_retail extends AI_Admin
 		} else if ($pil_tanggal == "periode") {
 			$periode = $this->input->post('periode', true);
 			$experiode = explode(' - ', $periode);
-			$start_periode = !empty($experiode[0]) ? $experiode[0] : date('01-m-Y');
-			$end_periode = !empty($experiode[1]) ? $experiode[1] : date('t-m-Y');
+			$start_periode = !empty ($experiode[0]) ? $experiode[0] : date('01-m-Y');
+			$end_periode = !empty ($experiode[1]) ? $experiode[1] : date('t-m-Y');
 		}
 		$begin = new DateTime(date('Y-m-d', strtotime($start_periode)));
 		$end = new DateTime(date('Y-m-d', strtotime($end_periode)));
@@ -819,27 +820,27 @@ class Laporan_retail extends AI_Admin
 		$period = new DatePeriod($begin, $interval, $end);
 		/// MINGGUAN //
 		$m_tahun = date('Y');
-		if (!empty($this->input->post('m_tahun', true))) {
+		if (!empty ($this->input->post('m_tahun', true))) {
 			$m_tahun = $this->input->post('m_tahun', true);
 		}
 		$m_bulan = date('m');
-		if (!empty($this->input->post('m_bulan', true))) {
+		if (!empty ($this->input->post('m_bulan', true))) {
 			$m_bulan = $this->input->post('m_bulan', true);
 			$m_bulan = sprintf("%02d", $m_bulan);
 		}
 		$array_mingguan = $this->getAllDaysInAMonth($m_tahun, $m_bulan);
 		/// BULANAN //
 		$pil_bulanan = "bulan";
-		if (!empty($this->input->post('pil_bulanan', true))) {
+		if (!empty ($this->input->post('pil_bulanan', true))) {
 			$pil_bulanan = $this->input->post('pil_bulanan', true);
 		}
 		$start_pb = date('01-Y');
 		$end_pb = date('m-Y');
 		if ($pil_bulanan == "bulan") {
-			if (!empty($this->input->post('start_pb', true))) {
+			if (!empty ($this->input->post('start_pb', true))) {
 				$start_pb = $this->input->post('start_pb', true);
 			}
-			if (!empty($this->input->post('end_pb', true))) {
+			if (!empty ($this->input->post('end_pb', true))) {
 				$end_pb = $this->input->post('end_pb', true);
 			}
 		} else if ($pil_bulanan == "tahun") {
@@ -910,32 +911,32 @@ class Laporan_retail extends AI_Admin
 		$exddtgl = explode(":", $tgl);
 		if (count($exddtgl) > 1) {
 			$t1 = $exddtgl[0];
-			$t2 = !empty($exddtgl[1]) ? $exddtgl[1] : date('d-m-Y');
+			$t2 = !empty ($exddtgl[1]) ? $exddtgl[1] : date('d-m-Y');
 			$ext1 = explode("-", $t1);
 			$h_t1 = $ext1[0];
-			$b_t1 = !empty($ext1[1]) ? sprintf('%02d', $ext1[1]) : date('m');
-			$t_t1 = !empty($ext1[2]) ? $ext1[2] : date('Y');
+			$b_t1 = !empty ($ext1[1]) ? sprintf('%02d', $ext1[1]) : date('m');
+			$t_t1 = !empty ($ext1[2]) ? $ext1[2] : date('Y');
 			$ext2 = explode("-", $t2);
 			$h_t2 = $ext2[0];
-			$b_t2 = !empty($ext2[1]) ? sprintf('%02d', $ext2[1]) : date('m');
-			$t_t2 = !empty($ext2[2]) ? $ext2[2] : date('Y');
+			$b_t2 = !empty ($ext2[1]) ? sprintf('%02d', $ext2[1]) : date('m');
+			$t_t2 = !empty ($ext2[2]) ? $ext2[2] : date('Y');
 			$t_tgl = 'Tanggal : ' . $t1 . ' - ' . $t2;
 			$where = 'AND DATE(CONCAT(SUBSTRING(o.tgl_order,7,4),"-",SUBSTRING(o.tgl_order,4,2),"-",SUBSTRING(o.tgl_order,1,2))) BETWEEN "' . $t_t1 . '-' . $b_t1 . '-' . $h_t1 . '" AND "' . $t_t2 . '-' . $b_t2 . '-' . $h_t2 . '"';
 		} else {
 			$extgl = explode("-", $tgl);
 			if (count($extgl) == 3) {
 				$h = $extgl[0];
-				$b = !empty($extgl[1]) ? sprintf('%02d', $extgl[1]) : date('m');
-				$t = !empty($extgl[2]) ? $extgl[2] : date('Y');
+				$b = !empty ($extgl[1]) ? sprintf('%02d', $extgl[1]) : date('m');
+				$t = !empty ($extgl[2]) ? $extgl[2] : date('Y');
 				$t_tgl = 'Tanggal : ' . $h . ' ' . $array_bulan[$b * 1] . ' ' . $t;
 				$where = 'AND o.tgl_order="' . $tgl . '"';
 			} else if (count($extgl) == 2) {
 				$b = sprintf('%02d', $extgl[0]);
-				$t = !empty($extgl[1]) ? $extgl[1] : date('Y');
+				$t = !empty ($extgl[1]) ? $extgl[1] : date('Y');
 				$t_tgl = 'Bulan : ' . $array_bulan[$b * 1] . ' ' . $t;
 				$where = 'AND DATE(CONCAT(SUBSTRING(o.tgl_order,7,4),"-",SUBSTRING(o.tgl_order,4,2),"-",SUBSTRING(o.tgl_order,1,2))) BETWEEN "' . $t . '-' . $b . '-01" AND "' . $t . '-' . $b . '-31"';
 			} else if (count($extgl) == 1) {
-				$t = !empty($extgl[0]) ? $extgl[0] : date('Y');
+				$t = !empty ($extgl[0]) ? $extgl[0] : date('Y');
 				$t_tgl = 'Tahun : ' . $t;
 				$where = 'AND SUBSTRING(o.tgl_order,7,4)="' . $t . '"';
 			}
@@ -1028,7 +1029,7 @@ class Laporan_retail extends AI_Admin
 		$triwulan = 1;
 		$tahun = date('Y');
 		$print = $this->input->get('print', true);
-		if (!empty($this->input->post('id_sales', true))) {
+		if (!empty ($this->input->post('id_sales', true))) {
 			$id_sales = $this->input->post('id_sales', true);
 			$array = array(
 				'id_sales' => $id_sales
@@ -1038,7 +1039,7 @@ class Laporan_retail extends AI_Admin
 		if ($this->session->userdata('id_sales') != null) {
 			$id_sales = $this->session->userdata('id_sales');
 		}
-		if (!empty($this->input->post('id_member', true))) {
+		if (!empty ($this->input->post('id_member', true))) {
 			$id_member = $this->input->post('id_member', true);
 			$array = array(
 				'id_member' => $id_member
@@ -1048,7 +1049,7 @@ class Laporan_retail extends AI_Admin
 		if ($this->session->userdata('id_member') != null) {
 			$id_member = $this->session->userdata('id_member');
 		}
-		if (!empty($this->input->post('id_principal', true))) {
+		if (!empty ($this->input->post('id_principal', true))) {
 			$id_principal = $this->input->post('id_principal', true);
 			$array = array(
 				'id_principal' => $id_principal
@@ -1058,7 +1059,7 @@ class Laporan_retail extends AI_Admin
 		if ($this->session->userdata('id_principal') != null) {
 			$id_principal = $this->session->userdata('id_principal');
 		}
-		if (!empty($this->input->post('triwulan', true))) {
+		if (!empty ($this->input->post('triwulan', true))) {
 			$triwulan = $this->input->post('triwulan', true);
 			$array = array(
 				'triwulan' => $triwulan
@@ -1068,7 +1069,7 @@ class Laporan_retail extends AI_Admin
 		if ($this->session->userdata('triwulan') != null) {
 			$triwulan = $this->session->userdata('triwulan');
 		}
-		if (!empty($this->input->post('tahun', true))) {
+		if (!empty ($this->input->post('tahun', true))) {
 			$tahun = $this->input->post('tahun', true);
 			$array = array(
 				'tahun' => $tahun
@@ -1106,7 +1107,7 @@ class Laporan_retail extends AI_Admin
 			->where('u.level', 4)
 			->order_by('u.first_name', 'asc')
 			->get()->result();
-		if (!empty($id_sales)) {
+		if (!empty ($id_sales)) {
 			$data_member = $this->db->select('m.*')
 				->from('member m')
 				->join('users u', 'm.id_users=u.id_users AND m.id_toko=u.id_toko')
@@ -1127,7 +1128,7 @@ class Laporan_retail extends AI_Admin
 				->order_by('m.nama', 'asc')
 				->get()->result();
 		}
-		if (empty($id_principal)) {
+		if (empty ($id_principal)) {
 			// $row_principal = $this->db->select('SUBSTRING_INDEX(nama_kategori,"-",1) AS nama_principal')->from('kategori_produk')->where('id_toko', $this->userdata->id_toko)->order_by('nama_kategori', 'asc')->get()->row();
 			$row_principal = $this->db->select('s.*')
 				->from('supplier s')
@@ -1154,13 +1155,13 @@ class Laporan_retail extends AI_Admin
 			->group_by('s.nama_supplier')
 			->get()->result();
 		$where_add = 'pr.id_produk_2 > 0';
-		if (!empty($id_sales)) {
+		if (!empty ($id_sales)) {
 			$where_add = 'm.id_sales="' . $id_sales . '"';
-			if (!empty($id_member)) {
+			if (!empty ($id_member)) {
 				$where_add .= ' AND m.id_member="' . $id_member . '"';
 			}
 		}
-		if (!empty($id_principal)) {
+		if (!empty ($id_principal)) {
 			// $where_add .= ' AND SUBSTRING_INDEX(kp.nama_kategori,"-",1)="'.$id_principal.'"';
 			$where_add .= ' AND s.nama_supplier="' . $id_principal . '"';
 		}
@@ -1258,7 +1259,7 @@ class Laporan_retail extends AI_Admin
 			->where('u.level', 4)
 			->order_by('u.first_name', 'asc')
 			->get()->result();
-		if (!empty($id_sales)) {
+		if (!empty ($id_sales)) {
 			$data_member = $this->db->select('m.*')
 				->from('member m')
 				->join('users u', 'm.id_users=u.id_users AND m.id_toko=u.id_toko')
@@ -1280,11 +1281,11 @@ class Laporan_retail extends AI_Admin
 				->group_by('m.id_member')
 				->get()->result();
 		}
-		if (empty($id_principal)) {
+		if (empty ($id_principal)) {
 			/*$row_principal = $this->db->select('SUBSTRING_INDEX(nama_kategori,"-",1) AS nama_principal')->from('kategori_produk')->where('id_toko', $this->userdata->id_toko)->order_by('nama_kategori', 'asc')->get()->row();
-																																																						   if ($row_principal) {
-																																																							   $id_principal = $row_principal->nama_principal;
-																																																						   }*/
+																																																																																				if ($row_principal) {
+																																																																																					$id_principal = $row_principal->nama_principal;
+																																																																																				}*/
 			$row_principal = $this->db->select('s.*')
 				->from('supplier s')
 				->join('users u', 's.id_users=u.id_users AND s.id_toko=u.id_toko')
@@ -1310,13 +1311,13 @@ class Laporan_retail extends AI_Admin
 			->group_by('CONCAT(s.nama_supplier,s.alamat)')
 			->get()->result();
 		$where_add = 'pr.id_produk_2 > 0';
-		if (!empty($id_sales)) {
+		if (!empty ($id_sales)) {
 			$where_add = 'm.id_sales="' . $id_sales . '"';
-			if (!empty($id_member)) {
+			if (!empty ($id_member)) {
 				$where_add .= ' AND m.id_member="' . $id_member . '"';
 			}
 		}
-		if (!empty($id_principal)) {
+		if (!empty ($id_principal)) {
 			// $where_add .= ' AND REPLACE(LOWER(SUBSTRING_INDEX(kp.nama_kategori,"-",1))," ","")="'.$id_principal.'"';
 			$where_add .= ' AND s.nama_supplier="' . $id_principal . '"';
 		}

@@ -1,5 +1,5 @@
 <?php if (!defined('BASEPATH'))
-	exit('No direct script access allowed');
+	exit ('No direct script access allowed');
 
 class AI_Controller extends CI_Controller
 {
@@ -10,7 +10,7 @@ class AI_Controller extends CI_Controller
 		$this->load->model('Admin_model');
 		$this->load->library('view');
 		$this->userdata = $this->Admin_model->userdata();
-		if (!empty($this->userdata)) {
+		if (!empty ($this->userdata)) {
 			$this->Pengaturan_transaksi_model->id_toko = $this->userdata->id_toko;
 			$this->Pengaturan_transaksi_model->id_users = $this->userdata->id_users;
 		}
@@ -21,7 +21,7 @@ class AI_Controller extends CI_Controller
 
 	public function check_login()
 	{
-		if (empty($this->userdata)) {
+		if (empty ($this->userdata)) {
 			redirect(site_url('auth/login'));
 		}
 	}
@@ -31,25 +31,27 @@ class AI_Controller extends CI_Controller
 		$row = $this->userdata;
 		if ($row) {
 			if ($row->level == "1") {	// admin
-				redirect(site_url('admin'));
+				// redirect(site_url('admin'));
 			} else if ($row->level == "2") { // sales
-				redirect(site_url('sales'));
+				redirect(site_url('admin'));
 			} else if ($row->level == "3") { // outlet
-				redirect(site_url('outlet'));
+				redirect(site_url('admin'));
 			} else if ($row->level == "4") { // direktur
-				redirect(site_url('direktur'));
-			} else if ($row->level == "5") { // manager
-				redirect(site_url('manager'));
+				redirect(site_url('admin'));
+			} else if ($row->level == "5") { // HRD
+				redirect(site_url('admin'));
+			} else if ($row->level == "6") { // manager
+				redirect(site_url('admin'));
 			} else if ($row->level == "7") { // gudang
-				redirect(site_url('gudang'));
+				redirect(site_url('sales'));
 			} else if ($row->level == "8") { // packing
 				redirect(site_url('packing'));
 			} else if ($row->level == "9") { // leader cs
-				redirect(site_url('leadercs'));
+				redirect(site_url('admin'));
 			} else if ($row->level == "10") { // advertiser
-				redirect(site_url('advertiser'));
+				redirect(site_url('admin'));
 			} else if ($row->level == "11") { // owner
-				redirect(site_url('owner'));
+				redirect(site_url('admin'));
 			} else {
 				session_destroy();
 				$this->session->set_flashdata('message', 'Level Not Found!');
@@ -68,7 +70,7 @@ class AI_Controller extends CI_Controller
 
 	public function check_controller($level, $controller = '')
 	{
-		if (!empty($this->userdata)) {
+		if (!empty ($this->userdata)) {
 			$check = $this->Admin_model->check_allowed_controller($this->userdata->id_toko, $level, $controller);
 			if ($check == 'blocked') {
 				$this->not_allowed_controller();
@@ -84,14 +86,14 @@ class AI_Controller extends CI_Controller
 		$controller = $this->Admin_model->get_url_c();
 		$sess_name = $this->Admin_model->get_sess_name($id_toko, $level, $controller);
 		$sess = $this->session->userdata($sess_name);
-		if (!empty($sess) && $sess == 'blocked') {
+		if (!empty ($sess) && $sess == 'blocked') {
 			$this->not_allowed_controller();
 		}
 	}
 
 	public function rview($p, $d = array())
 	{
-		if (!empty($this->userdata)) {
+		if (!empty ($this->userdata)) {
 			// datas
 			$d['id_toko'] = $this->userdata->id_toko;
 			$d['id_users'] = $this->userdata->id_users;
@@ -104,23 +106,25 @@ class AI_Controller extends CI_Controller
 			if ($this->userdata->level == "1") {	// admin
 				$l = 'admin';
 			} else if ($this->userdata->level == "2") { // sales
-				$l = 'sales';
+				$l = 'admin';
 			} else if ($this->userdata->level == "3") { // outlet
-				$l = 'outlet';
+				$l = 'admin';
 			} else if ($this->userdata->level == "4") { // direktur
-				$l = 'direktur';
+				$l = 'admin';
 			} else if ($this->userdata->level == "5") { // manager
-				$l = 'manager';
+				$l = 'admin';
+			} else if ($this->userdata->level == "6") { // manager
+				$l = 'admin';
 			} else if ($this->userdata->level == "7") { // gudang
-				$l = 'gudang';
+				$l = 'admin';
 			} else if ($this->userdata->level == "8") { // packing
-				$l = 'packing';
+				$l = 'admin';
 			} else if ($this->userdata->level == "9") { // leader cs
-				$l = 'leadercs';
+				$l = 'admin';
 			} else if ($this->userdata->level == "10") { // advertiser
-				$l = 'advertiser';
+				$l = 'admin';
 			} else if ($this->userdata->level == "11") { // owner
-				$l = 'owner';
+				$l = 'admin';
 			}
 			$this->view->top($l, $d);
 			if ($p == 'home') {
@@ -270,7 +274,7 @@ class AI_Controller extends CI_Controller
 		foreach ($exp as $key => $value) {
 			$n = trim($value);
 			$expn = explode(":", $n);
-			if (!empty($expn[1])) {
+			if (!empty ($expn[1])) {
 				$this->load->model($expn[0], $expn[1]);
 			} else {
 				$this->load->model($expn[0]);

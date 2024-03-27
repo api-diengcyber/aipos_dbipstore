@@ -1,6 +1,6 @@
 <?php
 if (!defined('BASEPATH'))
-	exit('No direct script access allowed');
+	exit ('No direct script access allowed');
 
 class Arus_kas extends AI_Admin
 {
@@ -211,13 +211,13 @@ class Arus_kas extends AI_Admin
 		$awal_periode = date('d-m-Y');
 		$akhir_periode = date('d-m-Y');
 
-		if (!empty($this->input->post('awal_periode'))) {
+		if (!empty ($this->input->post('awal_periode'))) {
 			$awal_periode = $this->input->post('awal_periode');
 			// 			$this->session->set_userdata(array('awal_periode' => $awal_periode));
 		}
 
 
-		if (!empty($this->input->post('akhir_periode'))) {
+		if (!empty ($this->input->post('akhir_periode'))) {
 			$akhir_periode = $this->input->post('akhir_periode');
 		}
 		$xawal_periode = date('Y-m-d', strtotime($awal_periode));
@@ -227,21 +227,24 @@ class Arus_kas extends AI_Admin
 			->from('arus_kas as')
 			->join('akun_sederhana a', 'a.id=as.id_akun')
 			->where('as.id_toko', $this->userdata->id_toko)
-			// ->where("as.tgl BETWEEN '" . $awal_periode . "' AND '" . $akhir_periode . "'")
+			->where("as.tgl BETWEEN '" . $awal_periode . "' AND '" . $akhir_periode . "'")
 			->get()
 			->result();
-		$penjualan = $this->db->select('o.*,SUM(o.laba)as total')
+		$penjualan = $this->db->select('o.*,SUM(o.laba) as total_laba, SUM(o.bayar) as total_bayar')
 			->from('orders o')
 			->where('o.id_toko', $this->userdata->id_toko)
 			//  ->group_by('o.tgl_order')
 			->where("o.tgl_order BETWEEN '" . $awal_periode . "' AND '" . $akhir_periode . "'")
+			->group_by("o.tgl_order")
 			->get()
 			->result();
+		// var_dump($penjualan);
 		$pembelian = $this->db->select('p.*, SUM(p.total_bayar) AS total')
 			->from('pembelian p')
 			->where('p.id_toko', $this->userdata->id_toko)
 			//  ->group_by('p.tgl_order')
 			->where("STR_TO_DATE(p.tgl_masuk, '%d-%m-%Y') BETWEEN '" . $xawal_periode . "' AND '" . $xakhir_periode . "'")
+			->group_by("p.tgl_masuk")
 			->get()
 			->result();
 		$beban = $this->db->select('b.*')
@@ -415,7 +418,7 @@ class Arus_kas extends AI_Admin
 			} else {
 				// Capture and display database error
 				$db_error = $this->db->error();
-				if (!empty($db_error['message'])) {
+				if (!empty ($db_error['message'])) {
 					echo "Database Error: " . $db_error['message'];
 				} else {
 					echo "Unknown Database Error.";
@@ -454,7 +457,7 @@ class Arus_kas extends AI_Admin
 			} else {
 				// Capture and display database error
 				$db_error = $this->db->error();
-				if (!empty($db_error['message'])) {
+				if (!empty ($db_error['message'])) {
 					echo "Database Error: " . $db_error['message'];
 				} else {
 					echo "Unknown Database Error.";

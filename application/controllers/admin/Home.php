@@ -1,5 +1,5 @@
 <?php if (!defined('BASEPATH'))
-  exit('No direct script access allowed');
+  exit ('No direct script access allowed');
 
 class Home extends AI_Admin
 {
@@ -71,14 +71,25 @@ class Home extends AI_Admin
 
       $data['produk'] = $this->db->query('SELECT COUNT(id_produk) AS jml FROM produk_retail WHERE ' . $where_id_toko . ' AND ' . $where_id_user)->row();
       // $this->db->where('o.id_users', $kasir_cabang->id_users);
+
+      // $data['total_stok'] = $this->db->select('SUM(sp.stok) AS jml_stok')
+      //   ->from('stok_produk sp')
+      //   ->where($where_stok)
+      //   ->where($where_id_user)
+      // ->get()->row();
+
+
     } else {
       $data['produk'] = $this->db->query('SELECT COUNT(id_produk) AS jml FROM produk_retail WHERE ' . $where_id_toko)->row();
+      // $data['total_stok'] = $this->db->select('SUM(sp.stok) AS jml_stok')
+      //   ->from('stok_produk sp')
+      //   ->where($where_stok)
+      //   ->get()->row();
     }
+    // var_dump($data['stok_produk']);
+    // $data['stok_produk']= $stok_produk = $data['produk'] - $data['produk_terjual'];
 
-    /* $data['total_stok'] = $this->db->select('SUM(sp.stok) AS jml_stok')
-                                  ->from('stok_produk sp')
-                                  ->where($where_stok)
-                                  ->get()->row(); */
+
     // $data['total_stok'] = $this->db->query('SELECT SUM((p.jml-od.jml)+ps.jml) AS jml_stok FROM (SELECT id_produk, SUM(jumlah) AS jml FROM orders_detail WHERE id_toko="'.$this->userdata->id_toko.'" AND id_orders_2>0 GROUP BY id_produk) AS od JOIN (SELECT id_produk, SUM(jumlah) AS jml FROM pembelian WHERE id_toko="'.$this->userdata->id_toko.'" GROUP BY id_produk) AS p ON od.id_produk=p.id_produk LEFT JOIN (SELECT id_produk, SUM(stok) AS jml FROM penyesuaian_stok WHERE id_toko="'.$this->userdata->id_toko.'" GROUP BY id_produk) AS ps ON od.id_produk=ps.id_produk')->row();
     /** Total stok */
 
@@ -164,20 +175,51 @@ class Home extends AI_Admin
     $data['produk_terlaris'] = $this->db->where($where_id_toko)->order_by('dibeli', 'desc')->group_by('barcode')->get('produk_retail', 5)->result();
     $data['data_order_terakhir'] = $this->Penjualan_retail_model->get_last_data($this->userdata->id_toko, 10);
     $data['persediaan'] = 0;
-    $row_persediaan = $this->db->select('(SUM(j.debet)-SUM(j.kredit)) AS jml')
-      ->from('jurnal j')
-      ->join('akun a', 'j.id_akun=a.id')
-      ->where('a.kode', '1.01.04')
-      ->where('SUBSTRING(j.tgl,7,4)=', date('Y'))
-      ->get()->row();
+
+
+    $this->db->select('pr.*,SUM(pr.harga_1) as persediaan ,pr.id_produk_2 as id2, sat.satuan AS satuan_produk,' . $this->Mutasi_stok_model->select_stok_mutasi());
+    $this->db->from('produk_retail pr');
+    $this->db->join('users u', 'pr.id_users=u.id_users AND pr.id_toko=u.id_toko');
+    $this->db->join('pembelian p', 'pr.id_produk_2=p.id_produk AND p.id_users=u.id_users AND pr.id_toko=p.id_toko', 'left');
+    $this->db->join('satuan_produk sat', 'pr.satuan=sat.id_satuan', 'left');
+    $this->Mutasi_stok_model->query_stok_mutasi($this->db, $this->userdata->id_toko, null, 'pr.id_produk_2');
+    $this->db->where('pr.id_toko', $this->userdata->id_toko);
+    // $this->db->where('u.id_cabang', $this->userdata->id_cabang);
+    $this->db->where('pr.parent_id', null);
+    $this->db->order_by('pr.id_produk_2', 'DESC');
+
+    $this->db->group_by('pr.barcode');
+    if ($this->userdata->level != 1 && $this->userdata->level != 4 && $this->userdata->level != 5 && $this->userdata->level != 6 && $this->userdata->level != 7) {
+      // $this->datatables->join('produk_retail_mutasi pm', 'pm.id_produk=p.id_produk_2 AND pm.id_toko=p.id_toko');
+      // $this->datatables->where('pm.id_users_tujuan', $this->userdata->id_users);
+      $this->datatables->where('pr.id_users', $kasir_cabang->id_users);
+    }
+    $row_persediaan = $this->db->get()->result();
+
+
+
+    // $row_persediaan = $this->db->select('SUM(p.harga_1) as persediaan')
+    //   ->from('produk_retail p')
+
+    //   ->get()->row();
+
+    $persediaan = 0;
     if ($row_persediaan) {
-      $data['persediaan'] = $row_persediaan->jml;
+      foreach ($row_persediaan as $p) {
+        if ($p->stok == 0) {
+
+        } else {
+          $persediaan += ($p->harga_1 - $p->harga_beli);
+        }
+      }
+      $data['persediaan'] = $persediaan;
     }
     $data['laba_hari_ini'] = $this->db->select('SUM(laba) AS jml_laba')
       ->from('orders')
-      ->where($where_id_toko)
+      ->where('id_toko', $this->userdata->id_toko)
       ->where('tgl_order', date('d-m-Y'))
       ->get()->row();
+
     $data['total_piutang'] = $this->db->select('SUM(p.sisa) AS total')
       ->from('piutang p')
       ->where('p.id_toko', $this->userdata->id_toko)
@@ -201,9 +243,9 @@ class Home extends AI_Admin
     $data['grafik_order_per_bulan'] = $this->Sales_order_model->grafik_order_per_bulan();
     $data['grafik_order_per_kasir'] = $this->Sales_order_model->grafik_order_per_kasir();
 
+    $this->view('home', $data);
     // var_dump($data);
 
-    $this->view('home', $data);
   }
 
   function testings()
@@ -250,7 +292,7 @@ class Home extends AI_Admin
     $res_karyawan = $this->db->where('level', 4)->get('users')->result();
     foreach ($res_karyawan as $karyawan) {
       $row = $this->db->where('id_pegawai', $karyawan->id_users)->where('tgl', date('d-m-Y'))->get('jam_kerja')->row();
-      if (empty($row)) {
+      if (empty ($row)) {
         $output .= $karyawan->first_name . ',';
       }
     }

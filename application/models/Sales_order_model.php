@@ -16,9 +16,9 @@ class Sales_order_model extends CI_Model
 	function grafik_order_hari_ini()
 	{
 		/* $this->db->select('lo.tanggal');
-											$this->db->from('laporan_order lo');
-											$this->db->where('left(tanggal,10)',date('Y-m-d'));
-											$this->db->group_by('left(tanggal,10)'); */
+																								  $this->db->from('laporan_order lo');
+																								  $this->db->where('left(tanggal,10)',date('Y-m-d'));
+																								  $this->db->group_by('left(tanggal,10)'); */
 
 		$this->db->select('SUBSTRING(o.jam_order,1,2) AS jam, SUM(od.jumlah) AS jumlah');
 		$this->db->from('orders o');
@@ -31,10 +31,10 @@ class Sales_order_model extends CI_Model
 		foreach ($res_tanggal as $key) {
 			// $data_order = $this->get_order(array("tanggal"=>$key->tanggal,"order"=>true));
 			/* $data_order = $this->db->select('o.*')
-																											   ->from('orders o')
-																											   ->join('orders_detail od', 'o.id_orders_2=od.id_orders_2')
-																											   ->where('SUBSTRING(o.jam_order,1,2)=', $key->jam)
-																											   ->get()->row(); */
+																																																->from('orders o')
+																																																->join('orders_detail od', 'o.id_orders_2=od.id_orders_2')
+																																																->where('SUBSTRING(o.jam_order,1,2)=', $key->jam)
+																																																->get()->row(); */
 			$label[] = $key->jam;
 			$value[] = $key->jumlah;
 		}
@@ -43,7 +43,7 @@ class Sales_order_model extends CI_Model
 
 	function grafik_order_per_kasir()
 	{
-		$this->db->select('SUBSTRING(o.tgl_order,1,2) AS tanggal, SUM(od.jumlah) AS jumlah, u.first_name');
+		$this->db->select('SUBSTRING(o.tgl_order,1,2) AS tanggal, SUM(od.jumlah) AS jumlah, u.first_name,u.last_name');
 		$this->db->from('orders o');
 		$this->db->join('users u', 'o.id_sales=u.id_users');
 		$this->db->join('orders_detail od', 'o.id_orders_2=od.id_orders_2', 'left');
@@ -67,10 +67,10 @@ class Sales_order_model extends CI_Model
 		$total = 0;
 		foreach ($data_media as $media) {
 			/* $this->db->select('sum(lod.jumlah) as jumlah');
-																  $this->db->from('laporan_order lo');
-																  $this->db->join('laporan_order_detail lod', 'lod.id_order = lo.id');
-																  $this->db->where('left(lo.tanggal,10)', date('Y-m-d'));
-																  $this->db->where('lo.media', $media->id); */
+																																				   $this->db->from('laporan_order lo');
+																																				   $this->db->join('laporan_order_detail lod', 'lod.id_order = lo.id');
+																																				   $this->db->where('left(lo.tanggal,10)', date('Y-m-d'));
+																																				   $this->db->where('lo.media', $media->id); */
 
 			$this->db->select('sum(od.jumlah) as jumlah');
 			$this->db->from('orders o');
@@ -93,9 +93,9 @@ class Sales_order_model extends CI_Model
 	function grafik_order_per_hari()
 	{
 		/* $this->db->select('lo.tanggal');
-											$this->db->from('laporan_order lo');
-											$this->db->where('left(tanggal,7)',date('Y-m'));
-											$this->db->group_by('left(tanggal,10)'); */
+																								  $this->db->from('laporan_order lo');
+																								  $this->db->where('left(tanggal,7)',date('Y-m'));
+																								  $this->db->group_by('left(tanggal,10)'); */
 
 		$this->db->select('SUBSTRING(o.tgl_order,1,2) AS tanggal, SUM(od.jumlah) AS jumlah');
 		$this->db->from('orders o');
@@ -107,11 +107,11 @@ class Sales_order_model extends CI_Model
 		$value = [];
 		foreach ($res_tanggal as $key) {
 			/* $data_order = $this->get_order(array("tanggal"=>$key->tanggal,"order"=>true));
-																  $total = 0;
-																  foreach ($data_order as $order) {
-																	  $total += ($order->hs * 1) + ($order->gc * 1);
-																  } */
-			$label[] = $key->tanggal;
+																																				   $total = 0;
+																																				   foreach ($data_order as $order) {
+																																					   $total += ($order->hs * 1) + ($order->gc * 1);
+																																				   } */
+			$label[] = "Tanggal: " . $key->tanggal;
 			$value[] = $key->jumlah;
 		}
 		return array("label" => $label, "value" => $value);
@@ -124,9 +124,9 @@ class Sales_order_model extends CI_Model
 		$total = 0;
 		foreach ($data_media as $media) {
 			/* $this->db->select('sum(lod.jumlah) as jumlah');
-																  $this->db->from('laporan_order lo');
-																  $this->db->join('laporan_order_detail lod', 'lod.id_order = lo.id');
-																  $this->db->where('left(lo.tanggal,7)', date('Y-m')); */
+																																				   $this->db->from('laporan_order lo');
+																																				   $this->db->join('laporan_order_detail lod', 'lod.id_order = lo.id');
+																																				   $this->db->where('left(lo.tanggal,7)', date('Y-m')); */
 
 			$this->db->select('count(o.id_orders) as jumlah');
 			$this->db->from('orders o');
@@ -153,9 +153,9 @@ class Sales_order_model extends CI_Model
 		$total = 0;
 		foreach ($data_media as $media) {
 			/* $this->db->select('sum(lod.jumlah) as jumlah');
-																  $this->db->from('laporan_order lo');
-																  $this->db->join('laporan_order_detail lod', 'lod.id_order = lo.id');
-																  $this->db->where('left(lo.tanggal,4)', date('Y')); */
+																																				   $this->db->from('laporan_order lo');
+																																				   $this->db->join('laporan_order_detail lod', 'lod.id_order = lo.id');
+																																				   $this->db->where('left(lo.tanggal,4)', date('Y')); */
 
 			$this->db->select('count(o.id_orders) as jumlah');
 			$this->db->from('orders o');
@@ -194,9 +194,9 @@ class Sales_order_model extends CI_Model
 
 
 		/* $this->db->select('SUBSTR(tanggal FROM 6 FOR 2) as bulan,left(tanggal,7) as bulantahun');
-											$this->db->from('laporan_order lo');
-											$this->db->where('left(lo.tanggal,4)', date('Y'));
-											$this->db->group_by('left(tanggal,7)'); */
+																								  $this->db->from('laporan_order lo');
+																								  $this->db->where('left(lo.tanggal,4)', date('Y'));
+																								  $this->db->group_by('left(tanggal,7)'); */
 
 		$this->db->select('SUBSTRING(o.tgl_order,4,2) AS bulan, CONCAT(RIGHT(o.tgl_order,4),"-",SUBSTRING(o.tgl_order,4,2)) AS bulantahun, SUM(od.jumlah) AS jumlah');
 		$this->db->from('orders o');
@@ -208,10 +208,10 @@ class Sales_order_model extends CI_Model
 		$value = [];
 		foreach ($res_tanggal as $key) {
 			/* $data_order = $this->get_order(array("perbulan"=>$key->bulantahun,"order"=>true));
-																  $total = 0;
-																  foreach ($data_order as $order ) {
-																	  $total += ($order->hs * 1) + ($order->gc * 1);
-																  } */
+																																				   $total = 0;
+																																				   foreach ($data_order as $order ) {
+																																					   $total += ($order->hs * 1) + ($order->gc * 1);
+																																				   } */
 			$label[] = $arrBulan[$key->bulan];
 			$value[] = $key->jumlah;
 		}
@@ -488,132 +488,132 @@ class Sales_order_model extends CI_Model
 
 
 	/*function get_order($params,$paginate = array())
-					  {
-						  $this->db->select("*,lo.keterangan,lo.media as id_media,lo.alamat as alamat,lo.id_cs,lo.id as id,lo.status as id_status,u.first_name as nama_cs,u.phone as no_hp_cs,m.media as media, (CASE WHEN lo.status = 1 THEN 'Menunggu Admin' WHEN lo.status = 2 THEN 'Diproses' WHEN lo.status = 3 THEN 'Dikirim' WHEN lo.status = 4 THEN 'Selesai' WHEN lo.status = 5 THEN 'Menunggu Gudang' WHEN lo.status = 6 THEN 'Dibatalkan' END) AS status, b.bank as nama_bank, lo2.jml AS jml_sama");
-						  $this->db->from('laporan_order lo');
-						  $this->db->join('users u', 'u.id_users = lo.id_cs','LEFT');
-						  $this->db->join('pil_media m', 'm.id = lo.media','LEFT');
-						  $this->db->join('pil_bank b', 'b.id = lo.bank','LEFT');
-						  $this->db->join('(SELECT COUNT(id) AS jml, tanggal, nama_pembeli FROM laporan_order GROUP BY CONCAT(SUBSTRING(tanggal,1,10), nama_pembeli)) AS lo2', 'lo.nama_pembeli=lo2.nama_pembeli AND (SUBSTRING(lo.tanggal,1,10))=(SUBSTRING(lo2.tanggal,1,10))', 'left');
-						  
-						  if(!empty($params['tanggal'])){
-						  $this->db->where('lo.tanggal', $params['tanggal']);
-						  }
-						  if(!empty($params['perbulan'])){
-						  $this->db->where('left(lo.tanggal,7)', $params['perbulan']);	
-						  }
-						  if(!empty($params['status']) && $params['status'] != "SEMUA"){
-						  $exp_status = explode('-',$params['status']);
-						  if(count($exp_status) > 1){
-						  $this->db->where('lo.no_resi IS NULL');
-						  $this->db->where('lo.status', $exp_status[0]);
-						  }else{
-						  $this->db->where('lo.status', $params['status']);		
-						  }
-						  
-						  }
-						  if(!empty($params['status_in'])){
-							  $this->db->where_in('lo.status', $params['status_in']);
-						  }
-						  if(!empty($params['dari']) && !empty($params['sampai'])){
-							  
-						  $dmyDari = new DateTime($params['dari']);
-						  $ymdDari = $dmyDari->format('Y-m-d');
-						  $dmySampai = new DateTime($params['sampai']);
-						  $ymdSampai = $dmySampai->format('Y-m-d');
-						  
-						  $exdari = explode("-",$params['dari']);
-						  $dari = $exdari[2].$exdari[1].$exdari[0];
-						  $this->db->where('left(lo.tanggal,10) BETWEEN "'.$ymdDari.'" AND "'.$ymdSampai.'"');
-						  }
-						  if(!empty($params['where_in'])){
-						  $this->db->where_in('lo.id', $params['where_in']);
-						  }
-						  if(!empty($params['id_users'])){
-						  $this->db->where('lo.id_cs', $params['id_users']);
-						  }
-						  if(!empty($params['media'])){
-						  $this->db->where('lo.media', $params['media']);
-						  }
-						  
-						  if(!empty($paginate)){
-							  $page = $paginate['page'];
-							  $page = $page - 1;
-							  if($page <= 1){
-								  $page = 0;
-							  }
-							  $perpage = $paginate['perpage'];
-							  $from = $page * $perpage;
-							  $this->db->limit($perpage,$from);
-						  }
-						  $this->db->order_by('lo.id', 'desc');
-						  $this->db->group_by('lo.id');
-						  $res = $this->db->get()->result();
+												 {
+													 $this->db->select("*,lo.keterangan,lo.media as id_media,lo.alamat as alamat,lo.id_cs,lo.id as id,lo.status as id_status,u.first_name as nama_cs,u.phone as no_hp_cs,m.media as media, (CASE WHEN lo.status = 1 THEN 'Menunggu Admin' WHEN lo.status = 2 THEN 'Diproses' WHEN lo.status = 3 THEN 'Dikirim' WHEN lo.status = 4 THEN 'Selesai' WHEN lo.status = 5 THEN 'Menunggu Gudang' WHEN lo.status = 6 THEN 'Dibatalkan' END) AS status, b.bank as nama_bank, lo2.jml AS jml_sama");
+													 $this->db->from('laporan_order lo');
+													 $this->db->join('users u', 'u.id_users = lo.id_cs','LEFT');
+													 $this->db->join('pil_media m', 'm.id = lo.media','LEFT');
+													 $this->db->join('pil_bank b', 'b.id = lo.bank','LEFT');
+													 $this->db->join('(SELECT COUNT(id) AS jml, tanggal, nama_pembeli FROM laporan_order GROUP BY CONCAT(SUBSTRING(tanggal,1,10), nama_pembeli)) AS lo2', 'lo.nama_pembeli=lo2.nama_pembeli AND (SUBSTRING(lo.tanggal,1,10))=(SUBSTRING(lo2.tanggal,1,10))', 'left');
+													 
+													 if(!empty($params['tanggal'])){
+													 $this->db->where('lo.tanggal', $params['tanggal']);
+													 }
+													 if(!empty($params['perbulan'])){
+													 $this->db->where('left(lo.tanggal,7)', $params['perbulan']);	
+													 }
+													 if(!empty($params['status']) && $params['status'] != "SEMUA"){
+													 $exp_status = explode('-',$params['status']);
+													 if(count($exp_status) > 1){
+													 $this->db->where('lo.no_resi IS NULL');
+													 $this->db->where('lo.status', $exp_status[0]);
+													 }else{
+													 $this->db->where('lo.status', $params['status']);		
+													 }
+													 
+													 }
+													 if(!empty($params['status_in'])){
+														 $this->db->where_in('lo.status', $params['status_in']);
+													 }
+													 if(!empty($params['dari']) && !empty($params['sampai'])){
+														 
+													 $dmyDari = new DateTime($params['dari']);
+													 $ymdDari = $dmyDari->format('Y-m-d');
+													 $dmySampai = new DateTime($params['sampai']);
+													 $ymdSampai = $dmySampai->format('Y-m-d');
+													 
+													 $exdari = explode("-",$params['dari']);
+													 $dari = $exdari[2].$exdari[1].$exdari[0];
+													 $this->db->where('left(lo.tanggal,10) BETWEEN "'.$ymdDari.'" AND "'.$ymdSampai.'"');
+													 }
+													 if(!empty($params['where_in'])){
+													 $this->db->where_in('lo.id', $params['where_in']);
+													 }
+													 if(!empty($params['id_users'])){
+													 $this->db->where('lo.id_cs', $params['id_users']);
+													 }
+													 if(!empty($params['media'])){
+													 $this->db->where('lo.media', $params['media']);
+													 }
+													 
+													 if(!empty($paginate)){
+														 $page = $paginate['page'];
+														 $page = $page - 1;
+														 if($page <= 1){
+															 $page = 0;
+														 }
+														 $perpage = $paginate['perpage'];
+														 $from = $page * $perpage;
+														 $this->db->limit($perpage,$from);
+													 }
+													 $this->db->order_by('lo.id', 'desc');
+													 $this->db->group_by('lo.id');
+													 $res = $this->db->get()->result();
 
-						  $output = [];
-						  $id = 0;
-						  foreach ($res as $item) {
-							  $keterangan = explode("#",$item->keterangan);
-							  
-							  if(!empty($keterangan[10])){
-								  $stringKet = $keterangan[10];
-							  }else{
-								  $stringKet = "";
-							  }
-							  
-							  $output[$id] = (object)array(
-									  "id_order"=>$item->id,
-									  "id_status"=>$item->id_status,
-									  "id_cs"=>$item->id_cs,
-									  "id_media"=>$item->id_media,
-									  "no_invoice"=>$item->no_invoice,
-									  "tanggal"=>$item->tanggal,
-									  "media"=>$item->media,
-									  "nama_cs"=>$item->nama_cs,
-									  "no_hp_cs"=>$item->no_hp_cs,
-									  "nama_penerima"=>$item->nama_pembeli,
-									  "alamat_penerima"=>$item->alamat,
-									  "no_hp"=>$item->no_hp,
-									  "kode_pos"=>$item->kodepos,
-									  "tanggal_lahir"=>$item->tanggal_lahir,
-									  "alamat_email"=>$item->email,
-									  "keterangan"=>$stringKet,
-									  "hs"=>"",
-									  "gc"=>"",
-									  "detail_order"=>array(),
-									  "harga"=>$item->harga,
-									  "ongkir"=>$item->ongkir,
-									  "status"=>$item->status,
-									  "no_resi"=>($item->no_resi != "null")?$item->no_resi:"",
-									  "nominal"=>$item->nominal,
-									  "nama_bank"=>$item->nama_bank,
-									  "selisih"=>$item->selisih,
-									  "biaya_lain"=>$item->biaya_lain,
-									  "saldo"=>$item->saldo,
-									  "id_expedisi"=>$item->id_expedisi,
-									  "jml_sama"=>$item->jml_sama,
-							  );
+													 $output = [];
+													 $id = 0;
+													 foreach ($res as $item) {
+														 $keterangan = explode("#",$item->keterangan);
+														 
+														 if(!empty($keterangan[10])){
+															 $stringKet = $keterangan[10];
+														 }else{
+															 $stringKet = "";
+														 }
+														 
+														 $output[$id] = (object)array(
+																 "id_order"=>$item->id,
+																 "id_status"=>$item->id_status,
+																 "id_cs"=>$item->id_cs,
+																 "id_media"=>$item->id_media,
+																 "no_invoice"=>$item->no_invoice,
+																 "tanggal"=>$item->tanggal,
+																 "media"=>$item->media,
+																 "nama_cs"=>$item->nama_cs,
+																 "no_hp_cs"=>$item->no_hp_cs,
+																 "nama_penerima"=>$item->nama_pembeli,
+																 "alamat_penerima"=>$item->alamat,
+																 "no_hp"=>$item->no_hp,
+																 "kode_pos"=>$item->kodepos,
+																 "tanggal_lahir"=>$item->tanggal_lahir,
+																 "alamat_email"=>$item->email,
+																 "keterangan"=>$stringKet,
+																 "hs"=>"",
+																 "gc"=>"",
+																 "detail_order"=>array(),
+																 "harga"=>$item->harga,
+																 "ongkir"=>$item->ongkir,
+																 "status"=>$item->status,
+																 "no_resi"=>($item->no_resi != "null")?$item->no_resi:"",
+																 "nominal"=>$item->nominal,
+																 "nama_bank"=>$item->nama_bank,
+																 "selisih"=>$item->selisih,
+																 "biaya_lain"=>$item->biaya_lain,
+																 "saldo"=>$item->saldo,
+																 "id_expedisi"=>$item->id_expedisi,
+																 "jml_sama"=>$item->jml_sama,
+														 );
 
-							  $this->db->select('lod.*,pr.nama_produk');
-							  $this->db->from('laporan_order_detail lod');
-							  $this->db->join('produk_retail pr', 'pr.id_produk_2 = lod.id_produk');
-							  $this->db->where('lod.id_order', $item->id);
-							  $detail = $this->db->get()->result();
+														 $this->db->select('lod.*,pr.nama_produk');
+														 $this->db->from('laporan_order_detail lod');
+														 $this->db->join('produk_retail pr', 'pr.id_produk_2 = lod.id_produk');
+														 $this->db->where('lod.id_order', $item->id);
+														 $detail = $this->db->get()->result();
 
-							  $output[$id]->detail_order = $detail;
+														 $output[$id]->detail_order = $detail;
 
-							  foreach ($detail as $laporan_detail) {
-								  if($laporan_detail->id_produk == 1){
-									  $output[$id]->hs += $laporan_detail->jumlah*1;
-								  }else{
-									  $output[$id]->gc += $laporan_detail->jumlah*1;
-								  } 
-							  }
-							  $id++;
-						  }
+														 foreach ($detail as $laporan_detail) {
+															 if($laporan_detail->id_produk == 1){
+																 $output[$id]->hs += $laporan_detail->jumlah*1;
+															 }else{
+																 $output[$id]->gc += $laporan_detail->jumlah*1;
+															 } 
+														 }
+														 $id++;
+													 }
 
-						  return $output;
-					  }*/
+													 return $output;
+												 }*/
 
 	function get_diterima($dari = '', $sampai = '')
 	{

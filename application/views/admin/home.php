@@ -35,17 +35,20 @@
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-navbar"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-sidebar"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-breadcrumbs"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
             </div>
 
@@ -55,7 +58,8 @@
             </div>
 
             <div class="ace-settings-item">
-              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container" autocomplete="off" />
+              <input type="checkbox" class="ace ace-checkbox-2 ace-save-state" id="ace-settings-add-container"
+                autocomplete="off" />
               <label class="lbl" for="ace-settings-add-container">
                 Inside
                 <b>.container</b>
@@ -86,7 +90,7 @@
         <div class="row">
           <div class="col-md-4">
             <h1>
-              Dashboard 
+              Dashboard
             </h1>
           </div>
           <div class="col-md-4">
@@ -94,10 +98,11 @@
               <form action="" method="post">
                 <select name="cabang" id="cabang" class="form-control" onchange="this.form.submit()">
                   <option value="<?php echo $id_toko_pusat ?>">-- Pusat --</option>
-                  <?php foreach ($data_cabang as $dc) : ?>
+                  <?php foreach ($data_cabang as $dc): ?>
                     <option value="<?php echo $dc->id_cabang ?>" <?php if ($this->session->userdata('id_toko') == $dc->id_cabang) {
-                                                                        echo 'selected';
-                                                                      } ?>><?php echo $dc->nama_toko ?></option>
+                         echo 'selected';
+                       } ?>><?php echo $dc->nama_toko ?>
+                    </option>
                   <?php endforeach ?>
                 </select>
               </form>
@@ -115,7 +120,8 @@
 
               <?php if ($id_modul == '2') { ?>
 
-              <?php }; ?>
+              <?php }
+              ; ?>
 
               <div class="row" style="margin:0px;margin-bottom:20px">
                 <div class="col-md-3" style="padding:0px">
@@ -125,7 +131,9 @@
                     </div>
 
                     <div class="infobox-data">
-                      <span class="infobox-data-number"><?php echo $produk_terjual->jumlah * 1 ?></span>
+                      <span class="infobox-data-number">
+                        <?php echo $produk_terjual->jumlah * 1 ?>
+                      </span>
                       <div class="infobox-content">Total Produk Terjual</div>
                     </div>
 
@@ -139,7 +147,9 @@
                     </div>
 
                     <div class="infobox-data">
-                      <span class="infobox-data-number"><?php echo $produk->jml * 1 ?></span>
+                      <span class="infobox-data-number">
+                        <?php echo $produk->jml * 1 ?>
+                      </span>
                       <div class="infobox-content">Jumlah Item Produk</div>
                     </div>
                   </div>
@@ -150,10 +160,12 @@
                       <i class="ace-icon fa fa-database"></i>
                     </div>
                     <div class="infobox-data">
-                      <span class="infobox-data-number"><?php echo $produk->jml * 1 ?></span>
+                      <span class="infobox-data-number">
+                        <?php echo ($produk->jml * 1) - ($produk_terjual->jumlah * 1) ?>
+                      </span>
                       <!-- <span class="infobox-data-number"><?php // echo $produk->jml * 1 
-                                                              ?></span> -->
-                      <div class="infobox-content">Semua Stok</div>
+                      ?></span> -->
+                      <div class="infobox-content">Stok Tersedia</div>
                     </div>
                   </div>
                 </div>
@@ -163,7 +175,9 @@
                       <span class="sparkline" data-values="196,128,202,177,154,94,100,170,224"></span>
                     </div>
                     <div class="infobox-data">
-                      <span class="infobox-data-number"><?php echo count($orders) ?></span>
+                      <span class="infobox-data-number">
+                        <?php echo count($orders) ?>
+                      </span>
                       <div class="infobox-content">Order Hari ini</div>
                     </div>
                   </div>
@@ -176,7 +190,9 @@
                     <i class="ace-icon fa fa-glass"></i>
                   </div>
                   <div class="infobox-data">
-                    <span class="infobox-data-number"><?php echo count($produk_kadaluarsa) ?></span>
+                    <span class="infobox-data-number">
+                      <?php echo count($produk_kadaluarsa) ?>
+                    </span>
                     <div class="infobox-content">Produk Kadaluarsa</div>
                   </div>
                 </div>
@@ -202,7 +218,7 @@
                         <a data-toggle="tab" href="#tahun-tab">TAHUN INI</a>
                       </li>
                       <li>
-                        <a data-toggle="tab" href="#kasir-tab">SALES</a>
+                        <a data-toggle="tab" href="#kasir-tab">KASIR</a>
                       </li>
                     </ul>
                   </div>
@@ -238,19 +254,20 @@
                     <div class="row">
                       <div class="col-xs-9">
                         <form action="" method="post">
-                          <select name="tempo_pemb" id="" class="form-control" style="height:30px;margin-top:3px" onchange="this.form.submit()">
+                          <select name="tempo_pemb" id="" class="form-control" style="height:30px;margin-top:3px"
+                            onchange="this.form.submit()">
                             <option value="7" <?php if ($tempo_pemb == '7') {
-                                                echo 'selected';
-                                              } ?>>Minggu Ini</option>
+                              echo 'selected';
+                            } ?>>Minggu Ini</option>
                             <option value="14" <?php if ($tempo_pemb == '14') {
-                                                  echo 'selected';
-                                                } ?>>2 Minggu Lagi</option>
+                              echo 'selected';
+                            } ?>>2 Minggu Lagi</option>
                             <option value="30" <?php if ($tempo_pemb == '30') {
-                                                  echo 'selected';
-                                                } ?>>Bulan Ini</option>
+                              echo 'selected';
+                            } ?>>Bulan Ini</option>
                             <option value="90" <?php if ($tempo_pemb == '90') {
-                                                  echo 'selected';
-                                                } ?>>Tri Wulan</option>
+                              echo 'selected';
+                            } ?>>Tri Wulan</option>
                           </select>
                         </form>
                       </div>
@@ -274,27 +291,35 @@
                           <th>Bayar</th>
                         </thead>
                         <tbody>
-                          <?php foreach ($tempo_pembelian as $tp) :
+                          <?php foreach ($tempo_pembelian as $tp):
                             if ($tp->total_hutang > 0) {
                               ?>
                               <tr>
                                 <td>
-                                  <a href="<?php echo base_url('pembelian_retail/transaksi_faktur/') . $tp->id ?>" class="label label-warning" style="margin-bottom:5px">
+                                  <a href="<?php echo base_url('pembelian_retail/transaksi_faktur/') . $tp->id ?>"
+                                    class="label label-warning" style="margin-bottom:5px">
                                     <?php echo $tp->no_faktur ?>
                                   </a>
                                   <label for="" class="label label-primary">
-                                    Suplier : <?php echo $tp->nama_supplier ?>
+                                    Suplier :
+                                    <?php echo $tp->nama_supplier ?>
                                   </label>
                                 </td>
-                                <td><?php echo $tp->deadline ?></td>
+                                <td>
+                                  <?php echo $tp->deadline ?>
+                                </td>
                                 <td>
                                   <?php echo $tp->total; ?> Total Pembelian <br>
                                   <?php echo $tp->tot_hutang; ?> Total Hutang
                                 </td>
-                                <td><?php echo $tp->dp ?></td>
-                                <td><?php echo $tp->total_hutang ?></td>
+                                <td>
+                                  <?php echo $tp->dp ?>
+                                </td>
+                                <td>
+                                  <?php echo $tp->total_hutang ?>
+                                </td>
                               </tr>
-                          <?php }
+                            <?php }
                           endforeach ?>
                         </tbody>
                       </table>
@@ -313,19 +338,20 @@
                     <div class="row">
                       <div class="col-xs-9">
                         <form action="" method="post">
-                          <select name="tempo_penj" id="" class="form-control" style="height:30px;margin-top:3px" onchange="this.form.submit()">
+                          <select name="tempo_penj" id="" class="form-control" style="height:30px;margin-top:3px"
+                            onchange="this.form.submit()">
                             <option value="7" <?php if ($tempo_penj == '7') {
-                                                echo 'selected';
-                                              } ?>>Minggu Ini</option>
+                              echo 'selected';
+                            } ?>>Minggu Ini</option>
                             <option value="14" <?php if ($tempo_penj == '14') {
-                                                  echo 'selected';
-                                                } ?>>2 Minggu Lagi</option>
+                              echo 'selected';
+                            } ?>>2 Minggu Lagi</option>
                             <option value="30" <?php if ($tempo_penj == '30') {
-                                                  echo 'selected';
-                                                } ?>>Bulan Ini</option>
+                              echo 'selected';
+                            } ?>>Bulan Ini</option>
                             <option value="90" <?php if ($tempo_penj == '90') {
-                                                  echo 'selected';
-                                                } ?>>Tri Wulan</option>
+                              echo 'selected';
+                            } ?>>Tri Wulan</option>
                           </select>
                         </form>
                       </div>
@@ -348,18 +374,27 @@
                         <th>Bayar</th>
                       </thead>
                       <tbody>
-                        <?php foreach ($piutang_penjualan as $pp) : ?>
+                        <?php foreach ($piutang_penjualan as $pp): ?>
                           <tr>
                             <td>
-                              <a class="label label-warning" style="margin-bottom:5px" href="<?php echo base_url('laporan_retail/detail_faktur/') . $pp->no_faktur ?>">
+                              <a class="label label-warning" style="margin-bottom:5px"
+                                href="<?php echo base_url('laporan_retail/detail_faktur/') . $pp->no_faktur ?>">
                                 <?php echo $pp->no_faktur ?>
                               </a> <br>
-                              <label for="" class="label label-primary">Pembeli : <?php echo $pp->nama ?></label>
+                              <label for="" class="label label-primary">Pembeli :
+                                <?php echo $pp->nama ?>
+                              </label>
                             </td>
-                            <td><?php echo $pp->deadline ?></td>
-                            <td><?php echo $pp->jumlah_hutang; ?></td>
+                            <td>
+                              <?php echo $pp->deadline ?>
+                            </td>
+                            <td>
+                              <?php echo $pp->jumlah_hutang; ?>
+                            </td>
                             <!--<td></td>-->
-                            <td><?php echo $pp->jumlah_bayar ?></td>
+                            <td>
+                              <?php echo $pp->jumlah_bayar ?>
+                            </td>
                           </tr>
                         <?php endforeach ?>
                       </tbody>
@@ -374,20 +409,24 @@
 
 
             <div class="col-sm-5">
-              <div class="infobox infobox-orange infobox-large infobox-dark" style="width:48%!important;margin-bottom:2px">
+              <div class="infobox infobox-orange infobox-large infobox-dark"
+                style="width:48%!important;margin-bottom:2px">
                 <div class="infobox-data">
                   <div class="infobox-content">Total Persediaan</div>
                   <div class="infobox-content">
-                    <h5>Rp. <?php echo number_format($persediaan, 0, ',', '.'); ?></h5>
+                    <h5>Rp.
+                      <?php echo number_format($persediaan, 0, ',', '.'); ?>
+                    </h5>
                   </div>
                 </div>
               </div>
-              <div class="infobox infobox-green infobox-large infobox-dark" style="width:48%!important;margin-bottom:2px">
+              <div class="infobox infobox-green infobox-large infobox-dark"
+                style="width:48%!important;margin-bottom:2px">
                 <div class="infobox-icon">
                   <i class="ace-icon fa fa-money"></i>
                 </div>
                 <div class="infobox-data">
-                  <div class="infobox-content">Hari ini</div>
+                  <div class="infobox-content">Laba Hari ini</div>
                   <?php
                   $heading = 'h5';
                   if (strlen(number_format($laba_hari_ini->jml_laba, 0, ',', '.')) > 8) {
@@ -395,7 +434,9 @@
                   }
                   ?>
                   <div class="infobox-content" style="margin-top:-10px;">
-                    <<?php echo $heading ?>>Rp.<?php echo number_format(($laba_hari_ini->jml_laba * (10 / 100)) + $laba_hari_ini->jml_laba, 0, ',', '.'); ?></<?php echo $heading ?>>
+                    <<?php echo $heading ?>>Rp.
+                      <?php echo number_format($laba_hari_ini->jml_laba, 0, ',', '.'); ?>
+                    </<?php echo $heading ?>>
                   </div>
                 </div>
               </div>
@@ -409,18 +450,20 @@
                     <div class="infobox-data">
                       <div class="infobox-content">Piutang</div>
                       <div class="infobox-content">
-                        <h4>Rp.<?php echo number_format($total_piutang->total * 1, 0, ',', '.'); ?></h4>
+                        <h4>Rp.
+                          <?php echo number_format($total_piutang->total * 1, 0, ',', '.'); ?>
+                        </h4>
                       </div>
                     </div>
                   </div>
-                  <div class="infobox infobox-red infobox-large infobox-dark" style="width:48%">
+                  <!-- <div class="infobox infobox-red infobox-large infobox-dark" style="width:48%">
                     <div class="infobox-data">
                       <div class="infobox-content">Hutang</div>
                       <div class="infobox-content">
                         <h4>Rp.<?php echo number_format($total_hutang->total * 1, 0, ',', '.'); ?></h4>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
               </div>
 
@@ -455,14 +498,20 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($produk_terlaris_hari_ini as $key) : ?>
+                        <?php foreach ($produk_terlaris_hari_ini as $key): ?>
                           <tr>
-                            <td><?php echo $key->nama_produk ?></td>
                             <td>
-                              <b class="green">Rp <?php echo number_format($key->harga_1, 0, ',', '.') ?></b>
+                              <?php echo $key->nama_produk ?>
+                            </td>
+                            <td>
+                              <b class="green">Rp
+                                <?php echo number_format($key->harga_1, 0, ',', '.') ?>
+                              </b>
                             </td>
                             <td class="center">
-                              <span class="label label-info arrowed"><?php echo number_format($key->jumlah, 0, ',', '.') ?></span>
+                              <span class="label label-info arrowed">
+                                <?php echo number_format($key->jumlah, 0, ',', '.') ?>
+                              </span>
                             </td>
                           </tr>
                         <?php endforeach ?>
@@ -482,7 +531,8 @@
                   <div class="widget-toolbar">
                     <div class="row">
                       <div class="col-md-6">
-                        <a href="<?php echo base_url('retail/produk_kadaluarsa') ?>" class="btn btn-xs btn-primary">Detail</a>
+                        <a href="<?php echo base_url('retail/produk_kadaluarsa') ?>"
+                          class="btn btn-xs btn-primary">Detail</a>
                       </div>
                       <div class="col-md-6">
                         <a href="#" data-action="collapse" class="pull-right" style="color:white">
@@ -509,7 +559,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($produk_expired as $key) : ?>
+                        <?php foreach ($produk_expired as $key): ?>
                           <tr>
                             <td>
                               <?php echo $key->no_faktur ?>
@@ -558,14 +608,20 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($produk_terlaris as $key) : ?>
+                        <?php foreach ($produk_terlaris as $key): ?>
                           <tr>
-                            <td><?php echo $key->nama_produk ?></td>
                             <td>
-                              <b class="green">Rp <?php echo number_format($key->harga_1, 0, ',', '.') ?></b>
+                              <?php echo $key->nama_produk ?>
+                            </td>
+                            <td>
+                              <b class="green">Rp
+                                <?php echo number_format($key->harga_1, 0, ',', '.') ?>
+                              </b>
                             </td>
                             <td class="center">
-                              <span class="label label-lg label-warning arrowed-in arrowed-in-right"><?php echo number_format($key->dibeli, 0, ',', '.') ?></span>
+                              <span class="label label-lg label-warning arrowed-in arrowed-in-right">
+                                <?php echo number_format($key->dibeli, 0, ',', '.') ?>
+                              </span>
                             </td>
                           </tr>
                         <?php endforeach ?>
@@ -606,11 +662,17 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php foreach ($data_order_terakhir as $key_da) : ?>
+                        <?php foreach ($data_order_terakhir as $key_da): ?>
                           <tr>
-                            <td><?php echo $key_da->no_faktur ?></td>
-                            <td><?php echo $key_da->tgl_order ?></td>
-                            <td>Rp <span style="float:right;"><?php echo number_format($key_da->nominal, 0, ',', '.') ?></span></td>
+                            <td>
+                              <?php echo $key_da->no_faktur ?>
+                            </td>
+                            <td>
+                              <?php echo $key_da->tgl_order ?>
+                            </td>
+                            <td>Rp <span style="float:right;">
+                                <?php echo number_format($key_da->nominal, 0, ',', '.') ?>
+                              </span></td>
                           </tr>
                         <?php endforeach; ?>
                       </tbody>
@@ -666,7 +728,7 @@
     <script src="<?php echo base_url() ?>assets/js/jquery.flot.resize.min.js"></script>
 
     <script>
-      jQuery(function($) {
+      jQuery(function ($) {
 
         $("<div id='tooltip'></div>").css({
           position: "absolute",
@@ -679,7 +741,7 @@
           "font-weight": "bold",
         }).appendTo("body");
 
-        $('.easy-pie-chart.percentage').each(function() {
+        $('.easy-pie-chart.percentage').each(function () {
           var $box = $(this).closest('.infobox');
           var barColor = $(this).data('color') || (!$box.hasClass('infobox-dark') ? $box.css('color') : 'rgba(255,255,255,0.95)');
           var trackColor = barColor == 'rgba(255,255,255,0.95)' ? 'rgba(255,255,255,0.25)' : '#E2E2E2';
@@ -695,7 +757,7 @@
           });
         });
 
-        $('.sparkline').each(function() {
+        $('.sparkline').each(function () {
           var $box = $(this).closest('.infobox');
           var barColor = !$box.hasClass('infobox-dark') ? $box.css('color') : '#FFF';
           $(this).sparkline('html', {
