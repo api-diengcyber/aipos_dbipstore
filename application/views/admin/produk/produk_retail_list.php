@@ -107,7 +107,7 @@
           </div>
 
           <div class="row" style="margin-bottom: 10px">
-            <div class="col-md-12">
+            <div class="col-md-12 mb-4">
 
               <?php if ($this->uri->segment(4)) { ?>
                 <?php echo anchor(site_url('admin/produk_retail/generate_varian/' . $this->uri->segment(4)), 'Generate Varian', 'class="btn btn-info"'); ?>
@@ -145,24 +145,44 @@
               <?php echo anchor(site_url('admin/produk_retail/excel'), 'Export Excel', 'class="btn btn-inverse"'); ?>
               <?php echo anchor(site_url('admin/produk_retail/word'), 'Export Word', 'class="btn btn-inverse"'); ?>
               <span class="pull-right">
-                <a href="<?php echo base_url() ?>admin/produk_retail/edit_semua" class="btn btn-primary">Edit Semua</a>
+                <!-- <a href="<?php echo base_url() ?>admin/produk_retail/edit_semua" class="btn btn-primary">Edit Semua</a> -->
               </span>
-
+              <!--  -->
+            </div>
+            <div class="col-md-4 pt-3" style="margin-top:20px">
+              <form action="" method="POST">
+                <div class="form-group">
+                  <select name="kode" id="id_kategori" class="input-2" style="width:100%; "
+                    onchange="this.form.submit()">
+                    <option value="">Semua Kategori</option>
+                    <?php foreach ($kategori as $key_b): ?>
+                      <option value=" <?php echo $key_b->id_kategori_2 ?>" <?php echo $kode == $key_b->id_kategori_2 ? 'selected' : ''; ?>>
+                        <?php echo $key_b->nama_kategori ?>
+                      </option>
+                    <?php endforeach ?>
+                  </select>
+                </div>
+              </form>
             </div>
           </div>
+
+          <input type="hidden" name="" id="kode" value="<?= $kode ?>">
+
 
           <div class="table-responsive">
             <table class="table table-bordered table-striped" id="mytable">
               <thead>
                 <tr>
                   <th width="20px">No</th>
-                  <th>IMEI</th>
+                  <th>IMEI / Barcode</th>
                   <th>Kategori</th>
                   <th>Nama Produk</th>
+                  <th>Kapasitas</th>
                   <th>Deskripsi</th>
                   <th>Hrg Jual</th>
-                  <th>Hrg Grosir</th>
-                  <th>Hrg Member</th>
+                  <th>Posisi</th>
+                  <th>Expired</th>
+                  <th>Warna</th>
                   <!-- <th>Hrg 4</th> -->
                   <!-- <th>Hrg 5</th>
                   <th>Hrg 6</th> -->
@@ -174,7 +194,9 @@
           <script src="<?php echo base_url('assets/datatables/jquery.dataTables.js') ?>"></script>
           <script src="<?php echo base_url('assets/datatables/dataTables.bootstrap.js') ?>"></script>
           <script type="text/javascript">
+
             $(document).ready(function () {
+
               $.fn.dataTableExt.oApi.fnPagingInfo = function (oSettings) {
                 return {
                   "iStart": oSettings._iDisplayStart,
@@ -195,6 +217,8 @@
                     .on('keyup.DT', function (e) {
                       api.search(this.value).draw();
                     });
+
+
                 },
                 oLanguage: {
                   sProcessing: "loading..."
@@ -205,7 +229,10 @@
                 serverSide: true,
                 ajax: {
                   "url": "<?php echo base_url() ?>admin/produk_retail/json/<?php echo $this->uri->segment(4) ? $this->uri->segment(4) : '' ?>",
-                  "type": "POST"
+                  "type": "POST",
+                  data: {
+                    kode: $("#kode").val() // Mengambil nilai dari input dengan ID "kode"
+                  }
                 },
                 columns: [{
                   "data": "id_produk_2",
@@ -219,18 +246,26 @@
                   "data": "nama_produk",
                 },
                 {
+                  "data": "kapasitas_display"
+                },
+                {
 
                   "data": "deskripsi",
 
                 },
                 {
                   "data": "harga_1"
-                }, {
-                  "data": "harga_2"
                 },
                 {
-                  "data": "harga_3"
+                  "data": "nama"
                 },
+                {
+                  "data": "tgl_expire"
+                },
+                {
+                  "data": "clr"
+                },
+
                 // {
                 //   "data": "harga_4"
                 // }, {
@@ -258,10 +293,10 @@
                   var index = page * length + (iDisplayIndex + 1);
                   $('td:eq(0)', row).html(index);
                   // $('td:eq(5), td:eq(6), td:eq(7), td:eq(8)', row).addClass('text-right');
-                  $('td:eq(5), td:eq(6), td:eq(7), td:eq(8)', row).addClass('text-right');
-                  $('td:eq(5)', row).html(tandaPemisahTitik(data.harga_1 * 1));
+                  $('td:eq(6), td:eq(7), td:eq(8)', row).addClass('text-right');
                   $('td:eq(6)', row).html(tandaPemisahTitik(data.harga_1 * 1));
-                  $('td:eq(7)', row).html(tandaPemisahTitik(data.harga_2 * 1));
+                  // $('td:eq(6)', row).html(tandaPemisahTitik(data.harga_1 * 1));
+                  // $('td:eq(7)', row).html(tandaPemisahTitik(data.harga_2 * 1));
                   // $('td:eq(7)', row).html(tandaPemisahTitik(data.harga_3 * 1));
                   // $('td:eq(8)', row).html(tandaPemisahTitik(data.harga_4 * 1));
                   // $('td:eq(9)', row).html(tandaPemisahTitik(data.harga_5 * 1));

@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+    exit ('No direct script access allowed');
 
 class Produk_retail_model extends CI_Model
 {
@@ -20,7 +20,7 @@ class Produk_retail_model extends CI_Model
     }
 
     // datatables
-    function json($id_toko, $id_produk_2 = '', $id_users = '')
+    function json($id_toko, $id_produk_2 = '', $id_users = '', $kode = '')
     {
         $kasir_cabang = $this->db->select('u.*')
             ->from('users u')
@@ -28,7 +28,7 @@ class Produk_retail_model extends CI_Model
             ->where('u.level', 2)
             ->get()
             ->row();
-        $this->datatables->select('p.id_produk, p.id_produk_2, p.id_toko, p.barcode, p.id_kategori, p.kode_produk, p.nama_produk, p.deskripsi, p.harga_1, p.harga_2, p.harga_3, p.harga_4, p.harga_5, p.harga_6, p.harga_7, s.satuan, p.berat, p.mingros, p.diskon, p.rak, p.dibeli, p.gambar, k.nama_kategori, SUM(stok.stok) AS stok, p.harga_beli AS harga_beli, sup.nama_supplier');
+        $this->datatables->select('p.id_produk, p.id_produk_2,p.kapasitas, p.id_toko, p.barcode, p.id_kategori, p.kode_produk, p.nama_produk, p.deskripsi, p.harga_1,p.warna, b.tgl_expire, s.satuan, p.berat, p.mingros, p.diskon, p.rak, p.dibeli, p.gambar, k.nama_kategori, SUM(stok.stok) AS stok, p.harga_beli AS harga_beli, sup.nama_supplier , CONCAT(u.first_name, " ", u.last_name) as nama_user');
         $this->datatables->from('produk_retail p');
         // $this->datatables->join('users u', 'p.id_toko=u.id_toko');
         $this->datatables->join('users u', 'p.id_users=u.id_users AND p.id_toko=u.id_toko');
@@ -49,13 +49,16 @@ class Produk_retail_model extends CI_Model
         }
 
 
-        if (!empty($id_produk_2)) { //parent id
+        if (!empty ($id_produk_2)) { //parent id
             $this->datatables->where('p.id_produk_2 = ' . $id_produk_2 . ' OR p.parent_id = ' . $id_produk_2);
         } else {
             $this->datatables->where('p.parent_id IS NULL');
 
         }
 
+        if (!empty ($kode)) { //parent id
+            $this->datatables->where('p.id_kategori', $kode);
+        }
 
 
         // $this->datatables->add_column('deskripsi' ,'' );
@@ -77,18 +80,41 @@ class Produk_retail_model extends CI_Model
         // }
         // if ($this->userdata->level == 1 || $this->userdata->level == 12) {
         if ($this->userdata->level == 1) {
-            $this->datatables->add_column('read_action', anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>'), 'id_produk_2');
 
-            $action = (empty($id_produk_2) ? anchor(site_url('admin/produk_retail/index/$1'), '<button class="btn btn-xs btn-primary">Varian</button>') : '') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javascript: return confirm(\'Are You Sure ?\')"');
+            if ($kode == 1) {
+                $this->datatables->add_column('read_action', anchor(site_url('admin/sparepart/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>'), 'id_produk_2');
+
+                $action = anchor(site_url('admin/sparepart/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/sparepart/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/sparepart/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javascript: return confirm(\'Are You Sure ?\')"');
+            } else {
+                $this->datatables->add_column('read_action', anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>'), 'id_produk_2');
+
+                $action = (empty ($id_produk_2) ? anchor(site_url('admin/produk_retail/index/$1'), '<button class="btn btn-xs btn-primary">Varian</button>') : '') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javascript: return confirm(\'Are You Sure ?\')"');
+
+            }
+
 
 
         } else {
 
-            $this->datatables->add_column('read_action', anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>'), 'id_produk_2');
+            if ($kode == 1) {
+                $this->datatables->add_column('read_action', anchor(site_url('admin/sparepart/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>'), 'id_produk_2');
 
-            $action = (empty($id_produk_2) ? anchor(site_url('admin/produk_retail/index/$1'), '<button class="btn btn-xs btn-primary">Varian</button>') : '') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javascript: return confirm(\'Are You Sure ?\')"');
+                $action = anchor(site_url('admin/sparepart/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/sparepart/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/sparepart/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javascript: return confirm(\'Are You Sure ?\')"');
+            } else {
+                $this->datatables->add_column('read_action', anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>'), 'id_produk_2');
+
+                $action = (empty ($id_produk_2) ? anchor(site_url('admin/produk_retail/index/$1'), '<button class="btn btn-xs btn-primary">Varian</button>') : '') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/read/$1'), '<button class="btn btn-xs btn-success"><i class="ace-icon fa fa-check bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/update/$1'), '<button class="btn btn-xs btn-info"><i class="ace-icon fa fa-pencil bigger-120"></i></button>') . "&nbsp;&nbsp;&nbsp;&nbsp;" . anchor(site_url('admin/produk_retail/delete/$1'), '<button class="btn btn-xs btn-danger"><i class="ace-icon fa fa-trash-o bigger-120"></i></button>', 'onclick="javascript: return confirm(\'Are You Sure ?\')"');
+
+            }
         }
+        $this->datatables->add_column('clr', '<div style="background-color:$2;width:60px;height:20px"></div>', 'id_produk_2, warna');
+        $this->datatables->add_column('kapasitas_display', '$1', 'kapasitas, warna');
+        $this->datatables->add_column('nama', '$1', 'nama_user');
+
+
         $this->datatables->add_column('action', $action, 'id_produk_2');
+
+
         $this->datatables->where('p.id_toko', $this->userdata->id_toko);
         // $this->datatables->where('u.id_cabang', $this->userdata->id_cabang);
         // $this->db->where_in('u.level',[1,3,7]);
@@ -109,7 +135,7 @@ class Produk_retail_model extends CI_Model
         $this->datatables->join('pembelian b', 'pr.id_produk_2=b.id_produk AND b.id_toko=pr.id_toko', 'left');
         $this->datatables->join('satuan_produk s', 'pr.satuan=s.id_satuan AND s.id_toko=pr.id_toko', 'left');
         $this->datatables->where('pr.id_toko', $id_toko);
-        if (!empty($id_users)) {
+        if (!empty ($id_users)) {
             $this->datatables->where('pr.id_users', $id_users);
         }
         $this->datatables->group_by('pr.id_produk_2');
@@ -167,6 +193,7 @@ class Produk_retail_model extends CI_Model
         $this->datatables->add_column('btn_update', '<button type="button" id="btn_update" data-id="$1" class="btn btn-primary btn-xs" disabled>Update</button>', 'id_produk_2');
         $this->datatables->add_column('input_diskon', '<input type="number" name="diskon[]" class="form-control" style="width:50px;" value="$1" maxlength="13">%', 'diskon');
         $this->datatables->add_column('hidden_id', '<input type="hidden" name="id_produk[]" class="form-control" value="$1">', 'id_produk_2');
+
         $this->datatables->where('p.id_toko', $this->userdata->id_toko);
         // $this->datatables->where('u.id_cabang', $this->userdata->id_cabang);
         $this->datatables->where('u.level', 2);
@@ -640,7 +667,7 @@ class Produk_retail_model extends CI_Model
         try {
             $objPHPExcel = PHPExcel_IOFactory::load($file_input);
         } catch (Exception $e) {
-            die('Error loading file :' . $e->getMessage());
+            die ('Error loading file :' . $e->getMessage());
         }
         $totalrows = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();   //Count Numbe of rows avalable in excel         
         $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);
@@ -680,7 +707,7 @@ class Produk_retail_model extends CI_Model
         try {
             $objPHPExcel = PHPExcel_IOFactory::load($file_input);
         } catch (Exception $e) {
-            die('Error loading file :' . $e->getMessage());
+            die ('Error loading file :' . $e->getMessage());
         }
         $totalrows = $objPHPExcel->setActiveSheetIndex(0)->getHighestRow();   //Count Numbe of rows avalable in excel         
         $objWorksheet = $objPHPExcel->setActiveSheetIndex(0);

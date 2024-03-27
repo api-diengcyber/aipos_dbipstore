@@ -221,7 +221,7 @@
                       onchange="this.form.submit()" value="<?= $no_faktur ?>">
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" name="imei" class="form-control d-block" placeholder="Cari IMEI.."
+                    <input type="text" name="imei" class="form-control d-block" placeholder="Cari IMEI / Barcode.."
                       onchange="this.form.submit()" value="<?= $imei ?>">
                   </div>
                 </div>
@@ -273,7 +273,7 @@
                 <tr>
                   <th width="2" class="center">No</th>
                   <th>No Faktur</th>
-                  <th>IMEI</th>
+                  <th>IMEI / Barcode</th>
                   <?php if ($id_modul != 1) { ?>
                     <th>Pembayaran</th>
                   <?php }
@@ -380,6 +380,15 @@
 
                           }
 
+                        } elseif ($key->pembayaran == 2) {
+                          $tempo = $this->db->select('p.*')
+                            ->from('piutang p')
+                            ->where('p.no_faktur', $key->no_faktur)
+                            ->get()
+                            ->row();
+                          echo "(DEADLINE: " . $tempo->deadline . " )";
+                        } else {
+
                         }
                         // if(!empty($split)){
                         // if($split->s_pem==1){
@@ -452,7 +461,7 @@
                 <tr style='color:red;'>
                   <td></td>
                   <?php if ($id_modul != 1) { ?>
-                    <td colspan="6" class="text-right">JUMLAH</td>
+                    <td colspan="7" class="text-right">JUMLAH</td>
                   <?php } else { ?>
                     <td colspan="5" class="text-right">JUMLAH</td>
                   <?php } ?>

@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+    exit ('No direct script access allowed');
 
 class Penjualan_retail extends AI_Admin
 {
@@ -44,7 +44,7 @@ class Penjualan_retail extends AI_Admin
             } else {
                 $pembayaran = "";
             }
-            if (!empty($row_pembeli->nama)) {
+            if (!empty ($row_pembeli->nama)) {
                 $nama_pembeli = $row_pembeli->nama;
             } else {
                 $nama_pembeli = "-";
@@ -146,7 +146,7 @@ class Penjualan_retail extends AI_Admin
         // var_dump($this->userdata);
 
         $tp = $this->input->get('tp');
-        if (empty($tp)) {
+        if (empty ($tp)) {
             $this->session->unset_userdata('tukartambah_id');
             $this->session->unset_userdata('tukartambah_kode');
         }
@@ -188,7 +188,7 @@ class Penjualan_retail extends AI_Admin
 
         // jika ada id_order = mode edit
         $row_lo = [];
-        if (!empty($id_order)) {
+        if (!empty ($id_order)) {
             $action = site_url('admin/penjualan_retail/update_action2');
             $this->db->where('id_toko', $this->userdata->id_toko);
             $this->db->where('id_users', $this->userdata->id_users);
@@ -204,7 +204,7 @@ class Penjualan_retail extends AI_Admin
 
             $expbm = explode("-", $row_lo->bukan_member);
             $nama_pembeli = trim($expbm[0]);
-            $alamat_pembeli = !empty($expbm[1]) ? trim($expbm[1]) : "";
+            $alamat_pembeli = !empty ($expbm[1]) ? trim($expbm[1]) : "";
             $id_member = $row_lo->pembeli;
             $pembayaran = $row_lo->pembayaran;
             $id_media = $row_lo->media;
@@ -223,9 +223,9 @@ class Penjualan_retail extends AI_Admin
                 $id_member = $row_member->id_member;
             } else {
                 // insert member jika email tidak kosong
-                if (!empty($row_lo->email)) {
+                if (!empty ($row_lo->email)) {
                     // $detail_pembeli = explode("#", $row_lo->detail_pembeli);
-                    $email = !empty($row_lo->email) ? $row_lo->email : $row_lo->no_hp;
+                    $email = !empty ($row_lo->email) ? $row_lo->email : $row_lo->no_hp;
                     $identity = $email;
                     $password = "12341234";
 
@@ -241,7 +241,7 @@ class Penjualan_retail extends AI_Admin
                         'level' => 6,
                     ];
                     $id_user = $this->ion_auth->register($identity, $password, $email, $additional_data);
-                    if (!empty($id_user)) {
+                    if (!empty ($id_user)) {
                         $id_member = 1;
                         $row_last_member = $this->db->where('id_toko', $this->userdata->id_toko)->order_by('id_member', 'desc')->get('member')->row();
                         if ($row_last_member) {
@@ -334,6 +334,8 @@ class Penjualan_retail extends AI_Admin
             'data_sales' => $sales,
             'opsi_pilihan' => $this->M_opsi->get_opsi_pilihan($this->userdata->id_toko),
             'opsi_popup' => $this->M_opsi->get_opsi_popup($this->userdata->id_toko),
+
+
         ];
         $this->view('penjualan/form_penjualan', $data);
     }
@@ -385,7 +387,7 @@ class Penjualan_retail extends AI_Admin
             ->row();
 
         $session_tukarphone_id = $this->session->userdata('tukarphone_id');
-        if (!empty($session_tukarphone_id)) {
+        if (!empty ($session_tukarphone_id)) {
             $this->Tukarphone_model->update($session_tukarphone_id, [
                 'id_orders' => $last_id->id_orders,
             ]);
@@ -457,7 +459,7 @@ class Penjualan_retail extends AI_Admin
                 if ($row_orders_lain) { // PENJUALAN LAINNYA
                     $nama_pembeli = $row_orders_lain->nama_pembeli;
                 } else {
-                    if (!empty($row_orders->bukan_member)) {
+                    if (!empty ($row_orders->bukan_member)) {
                         $nama_pembeli = $row_orders->bukan_member;
                         $alamat_pembeli = $row_orders->alamat_pembeli;
                         $telp_pembeli = $row_orders->no_hp;
@@ -472,7 +474,7 @@ class Penjualan_retail extends AI_Admin
                 $nama_kasir = $row_user->first_name;
             }
             $row_ucapan = $this->db->where('id_toko', $this->userdata->id_toko)->get('ucapan')->row();
-            if (!empty($row_ucapan)) {
+            if (!empty ($row_ucapan)) {
                 $ucapan = $row_ucapan->ucapan;
             } else {
                 $ucapan = 'Terimakasih dan Selamat Berbelanja Kembali';
@@ -518,6 +520,7 @@ class Penjualan_retail extends AI_Admin
                 //'ppn' => $this->M_opsi->get_ppn($this->userdata->id_toko)
                 'ppn' => 0
             ];
+            // var_dump($data);
             $opsi_printer = $this->M_opsi->get_opsi_printer($this->userdata->id_toko, $this->userdata->id_users)->opsi;
             if ($opsi_printer == 0) { // PRINT SMARTPHONE
                 $this->cetak_nota_direct_android($faktur, $bayar);
@@ -575,7 +578,7 @@ class Penjualan_retail extends AI_Admin
                 if ($row_orders_lain) { // PENJUALAN LAINNYA
                     $nama_pembeli = $row_orders_lain->nama_pembeli;
                 } else {
-                    if (!empty($row_orders->bukan_member)) {
+                    if (!empty ($row_orders->bukan_member)) {
                         $nama_pembeli = $row_orders->bukan_member;
                         $alamat_pembeli = $row_orders->alamat_pembeli;
                         $telp_pembeli = $row_orders->no_hp;
@@ -591,7 +594,7 @@ class Penjualan_retail extends AI_Admin
                 $nama_kasir = $row_user->first_name;
             }
             $row_ucapan = $this->db->where('id_toko', $this->userdata->id_toko)->get('ucapan')->row();
-            if (!empty($row_ucapan)) {
+            if (!empty ($row_ucapan)) {
                 $ucapan = $row_ucapan->ucapan;
             } else {
                 $ucapan = 'Terimakasih dan Selamat Berbelanja Kembali';
@@ -804,7 +807,7 @@ class Penjualan_retail extends AI_Admin
             if ($row_orders_lain) { // PENJUALAN LAINNYA
                 $nama_pembeli = $row_orders_lain->nama_pembeli;
             } else {
-                if (!empty($row_orders->bukan_member)) {
+                if (!empty ($row_orders->bukan_member)) {
                     $nama_pembeli = $row_orders->bukan_member;
                 } else {
                     $nama_pembeli = $row_orders->pembeli;
@@ -839,7 +842,7 @@ class Penjualan_retail extends AI_Admin
         }
 
         $row_toko = $this->Toko_retail_model->get_by_id($this->session->userdata('id_toko'));
-        if (!empty($row_toko->foto) && file_exists('assets/foto_toko/' . $row_toko->foto)) {
+        if (!empty ($row_toko->foto) && file_exists('assets/foto_toko/' . $row_toko->foto)) {
             //$logo = site_url('assets/foto_toko/'.$row_toko->foto);
             $logo = site_url('assets/foto_toko/default.gif');
         } else {
@@ -1062,11 +1065,11 @@ class Penjualan_retail extends AI_Admin
 
         $row_member = $this->db->where('id_member', $row_orders->pembeli)->where('id_toko', $this->userdata->id_toko)->get('member')->row();
         $diskon_member = 0;
-        if (!empty($row_member->diskon)) {
+        if (!empty ($row_member->diskon)) {
             $diskon_member = $row_member->diskon;
         }
         $telp = '';
-        if (!empty($row_member->telp)) {
+        if (!empty ($row_member->telp)) {
             $telp = $row_member->telp;
         }
         $nama_pembeli = "";
@@ -1079,7 +1082,7 @@ class Penjualan_retail extends AI_Admin
             if ($row_orders_lain) { // PENJUALAN LAINNYA
                 $nama_pembeli = $row_orders_lain->nama_pembeli;
             } else {
-                if (!empty($row_orders->bukan_member)) {
+                if (!empty ($row_orders->bukan_member)) {
                     $nama_pembeli = $row_orders->bukan_member;
                 } else {
                     $nama_pembeli = $row_orders->pembeli;
@@ -1093,14 +1096,14 @@ class Penjualan_retail extends AI_Admin
             $print_er = $this->Printer_model->default_printer;
         }
         $row_toko = $this->Toko_retail_model->get_by_id($this->session->userdata('id_toko'));
-        if (!empty($row_toko->foto) && file_exists('assets/foto_toko/' . $row_toko->foto)) {
+        if (!empty ($row_toko->foto) && file_exists('assets/foto_toko/' . $row_toko->foto)) {
             //$logo = site_url('assets/foto_toko/'.$row_toko->foto);
             $logo = site_url('assets/foto_toko/default.gif');
         } else {
             $logo = site_url('assets/foto_toko/default.gif');
         }
         $row_ucapan = $this->db->where('id_toko', $this->userdata->id_toko)->get('ucapan')->row();
-        if (!empty($row_ucapan)) {
+        if (!empty ($row_ucapan)) {
             $ucapan = $row_ucapan->ucapan;
         } else {
             $ucapan = 'Terimakasih dan Selamat Berbelanja Kembali';
@@ -1160,11 +1163,11 @@ class Penjualan_retail extends AI_Admin
 
         $row_member = $this->db->where('id_member', $row_orders->pembeli)->where('id_toko', $this->userdata->id_toko)->get('member')->row();
         $diskon_member = 0;
-        if (!empty($row_member->diskon)) {
+        if (!empty ($row_member->diskon)) {
             $diskon_member = $row_member->diskon;
         }
         $telp = '';
-        if (!empty($row_member->telp)) {
+        if (!empty ($row_member->telp)) {
             $telp = $row_member->telp;
         }
         $nama_pembeli = "";
@@ -1177,7 +1180,7 @@ class Penjualan_retail extends AI_Admin
             if ($row_orders_lain) { // PENJUALAN LAINNYA
                 $nama_pembeli = $row_orders_lain->nama_pembeli;
             } else {
-                if (!empty($row_orders->bukan_member)) {
+                if (!empty ($row_orders->bukan_member)) {
                     $nama_pembeli = $row_orders->bukan_member;
                 } else {
                     $nama_pembeli = $row_orders->pembeli;
@@ -1216,7 +1219,7 @@ class Penjualan_retail extends AI_Admin
         }
 
         $row_toko = $this->Toko_retail_model->get_by_id($this->session->userdata('id_toko'));
-        if (!empty($row_toko->foto) && file_exists('assets/foto_toko/' . $row_toko->foto)) {
+        if (!empty ($row_toko->foto) && file_exists('assets/foto_toko/' . $row_toko->foto)) {
             //$logo = site_url('assets/foto_toko/'.$row_toko->foto);
             $logo = site_url('assets/foto_toko/default.gif');
         } else {
@@ -1230,7 +1233,7 @@ class Penjualan_retail extends AI_Admin
         $print .= $tampil_faktur . $is_after_faktur . $tampil_tgl;
         $print .= "<br><small>" . $tampil_kasir . $is_after_kasir . $tampil_jam;
         $print .= "<br>";
-        if (!empty($row_member->id_member)) {
+        if (!empty ($row_member->id_member)) {
             $print .= "<left><small>" . $tampil_pembeli . "<br><small>" . $tampil_alamat;
         } else if ($row_orders->bukan_member != "") {
             $print .= "<left><small>" . $tampil_pembeli;
@@ -1329,7 +1332,7 @@ class Penjualan_retail extends AI_Admin
         }
 
         $print .= "<br><small>                     Total " . $is_after_total . $tampil_tot_harga;
-        if (!empty($row_member->id_member)) {
+        if (!empty ($row_member->id_member)) {
             $print .= "<br><small>             Diskon member " . $is_after_dm . $diskon_tot;
         }
         $print .= "<br><small> Total yang harus di bayar " . $is_after_total_harus . $tampil_total_h_bayar;
@@ -1337,7 +1340,7 @@ class Penjualan_retail extends AI_Admin
         $print .= "<br><small>                   Kembali " . $is_after_kembali . $tampil_kembali;
         $print .= "<br> ";
         $row_ucapan = $this->db->where('id_toko', $this->userdata->id_toko)->get('ucapan')->row();
-        if (!empty($row_ucapan)) {
+        if (!empty ($row_ucapan)) {
             $ucapan = $row_ucapan->ucapan;
         } else {
             $ucapan = 'Terimakasih dan Selamat Berbelanja Kembali';
@@ -1735,7 +1738,7 @@ class Penjualan_retail extends AI_Admin
                 'harga_4' => $key->harga_4,
                 'harga_jual' => $key->harga_jual,
                 'pil_harga' => $key->pil_harga * 1,
-                'jumlah' => empty($key->jumlah) ? '' : $key->jumlah,
+                'jumlah' => empty ($key->jumlah) ? '' : $key->jumlah,
                 'jumlah_bonus' => $key->jumlah_bonus,
                 'potongan' => $key->potongan,
                 'harga' => $harga,
@@ -1752,7 +1755,7 @@ class Penjualan_retail extends AI_Admin
         $diskon = 0;
         $diskon_member_nominal = 0;
         $id_member = $this->input->post('id_member', true);
-        if (!empty($id_member)) {
+        if (!empty ($id_member)) {
             /* validasi apakah ada member dengan id tersebut atau tidak */
             $od = $this->db->where('id_toko', $this->userdata->id_toko)->where('id_member', $id_member)->get('member');
             if ($od->num_rows() != 0) {
@@ -2037,11 +2040,11 @@ class Penjualan_retail extends AI_Admin
                 $res_pembelian = $this->Pembelian_retail_model->get_by_id_produk($key->id_produk_2, $this->userdata->id_toko);
                 foreach ($res_pembelian as $key6) {
                     $tgl_expire = $key6->tgl_expire;
-                    if (!empty($tgl_expire)) {
+                    if (!empty ($tgl_expire)) {
                         $exexpire = explode("-", $tgl_expire);
                         $hr_exp = $exexpire[0];
-                        $bln_exp = !empty($exexpire[1]) ? $exexpire[1] : '';
-                        $thn_exp = !empty($exexpire[2]) ? $exexpire[2] : '';
+                        $bln_exp = !empty ($exexpire[1]) ? $exexpire[1] : '';
+                        $thn_exp = !empty ($exexpire[2]) ? $exexpire[2] : '';
                         $stgl_expire = $thn_exp . "-" . $bln_exp . "-" . $hr_exp;
                         if ($stgl_expire <= $tgl) {
                             // stok kadaluarsa //
@@ -2234,7 +2237,7 @@ class Penjualan_retail extends AI_Admin
                 $response = '2';
             }
         }
-        if (empty($data_id_produk)) {
+        if (empty ($data_id_produk)) {
             $response = '0';
         }
 
@@ -2449,7 +2452,7 @@ class Penjualan_retail extends AI_Admin
             $response = '1';
         }
 
-        if (empty($data_id_produk)) {
+        if (empty ($data_id_produk)) {
             $response = '0';
         }
 
@@ -2748,7 +2751,7 @@ class Penjualan_retail extends AI_Admin
             ->where('id_toko', $this->userdata->id_toko)
             ->where('id_orders_temp', $id)
             ->get()->row();
-        if (!empty($row_orders_temp->id_orders_sales)) {
+        if (!empty ($row_orders_temp->id_orders_sales)) {
             $data_update = array(
                 'selesai' => 0,
                 'acc_admin' => 0,
@@ -2769,7 +2772,7 @@ class Penjualan_retail extends AI_Admin
             ->where('id_toko', $this->userdata->id_toko)
             ->where('id_orders_temp', $id)
             ->get()->row();
-        if (!empty($row_orders_temp->id_orders_sales)) {
+        if (!empty ($row_orders_temp->id_orders_sales)) {
             $data_update = array(
                 'selesai' => 0,
                 'acc_admin' => 0,
@@ -2869,7 +2872,7 @@ class Penjualan_retail extends AI_Admin
         $start = $this->input->post('start');
         $limit = 12;
         $result = $this->Produk_retail_model->get_data_kat($start, $limit, $this->userdata);
-        if (empty($start)) {
+        if (empty ($start)) {
             $start = 0;
         }
         $prev = $start - $limit;
@@ -2903,7 +2906,7 @@ class Penjualan_retail extends AI_Admin
         $start = $this->input->post('start');
         $limit = 16;
         $result = $this->Produk_retail_model->get_data_prod($start, $limit, $id_kat, $this->userdata->id_toko);
-        if (empty($start)) {
+        if (empty ($start)) {
             $start = 0;
         }
         $prev = $start - $limit;
@@ -2914,7 +2917,7 @@ class Penjualan_retail extends AI_Admin
         if ($next - $result['total'] > 0) {
             $next = $start;
         }
-        if (!empty($result['produk'][0]->nama_kategori)) {
+        if (!empty ($result['produk'][0]->nama_kategori)) {
             $nm_kat = $result['produk'][0]->nama_kategori;
         } else {
             $nm_kat = '';
@@ -2933,7 +2936,7 @@ class Penjualan_retail extends AI_Admin
             echo '<ul class="ace-thumbnails clearfix" style="padding: 10px;">';
             foreach ($result['produk'] as $data) {
                 $gambar = 'default.gif';
-                if (!empty($data->gambar)) {
+                if (!empty ($data->gambar)) {
                     $gambar = $data->gambar;
                 }
                 echo '<li id="item_touch_produk" data-barcode="' . $data->barcode . '" data-id-produk-2="' . $data->id_produk_2 . '">
@@ -3047,7 +3050,7 @@ class Penjualan_retail extends AI_Admin
     public function orders_sales($id = '')
     {
         $active = array('active_penjualan_sales' => 'active');
-        if (!empty($id)) {
+        if (!empty ($id)) {
             $row_orders_sales = $this->db->where('id', $id)->where('id_toko', $this->userdata->id_toko)->get('orders_sales_temp')->row();
             if ($row_orders_sales) {
                 $data_orders_sales = $this->db->select('os.*, p.nama_produk, m.nama, u.first_name, u.last_name')
@@ -3100,7 +3103,7 @@ class Penjualan_retail extends AI_Admin
     public function orders_sales_action()
     {
         $btn = $this->input->post('hapus', true);
-        if (!empty($btn) && $btn == "1") {
+        if (!empty ($btn) && $btn == "1") {
             $orders_sales = $this->input->post('orders_sales', true);
             if (count($orders_sales) > 0) {
                 $this->db->where('id_toko', $this->userdata->id_toko);

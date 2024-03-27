@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
-	exit('No direct script access allowed');
+	exit ('No direct script access allowed');
 
 class Pembelian_produk_langsung extends AI_Admin
 {
@@ -13,11 +13,11 @@ class Pembelian_produk_langsung extends AI_Admin
 
 	public function index($id_produk_2 = '') // parent id
 	{
-		if (!empty($this->input->get('page'))) {
+		if (!empty ($this->input->get('page'))) {
 			$page = $this->input->get('page');
 			$this->session->set_userdata(array('page' => $page));
 		}
-		if (empty($this->session->userdata('page'))) {
+		if (empty ($this->session->userdata('page'))) {
 			$this->session->set_userdata(array('page' => 10));
 		}
 		$data = array(
@@ -108,7 +108,7 @@ class Pembelian_produk_langsung extends AI_Admin
 		// $row_stok = $this->Stok_produk_model->get_total_stok_by_id_produk($row->id_produk_2,$this->userdata->id_toko);
 		$row_stok = $this->get_stok($row->id_produk_2, $this->userdata->id_toko);
 		$stok = 0;
-		if (!empty($row_stok)) {
+		if (!empty ($row_stok)) {
 			$stok = $row_stok->stok;
 		}
 		if ($row) {
@@ -128,7 +128,7 @@ class Pembelian_produk_langsung extends AI_Admin
 				'harga_5' => $row->harga_5,
 				'harga_6' => $row->harga_6,
 				'harga_7' => $row->harga_7,
-				'satuan' => !empty($row_satuan->satuan) ? $row_satuan->satuan : '',
+				'satuan' => !empty ($row_satuan->satuan) ? $row_satuan->satuan : '',
 				'berat' => $row->berat,
 				'mingros' => $row->mingros,
 				'diskon' => $row->diskon,
@@ -293,6 +293,9 @@ class Pembelian_produk_langsung extends AI_Admin
 			'gambarlama' => set_value('gambarlama'),
 			'data_satuan' => $this->Satuan_produk_model->get_by_id_toko($this->userdata->id_toko),
 			'data_kategori' => $data_kategori,
+			'kapasitas' => set_value('kapasitas'),
+			'warna' => set_value('warna'),
+			'tgl_expire' => set_value('tgl_expire', date('d-m-Y')),
 		);
 		$this->view('pembelian_produk_langsung/pembelian_produk_langsung_form', $data);
 	}
@@ -414,15 +417,17 @@ class Pembelian_produk_langsung extends AI_Admin
 					'dibeli' => '0',
 					'gambar' => $nm_gambar,
 					'parent_id' => $id_produk_2,
+					'kapasitas' => $this->input->post('kapasitas', TRUE),
+					'warna' => $this->input->post('warna', TRUE),
 				);
 
 				$this->Produk_retail_model->insert($data);
 
 				/* Pembelian */
 				/*$row_pembelian = $this->db->where('id_toko', $this->input->post('id_toko',TRUE))
-																																																																																																																																																																																											->where('id_faktur', $id_faktur)
-																																																																																																																																																																																											->where('id_produk', $id_produk)
-																																																																																																																																																																																											->get('pembelian')->row();*/
+																																																																																																																																																																																																																			->where('id_faktur', $id_faktur)
+																																																																																																																																																																																																																			->where('id_produk', $id_produk)
+																																																																																																																																																																																																																			->get('pembelian')->row();*/
 				// $row_pembelian = $this->db->select('p.*')
 				// 						->from('pembelian p')
 				// 						->join('users u', 'p.id_users=u.id_users AND p.id_toko=u.id_toko')
@@ -445,7 +450,8 @@ class Pembelian_produk_langsung extends AI_Admin
 					'id_faktur' => $id_faktur,
 					'id_produk' => $id_produk,
 					'tgl_masuk' => date('d-m-Y'),
-					'tgl_expire' => date('d-m-2099'),
+					// 'tgl_expire' => date('d-m-2099'),
+					'tgl_expire' => $this->input->post('expired', TRUE),
 					'pembayaran' => '1',
 					'harga_satuan' => $harga_beli,
 					'id_supplier' => $this->input->post('supplier'),
@@ -572,15 +578,17 @@ class Pembelian_produk_langsung extends AI_Admin
 					'rak' => $this->input->post('rak', TRUE),
 					'dibeli' => '0',
 					'gambar' => $nm_gambar,
+					'kapasitas' => $this->input->post('kapasitas', TRUE),
+					'warna' => $this->input->post('warna', TRUE),
 				);
 
 				$this->Produk_retail_model->insert($data);
 
 				/* Pembelian */
 				/*$row_pembelian = $this->db->where('id_toko', $this->input->post('id_toko',TRUE))
-																																																																																																																																																																																										->where('id_faktur', $id_faktur)
-																																																																																																																																																																																										->where('id_produk', $id_produk)
-																																																																																																																																																																																										->get('pembelian')->row();*/
+																																																																																																																																																																																																																		->where('id_faktur', $id_faktur)
+																																																																																																																																																																																																																		->where('id_produk', $id_produk)
+																																																																																																																																																																																																																		->get('pembelian')->row();*/
 				// $row_pembelian = $this->db->select('p.*')
 				// 						  ->from('pembelian p')
 				// 						  ->join('users u', 'p.id_users=u.id_users AND p.id_toko=u.id_toko')
@@ -603,7 +611,8 @@ class Pembelian_produk_langsung extends AI_Admin
 					'id_faktur' => $id_faktur,
 					'id_produk' => $id_produk,
 					'tgl_masuk' => date('d-m-Y'),
-					'tgl_expire' => date('d-m-2099'),
+					// 'tgl_expire' => date('d-m-2099'),
+					'tgl_expire' => $this->input->post('expired', TRUE),
 					'pembayaran' => '1',
 					'harga_satuan' => $harga_beli,
 					'id_supplier' => $this->input->post('supplier'),
@@ -708,6 +717,8 @@ class Pembelian_produk_langsung extends AI_Admin
 				'data_satuan' => $this->Satuan_produk_model->get_by_id_toko($row->id_toko),
 				'data_kategori' => $data_kategori,
 				'parent' => set_value($row->parent_id),
+				'kapasitas' => set_value('kapasitas', $row->kapasitas),
+				'warna' => set_value('warna', $row->warna),
 			);
 			$this->view('produk/produk_retail_form', $data);
 		} else {
@@ -764,6 +775,8 @@ class Pembelian_produk_langsung extends AI_Admin
 				'diskon' => $this->input->post('diskon', TRUE),
 				'rak' => $this->input->post('rak', TRUE),
 				'gambar' => $nm_gambar,
+				'kapasitas' => $this->input->post('kapasitas', TRUE),
+				'warna' => $this->input->post('warna', TRUE),
 			);
 			$this->Produk_retail_model->update($this->input->post('id_produk', TRUE), $data);
 			$this->session->set_flashdata('message', 'Update Record Success');
@@ -786,10 +799,10 @@ class Pembelian_produk_langsung extends AI_Admin
 			$this->deleteJoin('produk_retail', 't1.id_produk_2="' . $row->id_produk_2 . '"');
 			$this->db->query('SET FOREIGN_KEY_CHECKS = 1;');
 			/*$this->Produk_retail_model->delete($id);
-																																																																																																																																							   $row_stok = $this->Stok_produk_model->get_by_id_produk($row->id_produk, $row->id_toko);
-																																																																																																																																							   if($row_stok){
-																																																																																																																																								   $this->Stok_produk_model->delete($row_stok->id);
-																																																																																																																																							   }*/
+																																																																																																																																																									   $row_stok = $this->Stok_produk_model->get_by_id_produk($row->id_produk, $row->id_toko);
+																																																																																																																																																									   if($row_stok){
+																																																																																																																																																										   $this->Stok_produk_model->delete($row_stok->id);
+																																																																																																																																																									   }*/
 			$this->session->set_flashdata('message', 'Delete Record Success');
 			redirect(site_url('admin/produk_retail'));
 		} else {
@@ -958,7 +971,7 @@ class Pembelian_produk_langsung extends AI_Admin
 						$jumlah = $row_od->jumlah;
 						$harga = $row_od->harga_jual;
 					}
-					if (empty($array_jml[$key_pr->id_produk_2]['jumlah'])) {
+					if (empty ($array_jml[$key_pr->id_produk_2]['jumlah'])) {
 						$array_jml[$key_pr->id_produk_2]['jumlah'] = 0;
 						$array_jml[$key_pr->id_produk_2]['harga'] = 0;
 					}
@@ -1032,22 +1045,22 @@ class Pembelian_produk_langsung extends AI_Admin
 				$jml_sub += $k_od->sub_total;
 				$laba = $k_od->sub_total - ($k_od->harga_beli * $k_od->jumlah);
 				/* echo "Nama Produk : ".$k_od->nama_produk."<br>";
-																																																																																																																																																																																			echo "Harga Beli : ".$k_od->harga_beli."<br>";
-																																																																																																																																																																																			echo "Jumlah : ".$k_od->jumlah."<br>";
-																																																																																																																																																																																			// echo "Harga Jual : ".$k_od->harga_jual."<br>";
-																																																																																																																																																																																			echo "Nominal : ".$k_od->sub_total."<br>";
-																																																																																																																																																																																			echo "Laba : ".$laba."<br>";
-																																																																																																																																																																																			echo ""; */
+																																																																																																																																																																																																											echo "Harga Beli : ".$k_od->harga_beli."<br>";
+																																																																																																																																																																																																											echo "Jumlah : ".$k_od->jumlah."<br>";
+																																																																																																																																																																																																											// echo "Harga Jual : ".$k_od->harga_jual."<br>";
+																																																																																																																																																																																																											echo "Nominal : ".$k_od->sub_total."<br>";
+																																																																																																																																																																																																											echo "Laba : ".$laba."<br>";
+																																																																																																																																																																																																											echo ""; */
 			}
 			/*echo "HPP : ".$jml_hpp."<br>";
-																																																																																																																																						 echo "NOMINAL : ".$jml_sub."<br>";
-																																																																																																																																						 echo "<br><br><br>";*/
+																																																																																																																																																								 echo "NOMINAL : ".$jml_sub."<br>";
+																																																																																																																																																								 echo "<br><br><br>";*/
 
 			/* $data_update = array(
-																																																																																																																																						   'laba' => $jml_sub-$jml_hpp,
-																																																																																																																																						 );
-																																																																																																																																						 $this->db->where('id_orders_2', $k_o->id_orders_2);
-																																																																																																																																						 $this->db->update('orders', $data_update); */
+																																																																																																																																																								   'laba' => $jml_sub-$jml_hpp,
+																																																																																																																																																								 );
+																																																																																																																																																								 $this->db->where('id_orders_2', $k_o->id_orders_2);
+																																																																																																																																																								 $this->db->update('orders', $data_update); */
 
 			$row_bayar = (object) array();
 
@@ -1063,7 +1076,7 @@ class Pembelian_produk_langsung extends AI_Admin
 			$nominal_ongkir = $k_o->nominal_la - $biaya_lain;
 			$tgl = $k_o->tgl_order;
 
-			eval($this->Pengaturan_transaksi_model->accounting('verifikasibayar'));
+			eval ($this->Pengaturan_transaksi_model->accounting('verifikasibayar'));
 
 		endforeach;
 	}
@@ -1432,7 +1445,7 @@ class Pembelian_produk_langsung extends AI_Admin
 			//upload gambar
 			$gambar_file = $uploaded_files[$i];
 
-			$output->gambar = !empty($gambar_file) ? $gambar_file : $produk->gambar;
+			$output->gambar = !empty ($gambar_file) ? $gambar_file : $produk->gambar;
 
 			$this->db->insert('produk_retail', $output);
 

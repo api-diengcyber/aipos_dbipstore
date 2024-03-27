@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit ('No direct script access allowed');
 
 class Auth extends AI_Controller
 {
@@ -45,7 +45,7 @@ class Auth extends AI_Controller
 	{
 		$this->data['title'] = $this->lang->line('login_heading');
 
-		if (!empty($this->ion_auth->get_user_id())) {
+		if (!empty ($this->ion_auth->get_user_id())) {
 			$row = $this->db->select('u.*, t.nama_toko, t.versi_aipos, t.id_modul, t.expired')
 				->from('users u')
 				->join('toko t', 'u.id_toko=t.id')
@@ -142,7 +142,9 @@ class Auth extends AI_Controller
 			redirect(site_url('admin'));
 		} else if ($level == "4") { // direktur
 			redirect(site_url('admin'));
-		} else if ($level == "5") { // manager
+		} else if ($level == "5") { // HRD
+			redirect(site_url('admin'));
+		} else if ($level == "6") { // manager
 			redirect(site_url('admin'));
 		} else if ($level == "7") { // gudang
 			redirect(site_url('sales'));
@@ -268,7 +270,7 @@ class Auth extends AI_Controller
 			$identity_column = $this->config->item('identity', 'ion_auth');
 			$identity = $this->ion_auth->where($identity_column, $this->input->post('identity'))->users()->row();
 
-			if (empty($identity)) {
+			if (empty ($identity)) {
 
 				if ($this->config->item('identity', 'ion_auth') != 'email') {
 					$this->ion_auth->set_error('forgot_password_identity_not_found');
@@ -555,7 +557,7 @@ class Auth extends AI_Controller
 		$this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required');
 		$this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required');
 
-		if (isset($_POST) && !empty($_POST)) {
+		if (isset ($_POST) && !empty ($_POST)) {
 			// do we have a valid request?
 			if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
 				show_error($this->lang->line('error_csrf'));
@@ -587,7 +589,7 @@ class Auth extends AI_Controller
 					//Update the groups user belongs to
 					$groupData = $this->input->post('groups');
 
-					if (isset($groupData) && !empty($groupData)) {
+					if (isset ($groupData) && !empty ($groupData)) {
 
 						$this->ion_auth->remove_from_group('', $id);
 
@@ -721,7 +723,7 @@ class Auth extends AI_Controller
 	public function edit_group($id)
 	{
 		// bail if no group id given
-		if (!$id || empty($id)) {
+		if (!$id || empty ($id)) {
 			redirect('auth', 'refresh');
 		}
 
@@ -736,7 +738,7 @@ class Auth extends AI_Controller
 		// validate form input
 		$this->form_validation->set_rules('group_name', $this->lang->line('edit_group_validation_name_label'), 'required|alpha_dash');
 
-		if (isset($_POST) && !empty($_POST)) {
+		if (isset ($_POST) && !empty ($_POST)) {
 			if ($this->form_validation->run() === TRUE) {
 				$group_update = $this->ion_auth->update_group($id, $_POST['group_name'], $_POST['group_description']);
 
@@ -801,7 +803,7 @@ class Auth extends AI_Controller
 	public function _render_page($view, $data = null, $returnhtml = false)//I think this makes more sense
 	{
 
-		$this->viewdata = (empty($data)) ? $this->data : $data;
+		$this->viewdata = (empty ($data)) ? $this->data : $data;
 
 		$view_html = $this->load->view($view, $this->viewdata, $returnhtml);
 
@@ -878,7 +880,7 @@ class Auth extends AI_Controller
 			$this->session->set_flashdata('message', $this->ion_auth->messages());
 			redirect("auth/sukses", 'refresh');
 		} else {
-			if (!empty($id_toko)) {
+			if (!empty ($id_toko)) {
 				$this->db->where('id', $id_toko);
 				$this->db->delete('toko');
 			}

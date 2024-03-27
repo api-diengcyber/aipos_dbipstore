@@ -123,11 +123,11 @@
               <div class="form-group">
                 <?php
                 if ($parent == null) { ?>
-                  <label for="bigint">IMEI
+                  <label for="bigint">IMEI / Barcode
                     <?php echo form_error('barcode') ?>
                     <!-- <a href="<?php echo base_url('admin/produk_retail/create?id_barcode=1'); ?>">(Buat Barcode)</a> -->
                   </label>
-                  <input type="text" class="form-control" name="barcode" id="barcode" placeholder="IMEI"
+                  <input type="text" class="form-control" name="barcode" id="barcode" placeholder="IMEI / Barcode"
                     value="<?php echo $barcode; ?>" />
                   <?php
                 } else { ?>
@@ -264,17 +264,46 @@
                   maxlength="20" placeholder="0" value="<?php echo $harga_3; ?>" />
               </div>
               <!-- <div class="form-group">
-                        <label for="int">Harga 4 <?php // echo form_error('harga_4')                                            ?></label>
-                        <input type="text" class="form-control" name="harga_4" id="harga_4" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_4;                                            ?>" />
+                        <label for="int">Harga 4 <?php // echo form_error('harga_4')                                                                      ?></label>
+                        <input type="text" class="form-control" name="harga_4" id="harga_4" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_4;                                                                      ?>" />
                     </div>
                     <div class="form-group">
-                        <label for="int">Harga 5 <?php // echo form_error('harga_5')                                            ?></label>
-                        <input type="text" class="form-control" name="harga_5" id="harga_5" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_5;                                            ?>" />
+                        <label for="int">Harga 5 <?php // echo form_error('harga_5')                                                                      ?></label>
+                        <input type="text" class="form-control" name="harga_5" id="harga_5" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_5;                                                                      ?>" />
                     </div>
                     <div class="form-group">
-                        <label for="int">Harga 6 <?php // echo form_error('harga_6')                                            ?></label>
-                        <input type="text" class="form-control" name="harga_6" id="harga_6" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_6;                                            ?>" />
+                        <label for="int">Harga 6 <?php // echo form_error('harga_6')                                                                      ?></label>
+                        <input type="text" class="form-control" name="harga_6" id="harga_6" style="text-align: right;" maxlength="20" placeholder="0" value="<?php // echo $harga_6;                                                                      ?>" />
                     </div> -->
+              <div class="form-group">
+                <label for="int">Kapasitas
+                  <?php echo form_error('harga_3') ?>
+                </label>
+                <input type="text" class="form-control" name="kapasitas" id="kapasitas" style="text-align: right;"
+                  value="<?php echo $kapasitas; ?>" />
+              </div>
+              <div class="form-group">
+                <label for="int">Warna
+                  <?php echo form_error('warna') ?>
+                </label>
+                <input type="color" class="form-control" name="warna" id="warna" style="text-align: right;" maxlength="20"
+                  placeholder="0" value="<?php echo $warna; ?>" />
+              </div>
+              <div class="form-group">
+                <label for="int">Expired
+                  <?php echo form_error('tgl_expire') ?>
+                </label>
+                <input type="text" class="form-control" name="expired" id="datepicker1" style="text-align: right;"
+                  maxlength="20" placeholder="" value="<?php echo $tgl_expire; ?>" />
+              </div>
+              <!-- <div class="form-group">
+                <label for="int">
+                  <?php echo form_error('harga_3') ?>
+                </label>
+                <input type="text" class="form-control" name="harga_3" id="harga_3" style="text-align: right;"
+                  maxlength="20" placeholder="0" value="<?php echo $harga_3; ?>" />
+
+              </div> -->
               <div class="form-group">
                 <label for="deskripsi">Deskripsi
                   <?php echo form_error('deskripsi') ?>
@@ -282,6 +311,7 @@
                 <textarea class="form-control" rows="3" name="deskripsi" id="deskripsi"
                   placeholder="Deskripsi"><?php echo $deskripsi; ?></textarea>
               </div>
+
               <!-- <div class="row">
                 <div class="col-sm-6">
                   <div class="form-group">
@@ -379,7 +409,7 @@
             </div>
             <div class="col-md-4">
               <?php
-              if (!empty($tampil_gambar)) {
+              if (!empty ($tampil_gambar)) {
                 if (file_exists($tampil_gambar)) {
                   ?><br><br>
                   <img src="<?php echo base_url() . $tampil_gambar ?>" width="130" style="border:3px solid grey;">
@@ -406,7 +436,7 @@
           <div class="space"></div>
 
           <?php
-          if (!empty($allow_awal) && $allow_awal == true) {
+          if (!empty ($allow_awal) && $allow_awal == true) {
             ?>
 
             <div class="row">

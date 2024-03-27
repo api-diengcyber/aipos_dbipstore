@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('BASEPATH'))
-    exit('No direct script access allowed');
+    exit ('No direct script access allowed');
 
 class User_retail_model extends CI_Model
 {
@@ -42,7 +42,7 @@ class User_retail_model extends CI_Model
 
     function json_id_toko($id_toko, $dir = 'outlet')
     {
-        $this->datatables->select('id,id_users,id_toko,ip_address,username,password,salt,email,activation_code,forgotten_password_code,forgotten_password_time,remember_code,created_on,last_login,active,first_name,last_name,company,alamat,phone,level,foto, IF(active=1, "Aktif", "Tidak Aktif") AS t_active,( CASE WHEN level = 1 THEN "ADMIN" WHEN level = 2 THEN "KASIR" WHEN level = 3 THEN "GUDANG" WHEN level = 4 THEN "SPV" WHEN level = 5 THEN "HRD" WHEN level = 6 THEN "MANAGER" WHEN level = 7 THEN "ADMIN DIREKSI" ELSE "SALES" END ) AS t_level');
+        $this->datatables->select('id,id_users,id_toko,ip_address,username,password,salt,email,activation_code,forgotten_password_code,forgotten_password_time,remember_code,created_on,last_login,active,first_name,last_name,company,alamat,phone,level,foto, IF(active=1, "Aktif", "Tidak Aktif") AS t_active,( CASE WHEN level = 1 THEN "ADMIN" WHEN level = 2 THEN "KASIR" WHEN level = 3 THEN "GUDANG" WHEN level = 4 THEN "SPV" WHEN level = 5 THEN "HRD" WHEN level = 6 THEN "MANAGER" WHEN level = 7 THEN "ADMIN DIREKSI" WHEN level = 9 THEN "MEKANIK" ELSE "SALES" END ) AS t_level');
         $this->datatables->from('users');
         if ($this->userdata->level != 1) {
 
@@ -58,7 +58,7 @@ class User_retail_model extends CI_Model
 
     function json_beban_id_toko($id_toko, $dir = 'outlet')
     {
-        $this->datatables->select('u.*,IF(u.active=1, "Aktif", "Tidak Aktif") AS t_active, ( CASE WHEN level = 1 THEN "ADMIN" WHEN level = 2 THEN "KASIR" WHEN level = 3 THEN "GUDANG" WHEN level = 4 THEN "SPV" WHEN level = 5 THEN "HRD" WHEN level = 6 THEN "MANAGER" WHEN level = 7 THEN "ADMIN DIREKSI" ELSE "SALES" END ) AS t_level,b.id_beban as id_beban, b.hari_aktif,b.nominal,b.lembur,b.target,b.nominal_lembur,b.nominal_target, (b.nominal + b.nominal_target + b.nominal_lembur) AS total_nominal,CONCAT(u.first_name, " ", u.last_name) AS full_name');
+        $this->datatables->select('u.*,IF(u.active=1, "Aktif", "Tidak Aktif") AS t_active, ( CASE WHEN level = 1 THEN "ADMIN" WHEN level = 2 THEN "KASIR" WHEN level = 3 THEN "GUDANG" WHEN level = 4 THEN "SPV" WHEN level = 5 THEN "HRD" WHEN level = 6 THEN "MANAGER" WHEN level = 7 THEN "ADMIN DIREKSI" WHEN level = 9 THEN "MEKANIK" ELSE "SALES" END ) AS t_level,b.id_beban as id_beban, b.hari_aktif,b.nominal,b.lembur,b.target,b.nominal_lembur,b.nominal_target, (b.nominal + b.nominal_target + b.nominal_lembur) AS total_nominal,CONCAT(u.first_name, " ", u.last_name) AS full_name');
 
         $this->datatables->from('users u');
         $this->datatables->join('beban b', 'b.id_users=u.id_users');

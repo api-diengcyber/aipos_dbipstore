@@ -86,7 +86,7 @@
         <div class="row">
           <div class="col-md-4">
             <h1>
-              Dashboard
+              Dashboard 
             </h1>
           </div>
           <div class="col-md-4">
@@ -150,10 +150,10 @@
                       <i class="ace-icon fa fa-database"></i>
                     </div>
                     <div class="infobox-data">
-                      <span class="infobox-data-number"><?php echo $produk->jml * 1 ?></span>
+                      <span class="infobox-data-number"><?php echo ($produk_terjual->jumlah * 1)-($produk->jml * 1) ?></span>
                       <!-- <span class="infobox-data-number"><?php // echo $produk->jml * 1 
                                                               ?></span> -->
-                      <div class="infobox-content">Semua Stok</div>
+                      <div class="infobox-content">Stok Tersedia</div>
                     </div>
                   </div>
                 </div>
@@ -202,7 +202,7 @@
                         <a data-toggle="tab" href="#tahun-tab">TAHUN INI</a>
                       </li>
                       <li>
-                        <a data-toggle="tab" href="#kasir-tab">SALES</a>
+                        <a data-toggle="tab" href="#kasir-tab">KASIR</a>
                       </li>
                     </ul>
                   </div>
